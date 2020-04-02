@@ -4,6 +4,7 @@ The repositoory 'cutie-analysis' contains all relevant scripts for simulating co
 
 ## File structure ###
 
+```
 data/
 plots/
 scripts/
@@ -13,4 +14,4 @@ scripts/
     gen_batch.py: generates batch jobs
     gen_commands_configs.py: generates configs for simulated data
     gen_real_commands_configs.py: generates configs for real data
-
+```
