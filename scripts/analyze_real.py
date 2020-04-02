@@ -188,11 +188,9 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                     initial_sig_fracs = []
                     for dist in dists:
-                        row = results_df[(results_df['distribution'] == dist) & (results_df['statistic'] == s) \
+                        row = results_df[(results_df['parameter'] == p) & (results_df['distribution'] == dist) & (results_df['statistic'] == s) \
                                      & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['pointwise'] == cd)]
                         # change number 249500 to n_corr depending on dataset
-                        print(float(row['initial_corr'])
-                        print(dist_to_corr[dist])
                         try:
                             initial_sig_fracs.append(float(row['initial_corr'] / dist_to_corr[dist]))
                         except:
