@@ -50,11 +50,11 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
         if cookd == 'True':
             for l in lines:
                 if "initial_corr" in l:
-                    initial_corr = float(l.split(' ')[-1])
+                    initial_corr = int(l.split(' ')[-1])
                 elif "false correlations according to cookd" in l:
-                    false_corr = float(l.split(' ')[-1])
+                    false_corr = int(l.split(' ')[-1])
                 elif "true correlations according to cookd" in l:
-                    true_corr = float(l.split(' ')[-1])
+                    true_corr = int(l.split(' ')[-1])
                 elif "runtime" in l:
                     runtime = float(l.split(' ')[-1])
             rs_false = np.nan
@@ -64,15 +64,15 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
             # check if FDR correction defaulted
             for l in lines:
                 if "initial_corr" in l:
-                    initial_corr = float(l.split(' ')[-1])
+                    initial_corr = int(l.split(' ')[-1])
                 elif "false correlations" in l:
-                    false_corr = float(l.split(' ')[-1])
+                    false_corr = int(l.split(' ')[-1])
                 elif "true correlations" in l:
-                    true_corr = float(l.split(' ')[-1])
+                    true_corr = int(l.split(' ')[-1])
                 elif "FP/TN1" in l:
-                    rs_false = float(l.split(' ')[-1])
+                    rs_false = int(l.split(' ')[-1])
                 elif "TP/FN1" in l:
-                    rs_true = float(l.split(' ')[-1])
+                    rs_true = int(l.split(' ')[-1])
                 elif "runtime" in l:
                     runtime = float(l.split(' ')[-1])
 
@@ -135,6 +135,7 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
 
     missing.sort()
     # print([os.path.basename(x) for x in missing])
+    analysis_ids = []
     ps = []
     mcs = []
     fvs = []
@@ -159,6 +160,7 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
                                         # if initial corr is 0, we don't add it to df
                                         if not np.isnan(d[0]):
                                             if d[1] == 1:
+                                                analysis_ids.append('_'.join([,p, fv, stat, cc, seed, c, samp, cor]))
                                                 ps.append(p)
                                                 mcs.append(mc)
                                                 fvs.append(fv)
@@ -170,40 +172,9 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
                                                 cors.append(cor)
                                                 results.append(d[0])
 
-    results_df = pd.DataFrame({'ps': ps, 'mc': mcs, 'fv': fvs, 'stat': stats, 'cc': ccs,
-                               'seeds': seeds, 'class': class_labs,
-                               'samps': nsamps, 'cors': cors, 'results': results})
-
-    # combined plot
-    '''
-    for mc in multi_corr.split(','):
-        for fv in fold_value.split(','):
-            for cc in ['False']:
-                for c in classes.split(','):
-                    for samp in n_samp.split(','):
-                        for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
-                            df = results_df[results_df['mc'] == mc]
-                            df = df[df['fv'] == fv]
-                            df = df[df['cc'] == cc]
-                            df = df[df['class'] == c]
-                            df = df[df['samps'] == samp]
-                            try:
-                                #cmap = sns.cubehelix_palette(as_cmap=True)
-                                title = 'True_corr as a function of corr in ' + c
-                                plt.figure(figsize=(4,4))
-                                sns.set_style("white")
-                                ax = sns.pointplot(x="cors", y="results",
-                                    hue="stat",data=df, ci=95)
-                                plt.setp(ax.collections, alpha=.3) #for the markers
-                                plt.setp(ax.lines, alpha=.3)
-                                ax.set_title(title, fontsize=15)
-                                plt.tick_params(axis='both', which='both', top=False, right=False)
-                                sns.despine()
-                                plt.savefig(output_dir + mc + '_' + fv + '_' + cc + '_' + c + '_' + samp + '.pdf')
-                                plt.close()
-                            except:
-                                print(mc, fv, cc, c, samp, cor)
-    '''
+    results_df = pd.DataFrame({'analysis_id': analysis_ids, 'parameter': ps, 'fold_value': fvs, 'stat': stats, 'cooksd': ccs,
+                               'seed': seeds, 'class': class_labs,
+                               'sample_size': nsamps, 'corr_strength': cors, 'indicator': results})
 
     # grab statistics
     stat_pairs = []
@@ -221,18 +192,18 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
                             for samp in n_samp.split(','):
                                 for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
                                     try:
-                                        df = results_df[results_df['ps'] == p]
+                                        df = results_df[results_df['parameter'] == p]
                                         df = df[df['mc'] == mc]
-                                        df = df[df['fv'] == fv]
+                                        df = df[df['fold_value'] == fv]
                                         df = df[df['stat'].isin(stat)]
-                                        df = df[df['cc'] == cc]
+                                        df = df[df['cooksd'] == cc]
                                         df = df[df['class'] == c]
-                                        df = df[df['samps'] == samp]
+                                        df = df[df['sample_size'] == samp]
                                         # title = 'True_corr as a function of corr in ' + c
                                         plt.figure(figsize=(6,6))
                                         sns.set_style("white")
                                         colors = ['#4F81BD','#C0504D']
-                                        ax = sns.pointplot(x="cors", y="results", hue='stat',
+                                        ax = sns.pointplot(x="corr_strength", y="indicator", hue='stat',
                                             data=df, ci=95, palette=sns.color_palette(colors))#, legend=False)
                                         # ax.set_title(title, fontsize=15)
                                         plt.setp(ax.collections, alpha=.3) #for the markers
@@ -248,7 +219,7 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
                                         plt.savefig(output_dir + p + '_' + mc + '_' + fv + '_' + str(stat) + '_' + cc + '_' + c + '_' + samp + '.pdf')
                                         plt.close()
                                     except:
-                                        print(p, mc, fv, stat, cc, c, samp)
+                                        print(df['analysis_id'])
 
     def new_label(row):
         '''
@@ -273,12 +244,13 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
                             for samp in n_samp.split(','):
                                 for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
                                     try:
-                                        df = results_df[results_df['ps'] == p]
+                                        df = results_df[results_df['parameter'] == p]
                                         df = df[df['mc'] == mc]
-                                        df = df[df['fv'] == fv]
+                                        df = df[df['fold_value'] == fv]
                                         df = df[df['stat'].isin(stat)]
+                                        df = df[df['cooksd'] == cc]
                                         df = df[df['class'] == c]
-                                        df = df[df['samps'] == samp]
+                                        df = df[df['sample_size'] == samp]
                                         df['new_stat'] = df.apply(lambda row: new_label(row),axis=1)
                                         df = df[df['new_stat'] != 'exclude']
                                         df = df.drop(['stat'], axis=1)
@@ -308,7 +280,7 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
 
     print(len(missing),len(done),len(failed))
     print(results_df.head())
-    results_df.to_csv(output_dir + 'results_df.txt', sep='\t')
+    results_df.to_csv(output_dir + 'sim_results_df.txt', sep='\t')
 
 if __name__ == "__main__":
     analyze_simulations()
