@@ -43,11 +43,11 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 if "defaulted" in l:
                     defaulted = True
                 elif "initial_corr" in l:
-                    initial_corr = float(l.split(' ')[-1])
+                    initial_corr = int(l.split(' ')[-1])
                 elif "false correlations according to cookd" in l:
-                    false_corr = float(l.split(' ')[-1])
+                    false_corr = int(l.split(' ')[-1])
                 elif "true correlations according to cookd" in l:
-                    true_corr = float(l.split(' ')[-1])
+                    true_corr = int(l.split(' ')[-1])
                 elif "runtime" in l:
                     runtime = float(l.split(' ')[-1])
             rs_false = np.nan
@@ -59,15 +59,15 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 if "defaulted" in l:
                     defaulted = True
                 elif "initial_corr" in l:
-                    initial_corr = float(l.split(' ')[-1])
+                    initial_corr = int(l.split(' ')[-1])
                 elif "false correlations" in l:
-                    false_corr = float(l.split(' ')[-1])
+                    false_corr = int(l.split(' ')[-1])
                 elif "true correlations" in l:
-                    true_corr = float(l.split(' ')[-1])
+                    true_corr = int(l.split(' ')[-1])
                 elif "FP/TN1" in l:
-                    rs_false = float(l.split(' ')[-1])
+                    rs_false = int(l.split(' ')[-1])
                 elif "TP/FN1" in l:
-                    rs_true = float(l.split(' ')[-1])
+                    rs_true = int(l.split(' ')[-1])
                 elif "runtime" in l:
                     runtime = float(l.split(' ')[-1])
 
@@ -294,7 +294,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                 # create figure
                 f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
-                print(dd)
+                # print(dd)
 
                 # iterate over dataset
                 for d in range(len(sub_colnames)):
@@ -352,10 +352,10 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         N = dd['r' + val]['initial_insig'][d]
                         # sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, (FN - rsFN) * N, rsFN * N, (1-FN)*N]
                         sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N]
-                        print(sub_colnames[d])
-                        print(val)
-                        print(labels)
-                        print(sizes)
+                        # print(sub_colnames[d])
+                        # print(val)
+                        # print(labels)
+                        # print(sizes)
 
                         # plt.subplot(len(new_vals),len(colnames),i)
                         axs = axarr[v + 1, d]
