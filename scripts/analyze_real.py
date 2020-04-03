@@ -77,12 +77,11 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
     headers = [
         'analysis_id',
         'parameter',
-        'distribution',
+        'dataset',
         'statistic',
         'mc_used', #NEW
         'fold_value', # NEW
-        'pointwise', #NEW
-        'defaulted', # binary
+        'cooksd', #NEW
         'initial_corr',
         'true_corr(TP_FN)',
         'false_corr(FP_TN)',
@@ -118,7 +117,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                                         true_corr, rs_false, rs_true, runtime = parse_log(f,cd)
 
                                     new_row = pd.DataFrame([[analysis_id, p, d, s,
-                                                            mc, fv, cd, defaulted,
+                                                            mc, fv, cd,
                                                             initial_corr, true_corr,
                                                             false_corr, rs_true,
                                                             rs_false, runtime]],
@@ -140,8 +139,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
     col_to_corr = {
         'LungTranscriptomics': 292 * 97, #depends on sum vs unsum
         'Micrometa': 83 * 897,
-        'Microbiome': 748 * 747 / 2,
-        'Gene Expression': 1000 * 999 / 2,
+        'LungCancer': 748 * 747 / 2,
+        'GeneExpression': 1000 * 999 / 2,
         'WHO': 354 * 353 / 2
     }
 
@@ -155,7 +154,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         'hdac': 1000 * 999 / 2,
         'who': 354 * 353 / 2
     }
-    results_df.to_csv(output_dir + 'real_df.txt', sep='\t')
+    results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t')
 
     # populate indices and ids for the dfs
     for p in params:
@@ -177,8 +176,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     row_fracs = []
                     mc, fv, s, cd, p = idstring.split('_')
                     for dist in dists:
-                        row = results_df[(results_df['parameter'] == p) & (results_df['distribution'] == dist) & (results_df['statistic'] == s) \
-                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['pointwise'] == cd)]
+                        row = results_df[(results_df['parameter'] == p) & (results_df['dataset'] == dist) & (results_df['statistic'] == s) \
+                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['cooksd'] == cd)]
                         try:
                             row_fracs.append(float(row['true_corr(TP_FN)'] /row['initial_corr'].values)) # correctly id tp
                         except:
@@ -190,8 +189,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                     initial_sig_fracs = []
                     for dist in dists:
-                        row = results_df[(results_df['parameter'] == p) & (results_df['distribution'] == dist) & (results_df['statistic'] == s) \
-                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['pointwise'] == cd)]
+                        row = results_df[(results_df['parameter'] == p) & (results_df['dataset'] == dist) & (results_df['statistic'] == s) \
+                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['cooksd'] == cd)]
                         # change number 249500 to n_corr depending on dataset
                         try:
                             initial_sig_fracs.append(float(row['initial_corr'] / dist_to_corr[dist]))
@@ -215,8 +214,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     row_fracs = []
                     mc, fv, s, cd, p = idstring.split('_')
                     for dist in dists:
-                        row = results_df[(results_df['parameter'] == p) & (results_df['distribution'] == dist) & (results_df['statistic'] == s) \
-                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['pointwise'] == 'False')]
+                        row = results_df[(results_df['parameter'] == p) & (results_df['dataset'] == dist) & (results_df['statistic'] == s) \
+                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['cooksd'] == 'False')]
                         try:
                             row_fracs.append(float(row['rs_true_corr_TP_FN'] /row['initial_corr'].values)) # correctly id tp
                         except:
@@ -228,8 +227,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                     initial_sig_fracs = []
                     for dist in dists:
-                        row = results_df[(results_df['parameter'] == p) & (results_df['distribution'] == dist) & (results_df['statistic'] == s) \
-                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['pointwise'] == 'False')]
+                        row = results_df[(results_df['parameter'] == p) & (results_df['dataset'] == dist) & (results_df['statistic'] == s) \
+                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['cooksd'] == 'False')]
                         # change number 249500 to n_corr depending on dataset
                         try:
                             initial_sig_fracs.append(float(row['initial_corr'] / dist_to_corr[dist]))
@@ -254,7 +253,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 pie_df = pie_df.drop(['Micrometa'],axis=1)
                 nocd_pie_df = pie_df.iloc[2:,:]
                 rs_df = rs_df.drop(['Micrometa'],axis=1)
-                sub_colnames = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
+                sub_colnames = ['LungCancer', 'LungTranscriptomics', 'GeneExpression', 'WHO']
 
                 # obtain indices without cook's D
                 vals = list(nocd_pie_df.index.values)
