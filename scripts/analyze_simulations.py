@@ -160,7 +160,7 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
                                         # if initial corr is 0, we don't add it to df
                                         if not np.isnan(d[0]):
                                             if d[1] == 1:
-                                                analysis_ids.append('_'.join([,p, fv, stat, cc, seed, c, samp, cor]))
+                                                analysis_ids.append('_'.join([p, fv, stat, cc, seed, c, samp, cor]))
                                                 ps.append(p)
                                                 mcs.append(mc)
                                                 fvs.append(fv)
