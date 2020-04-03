@@ -50,8 +50,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     true_corr = int(l.split(' ')[-1])
                 elif "runtime" in l:
                     runtime = float(l.split(' ')[-1])
-            rs_false = np.nan
-            rs_true = np.nan
+            rs_false = 0
+            rs_true = 0
 
         else:
             # check if FDR correction defaulted
@@ -154,6 +154,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         'hdac': 1000 * 999 / 2,
         'who': 354 * 353 / 2
     }
+    results_df
     results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t')
 
     # populate indices and ids for the dfs
