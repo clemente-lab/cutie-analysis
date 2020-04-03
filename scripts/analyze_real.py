@@ -98,7 +98,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
     fvs = fold_value.split(',')
     stats = statistic.split(',')
     cds = corr_compare.split(',')
-    ds = ['lungtx', 'lungpt', 'lungc','who','hdac']
+    ds = ['lungc', 'lungpt', 'lungtx','who','hdac']
     params = param.split(',')
     for p in params:
         for mc in mcs:
@@ -134,7 +134,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                                 else:
                                     print(analysis_id)
 
-    colnames = ['LungTranscriptomics', 'Micrometa', 'Microbiome', 'Gene Expression', 'WHO']
+    # colnames = ['LungTranscriptomics', 'Micrometa', 'Microbiome', 'Gene Expression', 'WHO']
+    colnames = ['LungCancer', 'Micrometa', 'LungTranscriptomics', 'Gene Expression', 'WHO']
 
     col_to_corr = {
         'LungTranscriptomics': 292 * 97, #depends on sum vs unsum
@@ -144,7 +145,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         'WHO': 354 * 353 / 2
     }
 
-    dists = ['lungtx', 'lungpt', 'lungc', 'hdac', 'who']
+    # dists = ['lungtx', 'lungpt', 'lungc', 'hdac', 'who']
+    dists = ['lungc', 'lungpt', 'lungtx', 'hdac', 'who']
 
     dist_to_corr = {
         'lungtx': 292 * 97,
@@ -252,7 +254,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 pie_df = pie_df.drop(['Micrometa'],axis=1)
                 nocd_pie_df = pie_df.iloc[2:,:]
                 rs_df = rs_df.drop(['Micrometa'],axis=1)
-                sub_colnames = ['LungTranscriptomics', 'Microbiome', 'Gene Expression', 'WHO']
+                sub_colnames = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
 
                 # obtain indices without cook's D
                 vals = list(nocd_pie_df.index.values)
