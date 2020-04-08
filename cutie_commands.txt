@@ -1,0 +1,36 @@
+
+###############
+# CUTIE Paper #
+###############
+
+# create directories (delete/move old ones prior to this)
+
+sim_data_dir=/sc/hydra/projects/clemej05a/buk02/cutie/sim_data/
+sim_configs_dir=/sc/hydra/projects/clemej05a/buk02/cutie/sim_configs/
+sim_analyses_dir=/sc/hydra/projects/clemej05a/buk02/cutie/sim_analyses/
+real_configs_dir=/sc/hydra/projects/clemej05a/buk02/cutie/real_configs/
+real_analyses_dir=/sc/hydra/projects/clemej05a/buk02/cutie/real_analyses/
+results_dir=/sc/hydra/projects/clemej05a/buk02/cutie/results/
+
+cutie_fp=/sc/hydra/work/buk02/Repositories/CUTIE/scripts/calculate_cutie.py
+
+
+
+mkdir $sim_data_dir; mkdir $sim_configs_dir; mkdir $sim_analyses_dir; mkdir $real_configs_dir; mkdir $real_analyses_dir; mkdir $plots_dir
+
+# for generating correlations; echo commands need to be run only once
+gen_sim.R --n_samp 25,50,100 --max_seed 99 --start 0 --stop 1 --step 0.05 --output "$sim_data_dir"
+
+# batch makes configs and command.txt files for each execution of calculate_cutie.py
+# may or may not find it helpful to batch jobs prior to submitting to avoid submitting millions of jobs
+for v in 1 2 3 4 5 10; do for p in p r; do for s in pearson rpearson spearman rspearman kendall rkendall; do for n in 25 50 100; do for c in True False; do gen_commands_configs.py -cf $cutie_fp -m nomc -fv $v -p $p -s $s -c $c -w $sim_analyses_dir -i $sim_data_dir -o $sim_configs_dir; done; done; done; done;
+
+# jobs for analyzing simulations; echo command only needs to be run once
+analyze_simulations.py -p r,p -fv 1,2,3,4,5,10 -s pearson,rpearson,spearman,rspearman,kendall,rkendall -m nomc -c False,True -cl FN,NP,FP,CD -nse 100 -nsa 25,50,100 -rn 0,1,0.05 -i $sim_analyses_dir -o $results_dir
+
+# generates configs and command files for real datasets
+for s in pearson rpearson spearman rspearman kendall rkendall; do for p in p r; do for v in 1 3 10; do for m in fdr nomc; do for c in True False; do gen_real_commands_configs.py -cf $cutie_fp -m \$m -p \$p -fv \$v -s \$s -c \$c -d hdac,lungc,lungtx,who,lungpt -w $real_analyses_dir -o $real_configs_dir; done; done; done; done; done;
+
+# analyze real data
+analyze_real.py -fv 1,3,10 -s pearson,rpearson,spearman,rspearman,kendall,rkendall -m nomc,fdr -c False,True -p p,r -i $real_analyses_dir -o $results_dir
+

@@ -22,8 +22,8 @@ option_list = list(
               help="step value for corrs"),
   make_option(c("--output"), type="character", default=NULL,
               help="outputdir", metavar="character")
-  
-); 
+
+);
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser)
 
@@ -35,28 +35,21 @@ for (n_samp in strsplit(n_sampvec,split=',')[[1]]){
   for (nseed in seq(from=0, to=max_seed, by=1)){
     # FP/FN/P
     # 'nseed_class_corr_nsamp'
-    
-    for (cv in seq(from = start, to = stop, by = step)) { 
+
+    for (cv in seq(from = start, to = stop, by = step)) {
       set.seed(nseed)
       data = mvrnorm(n=(n_samp), mu=c(0, 0), Sigma=matrix(c(1, cv, cv, 1), nrow=2), empirical=TRUE)
       X = data[, 1]  # standard normal (mu=0, sd=1)
       Y = data[, 2]  # standard normal (mu=0, sd=1)
       S = seq(1:n_samp)
       mat = cbind(S,Y,X)
-      #png(filename=paste("Desktop/clemente_lab/CUTIE/plots/P_", cv,'_', cor(X,Y),"_plot.png", sep=''))
-      #pairs(cbind(X,Y))
-      write.table(mat, file=paste(output, nseed,'_NP_',n_samp,'_',cv,'.txt',sep=''), row.names=sprintf("s%s",seq(1:n_samp)), col.names=TRUE, sep='\t')
-      #dev.off()
-      #mat = cbind(S,log(X),log(Y))
-      #png(filename=paste("Desktop/clemente_lab/CUTIE/plots/P_", cv,'_', cor(X,Y),"_plot.png", sep=''))
-      #pairs(cbind(X,Y))
-      #write.table(mat, file=paste(output, nseed,'_NP_',n_samp,'_',cv,'.txt',sep=''), row.names=sprintf("s%s",seq(1:n_samp)), col.names=TRUE, sep='\t')
-      
+      write.table(mat, file=paste(output, nseed,'_NP_',n_samp,'_',cv,'.txt',sep=''),
+        row.names=sprintf("s%s",seq(1:n_samp)), col.names=TRUE, sep='\t', quote=FALSE)
     }
-  
-    
+
+
     # AQ FN case
-    for (cv in seq(from = start, to = stop, by = step)) { 
+    for (cv in seq(from = start, to = stop, by = step)) {
       set.seed(nseed)
       data = mvrnorm(n=n_samp-1, mu=c(0, 0), Sigma=matrix(c(1, cv, cv, 1), nrow=2), empirical=TRUE)
       X = data[, 1]  # standard normal (mu=0, sd=1)
@@ -65,16 +58,15 @@ for (n_samp in strsplit(n_sampvec,split=',')[[1]]){
       Y <- c(Y, -3)
       S = seq(1:n_samp)
       mat = cbind(S,Y,X)
-      write.table(mat, file=paste(output, nseed,'_FN_',n_samp,'_',cv,'.txt',sep=''), row.names=sprintf("s%s",seq(1:n_samp)), col.names=TRUE, sep='\t')
-      #png(filename=paste("Desktop/clemente_lab/CUTIE/plots/FN_", cv,'_', cor(X,Y),"_plot.png", sep=''))
-      #pairs(cbind(X,Y))
+      write.table(mat, file=paste(output, nseed,'_FN_',n_samp,'_',cv,'.txt',sep=''),
+        row.names=sprintf("s%s",seq(1:n_samp)), col.names=TRUE, sep='\t', quote=FALSE)
       #dev.off()
     }
-    
-    
+
+
     # try with anscombe's q
     # https://stat.ethz.ch/pipermail/r-help/2007-April/128925.html
-    for (cv in seq(from = start, to = stop, by = step)) { 
+    for (cv in seq(from = start, to = stop, by = step)) {
       set.seed(nseed)
       data = mvrnorm(n=n_samp-1, mu=c(0, 0), Sigma=matrix(c(1, 0, 0, 1), nrow=2), empirical=TRUE)
       X = data[, 1]  # standard normal (mu=0, sd=1)
@@ -99,11 +91,12 @@ for (n_samp in strsplit(n_sampvec,split=',')[[1]]){
       }
       S = seq(1:n_samp)
       mat = cbind(S,Y,X)
-      write.table(mat, file=paste(output, nseed,'_FP_',n_samp,'_',cv,'.txt',sep=''), row.names=sprintf("s%s",seq(1:n_samp)), col.names=TRUE, sep='\t')
+      write.table(mat, file=paste(output, nseed,'_FP_',n_samp,'_',cv,'.txt',sep=''),
+        row.names=sprintf("s%s",seq(1:n_samp)), col.names=TRUE, sep='\t', quote=FALSE)
     }
-    
+
     # CD examples
-    for (cv in seq(from = start, to = stop, by = step)) { 
+    for (cv in seq(from = start, to = stop, by = step)) {
       set.seed(nseed)
       data = mvrnorm(n=(n_samp-1), mu=c(0, 0), Sigma=matrix(c(1, cv, cv, 1), nrow=2), empirical=TRUE)
       X = data[, 1]  # standard normal (mu=0, sd=1)
@@ -113,13 +106,11 @@ for (n_samp in strsplit(n_sampvec,split=',')[[1]]){
       Y <- c(Y,7*sin(theta))
       S = seq(1:n_samp)
       mat = cbind(S,Y,X)
-      # pairs(cbind(X,Y))
-      write.table(mat, file=paste(output, nseed,'_CD_',n_samp,'_',cv,'.txt',sep=''), row.names=sprintf("s%s",seq(1:n_samp)), col.names=TRUE, sep='\t')
+      write.table(mat, file=paste(output, nseed,'_CD_',n_samp,'_',cv,'.txt',sep=''),
+        row.names=sprintf("s%s",seq(1:n_samp)), col.names=TRUE, sep='\t', quote=FALSE)
       # dev.off()
-      #model = lm(Y~X)
-      #print(paste(cv, cooks.distance(model)[n_samp], unname(cor.test(X,Y, method='pearson')$estimate), cor.test(X,Y, method='pearson')$p.value))
     }
-    
-    
+
+
   }
 }

@@ -6,10 +6,13 @@ The repositoory 'cutie-analysis' contains all relevant scripts for simulating co
 
 ```
 data/
+    df_dictionary.docx: description of what column names mean in dataframe .txt files
+    sim_results_df.txt: analysis of simulated scatterplots across all parmameters tested
+    real_results_df.txt: analysis of real-world datasets across all parmameters tested
 plots/
 scripts/
-    new_simulations.R: generates simulated correlations of NP, FN, FP and CD classes
-    analyze_simulations_real.py: produces donut-plots of real datasets
+    gen_sim.R: generates simulated correlations of NP, FN, FP and CD classes
+    analyze_real.py: produces donut-plots of real datasets
     analyze_simulations.py: generates power curves for simulated correlations
     gen_batch.py: generates batch jobs
     gen_commands_configs.py: generates configs for simulated data
