@@ -230,7 +230,7 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
             if row['stat'] != 'pearson':
                 return 'exclude'
             else:
-                return row['stat'] + '_cookd'
+                return 'Cook\'s D'
         else:
             return row['stat']
 
@@ -251,14 +251,14 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
                                         df = df[df['cooksd'] == cc]
                                         df = df[df['class'] == c]
                                         df = df[df['sample_size'] == samp]
-                                        df['new_stat'] = df.apply(lambda row: new_label(row),axis=1)
-                                        df = df[df['new_stat'] != 'exclude']
+                                        df['statistic'] = df.apply(lambda row: new_label(row),axis=1)
+                                        df = df[df['statistic'] != 'exclude']
                                         df = df.drop(['stat'], axis=1)
                                         # title = 'True_corr as a function of corr in ' + c
                                         plt.figure(figsize=(6,6))
                                         sns.set_style("white")
                                         colors = ['#4F81BD','#9BBB59','#C0504D']
-                                        ax = sns.pointplot(x="cors", y="results", hue='new_stat',data=df, ci=95,
+                                        ax = sns.pointplot(x="cors", y="results", hue='statistic',data=df, ci=95,
                                             palette=sns.color_palette(colors))#, legend=False)
                                         # ax.set_title(title, fontsize=15)
                                         plt.setp(ax.collections, alpha=.3) #for the markers
