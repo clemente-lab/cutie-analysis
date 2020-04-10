@@ -398,7 +398,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # remove top and right spines
                     sns.despine()
 
-                        '''
+                    '''
                         # plt.subplot(len(new_vals),len(colnames),i)
                         axs = axarr[v + 1, d]
 
@@ -427,7 +427,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         # Equal aspect ratio ensures that pie is drawn as a circle
                         axs.axis('equal')
                         plt.tight_layout()
-                        '''
+                    '''
 
                 f.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
                 plt.close(fig)
