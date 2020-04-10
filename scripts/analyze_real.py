@@ -5,6 +5,7 @@ np.random.seed(0)
 import seaborn as sns; sns.set()
 import matplotlib.pyplot as plt
 import click
+from collections import defaultdict
 
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -298,7 +299,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 # print(dd)
 
                 # iterate over dataset
-                for d in range(len(sub_colnames)):
+                for d, name in enumerate(sub_colnames):
+                    # generate CD plots first
                     labels = ['TP', 'FP', 'N']
                     colors = ['#66b3ff','#ff9999','#FFC000']#,'#ffcc99']
                     TP = v_to_cd['TP'][d]
@@ -307,7 +309,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                     axs = axarr[0, d]
                     # note colnames = ['Micrometa', 'Microbiome', 'Gene Expression', 'WHO']
-                    title = sub_colnames[d] + ', ' + 'Cook\'s D' + '\n' + str(int(col_to_corr[sub_colnames[d]]))
+                    title = sub_colnames[d] + ', ' + 'Cook\'s D' + '\n' + str(int(col_to_corr[name]))
                     axs.set_title(title)
                     patches, texts, autotexts = axs.pie(sizes, colors = colors, labels=None, autopct='%1.1f%%', startangle=0,
                                                        labeldistance = 1, pctdistance = 1.2)
@@ -336,15 +338,17 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     #plt.show()
 
                     # iterate over statistic
-                    for v in range(len(for_vals)):
-                        val = for_vals[v]
+                    stat_to_vals = defaultdict(list)
 
+                    # hold values for stacked barplot
+                    v_to_sizes = {}
+
+                    for v, val in enumerate(for_vals):
                         # labels = ['TP', 'rsTP', 'FP', 'FN', 'rsFN', 'TN']
-                        labels = ['TP', 'rsTP', 'FP', 'FN', 'TN']
+
                         # TP is blue FP is red FN is green TN is purple
                         # for rs case
                         # reverse sign but still true FP is non reverse sign
-                        colors = ['#66b3ff','#ADD8E6','#ff9999','#99ff99','#8064A2']
                         TP = dd[val]['TP'][d]
                         rsTP = dd[val]['rsTP'][d]
                         P = dd[val]['initial_sig'][d]
@@ -353,15 +357,50 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         N = dd['r' + val]['initial_insig'][d]
                         # sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, (FN - rsFN) * N, rsFN * N, (1-FN)*N]
                         sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N]
-                        # print(sub_colnames[d])
-                        # print(val)
-                        # print(labels)
-                        # print(sizes)
+                        v_to_sizes[val] = sizes
 
+
+                    # set labels
+                    labels = ['True Positive', 'reverse sign-True Positive',
+                              'False Positive', 'False Negative', 'True Negative']
+
+                    # set colors
+                    colors = ['#66b3ff','#ADD8E6','#ff9999','#99ff99','#8064A2']
+
+                    # create df
+                    raw_data = defaultdict(list)
+                    for i, l in enumerate(labels):
+                        for v in for_vals:
+                            raw_data[l].append(v_to_sizes[v][i])
+
+
+                    df = pd.DataFrame(raw_data)
+
+                    # plot width
+                    barWidth = 0.85
+
+                    # set number of bars (# of statistics)
+                    r = range(len(for_vals))
+
+                    # build bottom bar stack
+                    complete = np.zeros(len(for_vals))
+                    for i, l in enumerate(labels):
+                        plt.bar(r, df[l], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=l)
+                        complete = np.add(complete, df[l])
+
+                    # Custom x axis
+                    plt.xticks(r, for_vals)
+                    plt.xlabel("Dataset")
+
+                    # Add a legend
+                    plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
+
+                    # remove top and right spines
+                    sns.despine()
+
+                        '''
                         # plt.subplot(len(new_vals),len(colnames),i)
                         axs = axarr[v + 1, d]
-                        # title = colnames[d] + ', ' + val.split('_')[0] + '\n' + str(int(dist_to_corr[colnames[d]]))
-                        # axs.set_title(title)
 
                         # def draw_pie(sizes, colors):
                         patches, texts, autotexts = axs.pie(sizes, colors = colors, labels=None, autopct='%1.1f%%', startangle=0,
@@ -388,8 +427,9 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         # Equal aspect ratio ensures that pie is drawn as a circle
                         axs.axis('equal')
                         plt.tight_layout()
+                        '''
 
-                f.savefig(output_dir + 'pieplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
+                f.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
                 plt.close(fig)
 
 
