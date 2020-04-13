@@ -378,13 +378,14 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     plt.xticks(r, x_stats)
 
                     # remove axes
-                    # axarr[0,0].axis('off')
-                    ax.spines['bottom'].set_visible(False)
-                    ax.spines['left'].set_visible(False)
+                    ax.spines['right'].set_visible(False)
+                    ax.spines['top'].set_visible(False)
 
                     # remove y ticks if not first plot
                     if not first:
                         plt.yticks([])
+                        ax.spines['left'].set_visible(False)
+
                     first = False
 
                     # dataset x label
@@ -393,9 +394,6 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                 # Add a legend
                 plt.legend(labels)#loc='upper left', bbox_to_anchor=(1,1), ncol=1)
-
-                # remove top and right spines
-                # sns.despine()
 
                 # save and close figure
                 fig.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
