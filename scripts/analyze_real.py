@@ -308,6 +308,11 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 # Custom x axis
                 plt.xlabel("Dataset")
 
+                # generate subplot x ticks
+                # extract statistic from first item in _ list
+                # x = 'pearson_3_fdr'
+                x_stats = [stat_to_unicode[x.split('_')[0]] for x in for_vals]
+
                 # set labels
                 labels = ['True Positive', 'reverse sign-True Positive',
                           'False Positive', 'False Negative', 'True Negative']
@@ -358,20 +363,18 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     ax = plt.subplot(1, len(colnames), d+1)
 
                     # ensure white background per plot
-                    sns.set_style("white")
+                    sns.set_style('white')
 
                     # build bottom bar stack
                     # fig = plt.figure(figsize=(8,4))
                     complete = np.zeros(len(for_vals))
                     for k, label in enumerate(labels):
                         # create bars
-                        plt.bar(r, df[label], bottom = complete, color=colors[k], edgecolor='white', width=0.85, label=label)
+                        plt.bar(r, df[label], bottom = complete, color=colors[k],
+                                edgecolor='white', width=0.85, label=label)
                         complete = np.add(complete, df[label])
 
                     # subplot x ticks
-                    # extract statistic from first item in _ list
-                    # x = 'pearson_3_fdr'
-                    x_stats = [stat_to_unicode[x.split('_')[0]] for x in for_vals]
                     plt.xticks(r, x_stats)
 
                     # remove axes
@@ -392,7 +395,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 plt.legend(labels)#loc='upper left', bbox_to_anchor=(1,1), ncol=1)
 
                 # remove top and right spines
-                sns.despine()
+                # sns.despine()
 
                 # save and close figure
                 fig.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
