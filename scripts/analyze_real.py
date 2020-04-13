@@ -301,8 +301,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 # create figure
                 # f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
                 # +1 to make room for the legend
-                fig, axarr = plt.subplots(nrows=1, ncols=len(sub_colnames) + 1,
-                                          sharex='col', sharey='row',
+                fig, axarr = plt.subplots(nrows=1, ncols=len(sub_colnames), # + 1,
+                                          # sharex='col', sharey='row',
                                           figsize=(10,6))
 
                 # Custom x axis
@@ -373,6 +373,9 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     x_stats = [stat_to_unicode[x.split('_')[0]] for x in for_vals]
                     plt.xticks(r, x_stats)
 
+                    # remove axes
+                    plt.axis('off')
+
                     # remove y ticks if not first plot
                     if not first:
                         plt.yticks([])
@@ -381,17 +384,12 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # dataset x label
                     plt.xlabel(name)
 
-                    # remove axes
-                    sns.despine(left=False, bottom=False)
-
 
                 # Add a legend
                 plt.legend(labels)#loc='upper left', bbox_to_anchor=(1,1), ncol=1)
 
                 # remove top and right spines
                 sns.despine()
-                # remove axes
-                sns.despine(left=False, bottom=False)
 
                 # save and close figure
                 fig.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
