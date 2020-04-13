@@ -302,12 +302,13 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 # f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
                 fig, axarr = plt.subplots(nrows=1, ncols=len(sub_colnames),
                                           sharex='col', sharey='row',
-                                          figsize=(8,6))
+                                          figsize=(10,6))
 
                 # Custom x axis
                 plt.xlabel("Dataset")
 
                 # iterate over dataset
+                first = True
                 for d, name in enumerate(sub_colnames):
 
                     # iterate over statistic
@@ -376,8 +377,14 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     x_stats = [stat_to_unicode[x.split('_')[0]] for x in for_vals]
                     plt.xticks(r, x_stats)
 
-                    # statistic x label
-                    # plt.xlabel('statistic')
+                    # remove y ticks if not first plot
+                    if not first:
+                        plt.yticks([])
+                    first = False
+
+                    # dataset x label
+                    plt.xlabel(name)
+
 
                 # Add a legend
                 plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
