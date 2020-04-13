@@ -295,7 +295,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                 # create figure
                 # f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
-                fig, axarr = plt.subplots(2,len(sub_colnames),sharex='col', sharey='row'))
+                fig, axarr = plt.subplots(2,len(sub_colnames),sharex='col', sharey='row')
 
                 # iterate over dataset
                 for d, name in enumerate(sub_colnames):
