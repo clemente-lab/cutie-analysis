@@ -388,16 +388,14 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                     # axs = axarr[v + 1, d]
                     # axs = axarr[1, d]
-                    fig, ax = plt.subplots(1, 4, sharex='col', sharey='row')
+                    # fig, ax = plt.subplots(1, 4, sharex='col', sharey='row')
 
                     # build bottom bar stack
                     complete = np.zeros(len(for_vals))
-                    for i, l in enumerate(labels):
-                        # plt.subplot(1, len(colnames), i)
-                        # plt.bar(r, df[l], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=l)
-                        ax.bar(r, df[l], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=l)
-
-                        complete = np.add(complete, df[l])
+                    for i, label in enumerate(labels):
+                        plt.subplot(1, len(colnames), i)
+                        plt.bar(r, df[label], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=label)
+                        complete = np.add(complete, df[label])
 
                     # Custom x axis
                     plt.xticks(r, for_vals)
