@@ -286,7 +286,6 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 for_vals = new_vals[::2]
                 v_to_cd = {}
                 # just get Cook's D
-                # should be '_'.join(['pearson', 'cd', fv, mc])
                 # cd_val = list(pie_df.index.values)[0::2][0]
 
                 # first two rows are cd
@@ -295,8 +294,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 v_to_cd['initial_sig'] = rows[1]
 
                 # create figure
-                f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
-                # print(dd)
+                # f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
+                f, axarr = plt.subplots(2,len(sub_colnames))
 
                 # iterate over dataset
                 for d, name in enumerate(sub_colnames):
@@ -384,6 +383,11 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                     # build bottom bar stack
                     complete = np.zeros(len(for_vals))
+
+                    # define subplot
+                    plt.subplot(len(new_vals),len(colnames),i)
+                    # axs = axarr[v + 1, d]
+                    axs = axarr[1, d]
                     for i, l in enumerate(labels):
                         plt.bar(r, df[l], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=l)
                         complete = np.add(complete, df[l])
