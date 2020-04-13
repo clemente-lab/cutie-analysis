@@ -390,6 +390,9 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # dataset x label
                     plt.xlabel(name)
 
+                    # remove axes
+                    sns.despine(left=False, bottom=False)
+
 
                 # Add a legend
                 plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
