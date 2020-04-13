@@ -300,7 +300,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                 # create figure
                 # f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
-                fig, axarr = plt.subplots(nrows=1, ncols=len(sub_colnames),
+                # +1 to make room for the legend
+                fig, axarr = plt.subplots(nrows=1, ncols=len(sub_colnames) + 1,
                                           sharex='col', sharey='row',
                                           figsize=(10,6))
 
@@ -364,10 +365,14 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # fig, ax = plt.subplots(1, 4, sharex='col', sharey='row')
                     plt.subplot(1, len(colnames), d+1)
 
+                    # ensure white background per plot
+                    sns.set_style("white")
+
                     # build bottom bar stack
                     # fig = plt.figure(figsize=(8,4))
                     complete = np.zeros(len(for_vals))
                     for k, label in enumerate(labels):
+                        # create bars
                         plt.bar(r, df[label], bottom = complete, color=colors[k], edgecolor='white', width=barWidth, label=label)
                         complete = np.add(complete, df[label])
 
