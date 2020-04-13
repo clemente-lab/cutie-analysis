@@ -393,7 +393,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # build bottom bar stack
                     complete = np.zeros(len(for_vals))
                     for i, label in enumerate(labels):
-                        plt.subplot(1, len(colnames), i)
+                        plt.subplot(1, len(colnames), i+1)
                         plt.bar(r, df[label], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=label)
                         complete = np.add(complete, df[label])
 
