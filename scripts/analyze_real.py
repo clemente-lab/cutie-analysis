@@ -373,8 +373,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # subplot x ticks
                     # extract statistic from first item in _ list
                     # x = 'pearson_3_fdr'
-                    stats = [stat_to_unicode[x.split('_')[0]] for x in for_vals]
-                    plt.xticks(r, stats)
+                    x_stats = [stat_to_unicode[x.split('_')[0]] for x in for_vals]
+                    plt.xticks(r, x_stats)
 
                     # statistic x label
                     # plt.xlabel('statistic')
