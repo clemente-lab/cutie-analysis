@@ -398,47 +398,19 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         plt.bar(r, df[label], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=label)
                         complete = np.add(complete, df[label])
 
-                    # Custom x axis
+                    # subplot x ticks
                     plt.xticks(r, for_vals)
-                    plt.xlabel("Dataset")
 
-                    # Add a legend
-                    plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
+                # Custom x axis
+                plt.xlabel("Dataset")
 
-                    # remove top and right spines
-                    sns.despine()
+                # Add a legend
+                plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
 
-                    '''
-                        # plt.subplot(len(new_vals),len(colnames),i)
-                        axs = axarr[v + 1, d]
+                # remove top and right spines
+                sns.despine()
 
-                        # def draw_pie(sizes, colors):
-                        patches, texts, autotexts = axs.pie(sizes, colors = colors, labels=None, autopct='%1.1f%%', startangle=0,
-                                                           labeldistance = 1, pctdistance = 1.2)
-                        fs = 12
-                        ts = 12
-                        texts[0].set_fontsize(fs)
-                        texts[1].set_fontsize(fs)
-                        texts[2].set_fontsize(fs)
-                        texts[3].set_fontsize(fs)
-                        texts[4].set_fontsize(fs)
-                        autotexts[0].set_fontsize(ts)
-                        autotexts[1].set_fontsize(ts)
-                        autotexts[2].set_fontsize(ts)
-                        autotexts[3].set_fontsize(ts)
-                        autotexts[4].set_fontsize(ts)
-
-                        #draw circle
-                        centre_circle = plt.Circle((0,0),0.50,fc='white')
-                        fig = plt.gcf()
-                        fig.set_size_inches(10,10)
-                        #fig.gca().add_artist(centre_circle)
-                        axs.add_artist(centre_circle)
-                        # Equal aspect ratio ensures that pie is drawn as a circle
-                        axs.axis('equal')
-                        plt.tight_layout()
-                    '''
-
+                # save and close figure
                 fig.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
                 plt.close(fig)
 
