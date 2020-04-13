@@ -342,9 +342,9 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                     # create df
                     raw_data = defaultdict(list)
-                    for i, l in enumerate(labels):
+                    for j, l in enumerate(labels):
                         for v in for_vals:
-                            raw_data[l].append(v_to_sizes[v][i])
+                            raw_data[l].append(v_to_sizes[v][j])
 
 
                     df = pd.DataFrame(raw_data)
@@ -366,8 +366,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # build bottom bar stack
                     # fig = plt.figure(figsize=(8,4))
                     complete = np.zeros(len(for_vals))
-                    for i, label in enumerate(labels):
-                        plt.bar(r, df[label], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=label)
+                    for k, label in enumerate(labels):
+                        plt.bar(r, df[label], bottom = complete, color=colors[k], edgecolor='white', width=barWidth, label=label)
                         complete = np.add(complete, df[label])
 
                     # subplot x ticks
@@ -375,7 +375,6 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # x = 'pearson_3_fdr'
                     stats = [stat_to_unicode[x.split('_')[0]] for x in for_vals]
                     plt.xticks(r, stats)
-                    print(stats)
 
                     # statistic x label
                     # plt.xlabel('statistic')
