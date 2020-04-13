@@ -135,7 +135,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                                     print(analysis_id)
 
     # colnames = ['LungTranscriptomics', 'Micrometa', 'Microbiome', 'Gene Expression', 'WHO']
-    colnames = ['LungCancer', 'Micrometa', 'LungTranscriptomics', 'Gene Expression', 'WHO']
+    colnames = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
 
     col_to_corr = {
         'LungTranscriptomics': 292 * 97, #depends on sum vs unsum
@@ -146,7 +146,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
     }
 
     # dists = ['lungtx', 'lungpt', 'lungc', 'hdac', 'who']
-    dists = ['lungc', 'lungpt', 'lungtx', 'hdac', 'who']
+    dists = ['lungc','lungtx', 'hdac', 'who']
 
     dist_to_corr = {
         'lungtx': 292 * 97,
@@ -252,9 +252,9 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 dd = {}
 
                 # cut out micrometa dataset
-                pie_df = pie_df.drop(['Micrometa'],axis=1)
+                #pie_df = pie_df.drop(['Micrometa'],axis=1)
                 nocd_pie_df = pie_df.iloc[2:,:]
-                rs_df = rs_df.drop(['Micrometa'],axis=1)
+                #rs_df = rs_df.drop(['Micrometa'],axis=1)
                 sub_colnames = ['LungCancer', 'LungTranscriptomics', 'GeneExpression', 'WHO']
 
                 # obtain indices without cook's D
@@ -295,7 +295,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                 # create figure
                 # f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
-                fig, axarr = plt.subplots(2,len(sub_colnames))
+                fig, axarr = plt.subplots(2,len(sub_colnames),sharex='col', sharey='row'))
 
                 # iterate over dataset
                 for d, name in enumerate(sub_colnames):
@@ -389,12 +389,12 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # axs = axarr[v + 1, d]
                     # axs = axarr[1, d]
                     # fig, ax = plt.subplots(1, 4, sharex='col', sharey='row')
+                    plt.subplot(1, len(colnames), d+1)
 
                     # build bottom bar stack
                     # fig = plt.figure(figsize=(8,4))
                     complete = np.zeros(len(for_vals))
                     for i, label in enumerate(labels):
-                        plt.subplot(1, len(colnames), i+1)
                         plt.bar(r, df[label], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=label)
                         complete = np.add(complete, df[label])
 
