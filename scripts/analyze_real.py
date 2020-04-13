@@ -248,18 +248,12 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 rs_df = rs_df.rename_axis('Statistic')
                 rs_df = rs_df.apply(pd.to_numeric).round(2)
 
-                # currently the four dfs are
-                # pie_df and rs_df
-                # only pie_df has cookd info in it
-                # the outer loop has mc and fv so when you save fig make sure to incl those
-
                 # dictionary from which to get results for pie plots
                 dd = {}
 
-                # cut out micrometa dataset
-                #pie_df = pie_df.drop(['Micrometa'],axis=1)
+                # remove cooks d statistics for plotting
                 nocd_pie_df = pie_df.iloc[2:,:]
-                #rs_df = rs_df.drop(['Micrometa'],axis=1)
+
                 sub_colnames = ['LungCancer', 'LungTranscriptomics', 'GeneExpression', 'WHO']
 
                 # obtain indices without cook's D
@@ -299,10 +293,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 v_to_cd['initial_sig'] = rows[1]
 
                 # create figure
-                # f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
-                # +1 to make room for the legend
-                fig, axarr = plt.subplots(nrows=1, ncols=len(sub_colnames), # + 1,
-                                          # sharex='col', sharey='row',
+                fig, axarr = plt.subplots(nrows=1, ncols=len(sub_colnames),
                                           figsize=(10,6))
 
                 # Custom x axis
@@ -392,11 +383,11 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     plt.xlabel(name)
 
 
-                # Add a legend
-                plt.legend(labels, loc='right', bbox_to_anchor=(1,1), ncol=1)
+                # Add a legend: not useful wwhen rs-TP is negligible
+                # plt.legend(labels, loc='right', bbox_to_anchor=(1,1), ncol=1)
 
                 # ensures legend is not cropped
-                plt.tight_layout()
+                # plt.tight_layout()
 
                 # save and close figure
                 fig.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
