@@ -308,6 +308,13 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 # Custom x axis
                 plt.xlabel("Dataset")
 
+                # set labels
+                labels = ['True Positive', 'reverse sign-True Positive',
+                          'False Positive', 'False Negative', 'True Negative']
+
+                # set colors
+                colors = ['#66b3ff','#ADD8E6','#ff9999','#99ff99','#8064A2']
+
                 # iterate over dataset
                 first = True
                 for d, name in enumerate(sub_colnames):
@@ -334,14 +341,6 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N]
                         v_to_sizes[val] = sizes
 
-
-                    # set labels
-                    labels = ['True Positive', 'reverse sign-True Positive',
-                              'False Positive', 'False Negative', 'True Negative']
-
-                    # set colors
-                    colors = ['#66b3ff','#ADD8E6','#ff9999','#99ff99','#8064A2']
-
                     # create df
                     raw_data = defaultdict(list)
                     for j, l in enumerate(labels):
@@ -351,18 +350,10 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                     df = pd.DataFrame(raw_data)
 
-                    # plot width
-                    barWidth = 0.85
-
                     # set number of bars (# of statistics)
                     r = range(len(for_vals))
 
                     # define subplot
-                    # plt.subplot(len(new_vals),len(colnames),i)
-
-                    # axs = axarr[v + 1, d]
-                    # axs = axarr[1, d]
-                    # fig, ax = plt.subplots(1, 4, sharex='col', sharey='row')
                     plt.subplot(1, len(colnames), d+1)
 
                     # ensure white background per plot
@@ -373,7 +364,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     complete = np.zeros(len(for_vals))
                     for k, label in enumerate(labels):
                         # create bars
-                        plt.bar(r, df[label], bottom = complete, color=colors[k], edgecolor='white', width=barWidth, label=label)
+                        plt.bar(r, df[label], bottom = complete, color=colors[k], edgecolor='white', width=0.85, label=label)
                         complete = np.add(complete, df[label])
 
                     # subplot x ticks
@@ -395,10 +386,12 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
 
                 # Add a legend
-                plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
+                plt.legend(labels)#loc='upper left', bbox_to_anchor=(1,1), ncol=1)
 
                 # remove top and right spines
                 sns.despine()
+                # remove axes
+                sns.despine(left=False, bottom=False)
 
                 # save and close figure
                 fig.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
