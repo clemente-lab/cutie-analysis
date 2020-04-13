@@ -368,13 +368,12 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # fig = plt.figure(figsize=(8,4))
                     complete = np.zeros(len(for_vals))
                     for i, label in enumerate(labels):
-                        print(label)
-                        print('\u03C1')
                         plt.bar(r, df[label], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=label)
                         complete = np.add(complete, df[label])
 
                     # subplot x ticks
                     plt.xticks(r, for_vals)
+                    print(for_vals)
 
                     # statistic x label
                     plt.xlabel('statistic')
