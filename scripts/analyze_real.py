@@ -354,7 +354,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     r = range(len(for_vals))
 
                     # define subplot
-                    plt.subplot(1, len(colnames), d+1)
+                    # plt.subplot(1, len(colnames), d+1)
+                    ax = plt.subplot(1, len(colnames), d+1)
 
                     # ensure white background per plot
                     sns.set_style("white")
@@ -374,7 +375,9 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     plt.xticks(r, x_stats)
 
                     # remove axes
-                    plt.axis('off')
+                    # axarr[0,0].axis('off')
+                    ax.spines['bottom'].set_visible(False)
+                    ax.spines['left'].set_visible(False)
 
                     # remove y ticks if not first plot
                     if not first:
