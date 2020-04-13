@@ -393,7 +393,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
 
                 # Add a legend
-                plt.legend(labels, loc='left')#, bbox_to_anchor=(1,1), ncol=1)
+                plt.legend(labels, loc='right')#, bbox_to_anchor=(1,1), ncol=1)
 
                 # save and close figure
                 fig.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
