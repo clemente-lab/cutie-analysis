@@ -155,12 +155,11 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         'hdac': 1000 * 999 / 2,
         'who': 354 * 353 / 2
     }
-    '''
-    label_to_unicode = {
-
-
+    stat_to_unicode = {
+        'pearson': 'r',
+        'spearman': '\u03C1', # rho
+        'kendall': '\u03C4' # tau
     }
-    '''
 
     results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t')
 
@@ -372,8 +371,10 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         complete = np.add(complete, df[label])
 
                     # subplot x ticks
-                    plt.xticks(r, for_vals)
-                    print(for_vals)
+                    # extract statistic from first item in _ list
+                    # x = 'pearson_3_fdr'
+                    stats = [stat_to_unicode[x.split('_')[0]] for x in for_vals]
+                    plt.xticks(r, stats)
 
                     # statistic x label
                     plt.xlabel('statistic')
