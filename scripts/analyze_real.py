@@ -375,9 +375,10 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # x = 'pearson_3_fdr'
                     stats = [stat_to_unicode[x.split('_')[0]] for x in for_vals]
                     plt.xticks(r, stats)
+                    print(stats)
 
                     # statistic x label
-                    plt.xlabel('statistic')
+                    # plt.xlabel('statistic')
 
                 # Add a legend
                 plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
