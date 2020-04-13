@@ -295,7 +295,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                 # create figure
                 # f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
-                f, axarr = plt.subplots(2,len(sub_colnames))
+                fig, axarr = plt.subplots(2,len(sub_colnames))
 
                 # iterate over dataset
                 for d, name in enumerate(sub_colnames):
@@ -391,6 +391,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # fig, ax = plt.subplots(1, 4, sharex='col', sharey='row')
 
                     # build bottom bar stack
+                    # fig = plt.figure(figsize=(8,4))
                     complete = np.zeros(len(for_vals))
                     for i, label in enumerate(labels):
                         plt.subplot(1, len(colnames), i+1)
@@ -438,7 +439,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         plt.tight_layout()
                     '''
 
-                f.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
+                fig.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
                 plt.close(fig)
 
 
