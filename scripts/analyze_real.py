@@ -155,7 +155,13 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         'hdac': 1000 * 999 / 2,
         'who': 354 * 353 / 2
     }
-    results_df
+    '''
+    label_to_unicode = {
+
+
+    }
+    '''
+
     results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t')
 
     # populate indices and ids for the dfs
@@ -295,48 +301,15 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                 # create figure
                 # f, axarr = plt.subplots(len(for_vals) + 1,len(sub_colnames))
-                fig, axarr = plt.subplots(2,len(sub_colnames),sharex='col', sharey='row')
+                fig, axarr = plt.subplots(nrows=1, ncols=len(sub_colnames),
+                                          sharex='col', sharey='row',
+                                          figsize=(8,6))
+
+                # Custom x axis
+                plt.xlabel("Dataset")
 
                 # iterate over dataset
                 for d, name in enumerate(sub_colnames):
-                    '''
-                    # generate CD plots first
-                    labels = ['TP', 'FP', 'N']
-                    colors = ['#66b3ff','#ff9999','#FFC000']#,'#ffcc99']
-                    TP = v_to_cd['TP'][d]
-                    P = v_to_cd['initial_sig'][d]
-                    sizes = [TP * P, (1-TP)*P,1-P]
-
-                    axs = axarr[0, d]
-                    # note colnames = ['Micrometa', 'Microbiome', 'Gene Expression', 'WHO']
-                    title = sub_colnames[d] + ', ' + 'Cook\'s D' + '\n' + str(int(col_to_corr[name]))
-                    axs.set_title(title)
-                    patches, texts, autotexts = axs.pie(sizes, colors = colors, labels=None, autopct='%1.1f%%', startangle=0,
-                                                       labeldistance = 1, pctdistance = 1.2)
-                    #plt.legend(patches, autotexts, loc='center left', bbox_to_anchor=(-0.1, 1.),fontsize=8)
-                    fs = 12
-                    ts = 12
-                    #patches[0].set_fontsize(fs)
-                    #patches[1].set_fontsize(fs)
-                    #patches[2].set_fontsize(fs)
-                    texts[0].set_fontsize(fs)
-                    texts[1].set_fontsize(fs)
-                    texts[2].set_fontsize(fs)
-                    autotexts[0].set_fontsize(ts)
-                    autotexts[1].set_fontsize(ts)
-                    autotexts[2].set_fontsize(ts)
-
-                    #draw circle
-                    centre_circle = plt.Circle((0,0),0.50,fc='white')
-                    fig = plt.gcf()
-                    fig.set_size_inches(10,10)
-                    #fig.gca().add_artist(centre_circle)
-                    axs.add_artist(centre_circle)
-                    # Equal aspect ratio ensures that pie is drawn as a circle
-                    axs.axis('equal')
-                    plt.tight_layout()
-                    #plt.show()
-                    '''
 
                     # iterate over statistic
                     stat_to_vals = defaultdict(list)
@@ -395,14 +368,16 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # fig = plt.figure(figsize=(8,4))
                     complete = np.zeros(len(for_vals))
                     for i, label in enumerate(labels):
+                        print(label)
+                        print('\u03C1')
                         plt.bar(r, df[label], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=label)
                         complete = np.add(complete, df[label])
 
                     # subplot x ticks
                     plt.xticks(r, for_vals)
 
-                # Custom x axis
-                plt.xlabel("Dataset")
+                    # statistic x label
+                    plt.xlabel('statistic')
 
                 # Add a legend
                 plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
