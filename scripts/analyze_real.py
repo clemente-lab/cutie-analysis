@@ -299,6 +299,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                 # iterate over dataset
                 for d, name in enumerate(sub_colnames):
+                    '''
                     # generate CD plots first
                     labels = ['TP', 'FP', 'N']
                     colors = ['#66b3ff','#ff9999','#FFC000']#,'#ffcc99']
@@ -335,6 +336,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     axs.axis('equal')
                     plt.tight_layout()
                     #plt.show()
+                    '''
 
                     # iterate over statistic
                     stat_to_vals = defaultdict(list)
@@ -381,15 +383,20 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     # set number of bars (# of statistics)
                     r = range(len(for_vals))
 
+                    # define subplot
+                    # plt.subplot(len(new_vals),len(colnames),i)
+
+                    # axs = axarr[v + 1, d]
+                    # axs = axarr[1, d]
+                    fig, ax = plt.subplots(1, 4, sharex='col', sharey='row')
+
                     # build bottom bar stack
                     complete = np.zeros(len(for_vals))
-
-                    # define subplot
-                    plt.subplot(len(new_vals),len(colnames),i)
-                    # axs = axarr[v + 1, d]
-                    axs = axarr[1, d]
                     for i, l in enumerate(labels):
-                        plt.bar(r, df[l], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=l)
+                        # plt.subplot(1, len(colnames), i)
+                        # plt.bar(r, df[l], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=l)
+                        ax.bar(r, df[l], bottom = complete, color=colors[i], edgecolor='white', width=barWidth, label=l)
+
                         complete = np.add(complete, df[l])
 
                     # Custom x axis
