@@ -49,7 +49,9 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
         lines = [l.strip() for l in f.readlines()]
         if cookd == 'True':
             for l in lines:
-                if "initial_corr" in l:
+                if "number of" in l:
+                    n_corr = int(l.split(' ')[-1])
+                elif "initial_corr" in l:
                     initial_corr = int(l.split(' ')[-1])
                 elif "false correlations according to cookd" in l:
                     false_corr = int(l.split(' ')[-1])
@@ -63,7 +65,9 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
         else:
             # check if FDR correction defaulted
             for l in lines:
-                if "initial_corr" in l:
+                if "number of" in l:
+                    n_corr = int(l.split(' ')[-1])
+                elif "initial_corr" in l:
                     initial_corr = int(l.split(' ')[-1])
                 elif "false correlations" in l:
                     false_corr = int(l.split(' ')[-1])
@@ -124,7 +128,7 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
             label = f.split('/')[-1]
             try:
                 p, mc, fv, stat, cc, seed, c, samp, cor = label.split('_')
-                initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, cookd=cc)
+                n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, cookd=cc)
                 df_dict[p][mc][fv][stat][cc][seed][c][samp][cor] = (true_corr, initial_corr)
                 done.append(f)
             except:

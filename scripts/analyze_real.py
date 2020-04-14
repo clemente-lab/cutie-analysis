@@ -41,7 +41,9 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         defaulted = False
         if cookd == 'True':
             for l in lines:
-                if "defaulted" in l:
+                if "number of" in l:
+                    n_corr = int(l.split(' ')[-1])
+                elif "defaulted" in l:
                     defaulted = True
                 elif "initial_corr" in l:
                     initial_corr = int(l.split(' ')[-1])
@@ -57,7 +59,9 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         else:
             # check if FDR correction defaulted
             for l in lines:
-                if "defaulted" in l:
+                if "number of" in l:
+                    n_corr = int(l.split(' ')[-1])
+                elif "defaulted" in l:
                     defaulted = True
                 elif "initial_corr" in l:
                     initial_corr = int(l.split(' ')[-1])
@@ -72,7 +76,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 elif "runtime" in l:
                     runtime = float(l.split(' ')[-1])
 
-        return defaulted, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime
+        return n_corr, defaulted, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime
 
 
     headers = [
@@ -80,16 +84,20 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         'parameter',
         'dataset',
         'statistic',
-        'mc_used', #NEW
-        'fold_value', # NEW
-        'cooksd', #NEW
+        'mc_used',
+        'fold_value',
+        'cooksd',
+        'n_corr',
         'initial_corr',
         'true_corr(TP_FN)',
         'false_corr(FP_TN)',
         'rs_true_corr_TP_FN',
         'rs_false_corr_FP_TN',
-        'runtime'
-    ]
+        'true_frac',
+        'false_frac',
+        'rs_true_frac',
+        'runtime']
+
 
     # populate df
     results_df = pd.DataFrame()
@@ -114,14 +122,19 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                             try:
                                 rel_logfile = files[-1]
                                 with open(rel_logfile, 'r') as f:
-                                    defaulted, initial_corr, false_corr, \
+                                    n_corr, defaulted, initial_corr, false_corr, \
                                         true_corr, rs_false, rs_true, runtime = parse_log(f,cd)
 
+                                    true_frac = true_corr / initial_corr
+                                    false_frac = false_corr / initial_corr
+                                    rs_true_frac = rs_true / initial_corr
                                     new_row = pd.DataFrame([[analysis_id, p, d, s,
-                                                            mc, fv, cd,
+                                                            mc, fv, cd, n_corr,
                                                             initial_corr, true_corr,
                                                             false_corr, rs_true,
-                                                            rs_false, runtime]],
+                                                            rs_false, true_frac,
+                                                            false_frac, rs_true_frac,
+                                                            runtime]],
                                                             columns=headers)
 
                                     results_df = results_df.append(new_row)
@@ -134,163 +147,32 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                                 else:
                                     print(analysis_id)
 
-    # colnames = ['LungTranscriptomics', 'Micrometa', 'Microbiome', 'Gene Expression', 'WHO']
-    colnames = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
-
-    col_to_corr = {
-        'LungTranscriptomics': 292 * 97, #depends on sum vs unsum
-        'Micrometa': 83 * 897,
-        'LungCancer': 748 * 747 / 2,
-        'GeneExpression': 1000 * 999 / 2,
-        'WHO': 354 * 353 / 2
-    }
-
-    # dists = ['lungtx', 'lungpt', 'lungc', 'hdac', 'who']
-    dists = ['lungc','lungtx', 'hdac', 'who']
-
-    dist_to_corr = {
-        'lungtx': 292 * 97,
-        'lungpt': 83 * 897,
-        'lungc': 748 * 747 / 2,
-        'hdac': 1000 * 999 / 2,
-        'who': 354 * 353 / 2
-    }
-    stat_to_unicode = {
-        'pearson': 'r',
-        'spearman': '\u03C1', # rho
-        'kendall': '\u03C4' # tau
-    }
-
     results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t')
 
-    # populate indices and ids for the dfs
+
+    datasets = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
+
+    col_to_id = {
+        'LungCancer': 'lungc',
+        'LungTranscriptomics': 'lungtx',
+        'Gene Expression': 'hdac',
+        'WHO': 'who'
+    }
+
+    statistics = ['pearson', 'spearman', 'kendall']
+
+
+    # populate indices and ids for the dataframe and barplot
     for p in params:
         for fv in fvs:
             for mc in mcs:
-                indices = []
-                ids = []
-                indices.append('_'.join(['pearson', 'cd', fv, mc, p]))
-                indices.append('Pct initial corr')
-                ids.append('_'.join([mc, fv, 'pearson', 'True', p]))
-                for stat in stats:
-                    indices.append('_'.join([stat, fv, mc]))
-                    indices.append('Pct initial corr')
-                    ids.append('_'.join([mc, fv, stat, 'False', p]))
+                # subset to get relevant dataframe
+                df = results_df[results_df['parameter'] == p]
+                df = df[df['fold_value'] == fv]
+                df = df[df['mc_used'] == mc]
 
-                # populate  df
-                df_array = []
-                for i, (idstring, index) in enumerate(zip(ids, indices)):
-                    row_fracs = []
-                    mc, fv, s, cd, p = idstring.split('_')
-                    for dist in dists:
-                        row = results_df[(results_df['parameter'] == p) & (results_df['dataset'] == dist) & (results_df['statistic'] == s) \
-                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['cooksd'] == cd)]
-                        try:
-                            row_fracs.append(float(row['true_corr(TP_FN)'] /row['initial_corr'].values)) # correctly id tp
-                        except:
-                            row_fracs.append(np.nan)
-                            print('nan in row fracs')
-                            print(dist, idstring)
-
-                    df_array.append(row_fracs)
-
-                    initial_sig_fracs = []
-                    for dist in dists:
-                        row = results_df[(results_df['parameter'] == p) & (results_df['dataset'] == dist) & (results_df['statistic'] == s) \
-                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['cooksd'] == cd)]
-                        # change number 249500 to n_corr depending on dataset
-                        try:
-                            initial_sig_fracs.append(float(row['initial_corr'] / dist_to_corr[dist]))
-                        except:
-                            initial_sig_fracs.append(np.nan)
-
-                    df_array.append(initial_sig_fracs)
-
-                pie_df = pd.DataFrame(data = df_array, index = indices, columns = colnames)
-                pie_df = pie_df.rename_axis('Statistic')
-                pie_df = pie_df.apply(pd.to_numeric).round(2)
-
-                # parse the reverse sign shenanigans
-                df_array = []
-
-                # cut out the cookd parts
-                rs_ids = ids[-len(stats):]
-                rs_indices = indices[-2*len(stats):]
-                for i, (idstring, index) in enumerate(zip(rs_ids, rs_indices)):
-                    # stat = 'Pearson'
-                    row_fracs = []
-                    mc, fv, s, cd, p = idstring.split('_')
-                    for dist in dists:
-                        row = results_df[(results_df['parameter'] == p) & (results_df['dataset'] == dist) & (results_df['statistic'] == s) \
-                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['cooksd'] == 'False')]
-                        try:
-                            row_fracs.append(float(row['rs_true_corr_TP_FN'] /row['initial_corr'].values)) # correctly id tp
-                        except:
-                            row_fracs.append(np.nan)
-                            print('failed to parse rs')
-                            print(dist, idstring)
-
-                    df_array.append(row_fracs)
-
-                    initial_sig_fracs = []
-                    for dist in dists:
-                        row = results_df[(results_df['parameter'] == p) & (results_df['dataset'] == dist) & (results_df['statistic'] == s) \
-                                     & (results_df['mc_used'] == mc) & (results_df['fold_value'] == fv) & (results_df['cooksd'] == 'False')]
-                        # change number 249500 to n_corr depending on dataset
-                        try:
-                            initial_sig_fracs.append(float(row['initial_corr'] / dist_to_corr[dist]))
-                        except:
-                            initial_sig_fracs.append(np.nan)
-
-                    df_array.append(initial_sig_fracs)
-
-                rs_df = pd.DataFrame(data = df_array, index = rs_indices, columns = colnames)
-                rs_df = rs_df.rename_axis('Statistic')
-                rs_df = rs_df.apply(pd.to_numeric).round(2)
-
-                # dictionary from which to get results for pie plots
-                dd = {}
-
-                # remove cooks d statistics for plotting
-                nocd_pie_df = pie_df.iloc[2:,:]
-
-                sub_colnames = ['LungCancer', 'LungTranscriptomics', 'GeneExpression', 'WHO']
-
-                # obtain indices without cook's D
-                vals = list(nocd_pie_df.index.values)
-                # skips by 2 (AKA every other)
-                new_vals = vals[0::2]
-                for v in new_vals:
-                    dd[v] = {}
-
-                for v in new_vals:
-                    # v = 'pearson_1_fdr'
-                    # check to make sure forward direction
-                    if v.split('_')[0][0] != 'r':
-                        dd[v]['rsTP'] = rs_df.loc[v,:].values
-                    else:
-                        dd[v]['rsFN'] = rs_df.loc[v,:].values
-
-
-                for v in new_vals:
-                    rows = nocd_pie_df.iloc[vals.index(v):vals.index(v)+2,:].values
-                    if v.split('_')[0][0] != 'r':
-                        dd[v]['TP'] = rows[0]
-                        dd[v]['initial_sig'] = rows[1]
-                    else:
-                        dd[v]['FN'] = rows[0]
-                        dd[v]['initial_insig'] = rows[1]
-
-
-                for_vals = new_vals[::2]
-                v_to_cd = {}
-                # just get Cook's D
-                # cd_val = list(pie_df.index.values)[0::2][0]
-
-                # first two rows are cd
-                rows = pie_df.iloc[0:2,:].values
-                v_to_cd['TP'] = rows[0]
-                v_to_cd['initial_sig'] = rows[1]
+                # create analysis id, e.g. p_fdr_1
+                analysis_id = '_'.join([p, mc, fv])
 
                 # create figure
                 fig, axarr = plt.subplots(nrows=1, ncols=len(sub_colnames),
@@ -300,9 +182,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 plt.xlabel("Dataset")
 
                 # generate subplot x ticks
-                # extract statistic from first item in _ list
-                # x = 'pearson_3_fdr'
-                x_stats = [stat_to_unicode[x.split('_')[0]] for x in for_vals]
+                x_stats = ['r', '\u03C1', '\u03C4'] # latter are rho and tau
 
                 # set labels
                 labels = ['True Positive', 'reverse sign-True Positive',
@@ -311,59 +191,67 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 # set colors
                 colors = ['#66b3ff','#ADD8E6','#ff9999','#99ff99','#8064A2']
 
-                # iterate over dataset
+                # iterate over datasets
                 first = True
-                for d, name in enumerate(sub_colnames):
-
+                for d, name in enumerate(datasets):
                     # iterate over statistic
                     stat_to_vals = defaultdict(list)
 
                     # hold values for stacked barplot
-                    v_to_sizes = {}
+                    stat_to_sizes = {}
 
-                    for v, val in enumerate(for_vals):
+                    for s, stat in enumerate(statistics):
+                        # extend analysis id, e.g. p_fdr_1_spearman_False_hdac
+                        for_analysis_id = '_'.join([analysis_id, stat, 'False', col_to_id[name]])
+                        rev_analysis_id = '_'.join([analysis_id, 'r' + stat, 'False', col_to_id[name]])
+
+                        # get two relevant entries of df
+                        for_df = df[df['analysis_id'] == for_analysis_id]
+                        rev_df = df[df['analysis_id'] == rev_analysis_id]
+
                         # labels = ['TP', 'rsTP', 'FP', 'FN', 'rsFN', 'TN']
 
                         # TP is blue FP is red FN is green TN is purple
                         # for rs case
                         # reverse sign but still true FP is non reverse sign
-                        TP = dd[val]['TP'][d]
-                        rsTP = dd[val]['rsTP'][d]
-                        P = dd[val]['initial_sig'][d]
-                        FN = dd['r' + val]['FN'][d]
-                        rsFN = dd['r' + val]['rsFN'][d]
-                        N = dd['r' + val]['initial_insig'][d]
+                        # grab proportions of TP, rsTP, etc.
+                        TP = for_df['true_frac'].values
+                        rsTP = for_df['rs_true_frac'].values
+                        P = for_df['initial_corr'].values
+
+                        FN = rev_df['true_frac'].values
+                        rsFN = rev_df['rs_true_frac'].values
+                        N = rev_df['initial_corr'].values
+
                         # sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, (FN - rsFN) * N, rsFN * N, (1-FN)*N]
                         sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N]
-                        v_to_sizes[val] = sizes
+                        stat_to_sizes[stat] = sizes
 
                     # create df
                     raw_data = defaultdict(list)
-                    for j, l in enumerate(labels):
-                        for v in for_vals:
-                            raw_data[l].append(v_to_sizes[v][j])
+                    for j, label in enumerate(labels):
+                        for s in statistics:
+                            raw_data[label].append(stat_to_sizes[s][j])
 
-
-                    df = pd.DataFrame(raw_data)
+                    raw_df = pd.DataFrame(raw_data)
 
                     # set number of bars (# of statistics)
-                    r = range(len(for_vals))
+                    r = range(len(statistics))
 
                     # define subplot
-                    # plt.subplot(1, len(colnames), d+1)
-                    ax = plt.subplot(1, len(colnames), d+1)
+                    ax = plt.subplot(1, len(datasets), d+1)
 
                     # ensure white background per plot
                     sns.set_style('white')
 
                     # build bottom bar stack
                     # fig = plt.figure(figsize=(8,4))
-                    complete = np.zeros(len(for_vals))
+                    complete = np.zeros(len(statistics))
                     for k, label in enumerate(labels):
                         # create bars
                         plt.bar(r, df[label], bottom = complete, color=colors[k],
                                 edgecolor='white', width=0.85, label=label)
-                        complete = np.add(complete, df[label])
+                        complete = np.add(complete, raw_df[label])
 
                     # subplot x ticks
                     plt.xticks(r, x_stats)
