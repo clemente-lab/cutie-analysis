@@ -216,6 +216,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                         # labels = ['TP', 'rsTP', 'FP', 'FN', 'rsFN', 'TN']
 
+                        print(for_df)
+                        print(rev_df)
                         # TP is blue FP is red FN is green TN is purple
                         # for rs case
                         # reverse sign but still true FP is non reverse sign
@@ -227,6 +229,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         FN = rev_df['true_frac'].values
                         rsFN = rev_df['rs_true_frac'].values
                         N = rev_df['initial_corr'].values
+
+                        print(TP)
 
                         # sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, (FN - rsFN) * N, rsFN * N, (1-FN)*N]
                         sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N]
