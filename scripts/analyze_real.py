@@ -232,6 +232,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N]
                         stat_to_sizes[stat] = sizes
 
+                    print(stat_to_sizes)
+
                     # create df
                     raw_data = defaultdict(list)
                     for j, label in enumerate(labels):
