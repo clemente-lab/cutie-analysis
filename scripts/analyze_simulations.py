@@ -80,7 +80,7 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
                 elif "runtime" in l:
                     runtime = float(l.split(' ')[-1])
 
-        return initial_corr, false_corr, true_corr, rs_false, rs_true, runtime
+        return n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime
 
     start, stop, step = [float(x) for x in rangestr.split(',')]
     df_dict = {}
