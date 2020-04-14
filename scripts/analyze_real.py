@@ -280,7 +280,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     plt.xlabel(name)
 
 
-                # Add a legend: not useful wwhen rs-TP is negligible
+                # Add a legend: not useful when rs-TP is negligible
                 # plt.legend(labels, loc='right', bbox_to_anchor=(1,1), ncol=1)
 
                 # ensures legend is not cropped
@@ -291,7 +291,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 plt.close(fig)
 
     # generate figure 2
-        # specific strings
+    # specific strings
     # p_fdr_1_kendall_False_lungc
     # p_fdr_3_pearson_False_hdac
     # p_fdr_1_spearman_False_lungtx
@@ -314,10 +314,10 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
     df = results_df[results_df['analysis_id'].isin(analyses)]
 
     # '\u03C1' is rho, '\u03C4' is tau
-    x_labels = ['LC (\u03C4), fv = 1',
-                'LT (\u03C1), fv = 1',
-                'GE (r), fv = 3',
-                'WHO (\u03C1), fv = 1']
+    x_labels = ['LC (\u03C4)',# fv = 1',
+                'LT (\u03C1)',# fv = 1',
+                'GE (r)',# fv = 3',
+                'WHO (\u03C1)'#, fv = 1']
 
     # iterate over datasets
     ds_to_vals = defaultdict(list)
@@ -380,6 +380,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
     # remove axes
     sns.despine()
 
+    plt.tight_layout()
     fig.savefig(output_dir + 'Figure2_raw.pdf')
     plt.close(fig)
 
