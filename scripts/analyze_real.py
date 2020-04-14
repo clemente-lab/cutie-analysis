@@ -220,16 +220,18 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         # for rs case
                         # reverse sign but still true FP is non reverse sign
                         # grab proportions of TP, rsTP, etc.
+                        P = for_df['initial_corr'].values[0]
+                        N = rev_df['initial_corr'].values[0]
+                        total = P + N
+
                         TP = for_df['true_frac'].values[0]
                         rsTP = for_df['rs_true_frac'].values[0]
-                        P = for_df['initial_corr'].values[0]
 
                         FN = rev_df['true_frac'].values[0]
                         rsFN = rev_df['rs_true_frac'].values[0]
-                        N = rev_df['initial_corr'].values[0]
 
                         # sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, (FN - rsFN) * N, rsFN * N, (1-FN)*N]
-                        sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N]
+                        sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N] / total
                         stat_to_sizes[stat] = sizes
 
                     # create df
