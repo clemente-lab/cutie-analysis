@@ -180,7 +180,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 analysis_id = '_'.join([p, mc, fv])
 
                 # create figure
-                fig, axarr = plt.subplots(nrows=1, ncols=len(sub_colnames),
+                fig, axarr = plt.subplots(nrows=1, ncols=len(datasets),
                                           figsize=(10,6))
 
                 # Custom x axis
