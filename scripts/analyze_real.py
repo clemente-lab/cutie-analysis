@@ -368,7 +368,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
     for k, label in enumerate(labels):
         # create bars
         plt.bar(r, raw_df[label], bottom = complete, color=colors[k],
-                edgecolor='white', width=0.65, label=label)
+                edgecolor='white', width=0.75, label=label)
         complete = np.add(complete, raw_df[label])
 
     # subplot x ticks
