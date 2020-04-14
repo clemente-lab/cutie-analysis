@@ -216,27 +216,21 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
                         # labels = ['TP', 'rsTP', 'FP', 'FN', 'rsFN', 'TN']
 
-                        print(for_df)
-                        print(rev_df)
                         # TP is blue FP is red FN is green TN is purple
                         # for rs case
                         # reverse sign but still true FP is non reverse sign
                         # grab proportions of TP, rsTP, etc.
-                        TP = for_df['true_frac'].values
-                        rsTP = for_df['rs_true_frac'].values
-                        P = for_df['initial_corr'].values
+                        TP = for_df['true_frac'].values[0]
+                        rsTP = for_df['rs_true_frac'].values[0]
+                        P = for_df['initial_corr'].values[0]
 
-                        FN = rev_df['true_frac'].values
-                        rsFN = rev_df['rs_true_frac'].values
-                        N = rev_df['initial_corr'].values
-
-                        print(TP)
+                        FN = rev_df['true_frac'].values[0]
+                        rsFN = rev_df['rs_true_frac'].values[0]
+                        N = rev_df['initial_corr'].values[0]
 
                         # sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, (FN - rsFN) * N, rsFN * N, (1-FN)*N]
                         sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N]
                         stat_to_sizes[stat] = sizes
-
-                    print(stat_to_sizes)
 
                     # create df
                     raw_data = defaultdict(list)
@@ -260,7 +254,6 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                     complete = np.zeros(len(statistics))
                     for k, label in enumerate(labels):
                         # create bars
-                        print(label, raw_df[label], complete)
                         plt.bar(r, raw_df[label], bottom = complete, color=colors[k],
                                 edgecolor='white', width=0.85, label=label)
                         complete = np.add(complete, raw_df[label])
