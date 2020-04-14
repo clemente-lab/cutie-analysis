@@ -315,6 +315,12 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 'GE (r)',# fv = 3',
                 'WHO (\u03C1)']#, fv = 1']
 
+    # more verbose labels
+    x_labels = ['Lung\nCancer\n(\u03C4)',
+            'Lung\nTranscriptomics\n(\u03C4)',
+            'Gene\nExpression\n(r)',
+            'WHO\n(\u03C1)']
+
     # iterate over datasets
     ds_to_vals = defaultdict(list)
 
