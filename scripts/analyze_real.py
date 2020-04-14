@@ -317,7 +317,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
     x_labels = ['LC (\u03C4)',# fv = 1',
                 'LT (\u03C1)',# fv = 1',
                 'GE (r)',# fv = 3',
-                'WHO (\u03C1)'#, fv = 1']
+                'WHO (\u03C1)']#, fv = 1']
 
     # iterate over datasets
     ds_to_vals = defaultdict(list)
