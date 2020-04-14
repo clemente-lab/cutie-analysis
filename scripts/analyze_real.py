@@ -41,9 +41,10 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         defaulted = False
         if cookd == 'True':
             for l in lines:
-                if "number of" in l:
-                    n_corr = int(l.split(' ')[-1])
-                elif "defaulted" in l:
+                #if "number of" in l:
+                #    n_corr = int(l.split(' ')[-1])
+                # el
+                if "defaulted" in l:
                     defaulted = True
                 elif "initial_corr" in l:
                     initial_corr = int(l.split(' ')[-1])
@@ -59,9 +60,10 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         else:
             # check if FDR correction defaulted
             for l in lines:
-                if "number of" in l:
-                    n_corr = int(l.split(' ')[-1])
-                elif "defaulted" in l:
+                # if "number of" in l:
+                #    n_corr = int(l.split(' ')[-1])
+                #el
+                if "defaulted" in l:
                     defaulted = True
                 elif "initial_corr" in l:
                     initial_corr = int(l.split(' ')[-1])
@@ -76,7 +78,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 elif "runtime" in l:
                     runtime = float(l.split(' ')[-1])
 
-        return n_corr, defaulted, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime
+        # return n_corr, defaulted, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime
+        return defaulted, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime
 
 
     headers = [
@@ -87,7 +90,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         'mc_used',
         'fold_value',
         'cooksd',
-        'n_corr',
+        # 'n_corr',
         'initial_corr',
         'true_corr(TP_FN)',
         'false_corr(FP_TN)',
@@ -122,14 +125,16 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                             try:
                                 rel_logfile = files[-1]
                                 with open(rel_logfile, 'r') as f:
-                                    n_corr, defaulted, initial_corr, false_corr, \
+                                    # n_corr,
+                                    defaulted, initial_corr, false_corr, \
                                         true_corr, rs_false, rs_true, runtime = parse_log(f,cd)
 
                                     true_frac = true_corr / initial_corr
                                     false_frac = false_corr / initial_corr
                                     rs_true_frac = rs_true / initial_corr
+
                                     new_row = pd.DataFrame([[analysis_id, p, d, s,
-                                                            mc, fv, cd, n_corr,
+                                                            mc, fv, cd, # n_corr,
                                                             initial_corr, true_corr,
                                                             false_corr, rs_true,
                                                             rs_false, true_frac,
