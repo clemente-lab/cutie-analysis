@@ -287,7 +287,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 # plt.tight_layout()
 
                 # save and close figure
-                fig.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
+                fig.savefig(output_dir + 'barplots_' + p + '_' + mc + '_' + fv + '.pdf')
                 plt.close(fig)
 
     # generate figure 2
