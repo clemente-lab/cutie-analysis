@@ -363,12 +363,12 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
     sns.set_style('white')
 
     # build bottom bar stack
-    fig = plt.figure(figsize=(6,4))
+    fig = plt.figure(figsize=(5,4))
     complete = np.zeros(len(fig_datasets))
     for k, label in enumerate(labels):
         # create bars
         plt.bar(r, raw_df[label], bottom = complete, color=colors[k],
-                edgecolor='white', width=0.75, label=label)
+                edgecolor='white', width=0.65, label=label)
         complete = np.add(complete, raw_df[label])
 
     # subplot x ticks
