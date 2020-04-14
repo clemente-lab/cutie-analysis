@@ -8,10 +8,10 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 @click.version_option(version='0.1')
 
 # Required arguments
-@click.option('-fv', '--fold_value', type=str,
-              help='fold value for criterion for p value change')
 @click.option('-p', '--param', type=str,
               help='string denoting type of param used')
+@click.option('-fv', '--fold_value', type=str,
+              help='fold value for criterion for p value change')
 @click.option('-s', '--statistic', type=str,
               help='string denoting type of analysis')
 @click.option('-m', '--multi_corr', type=str,
