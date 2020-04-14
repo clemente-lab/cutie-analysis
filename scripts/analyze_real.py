@@ -222,6 +222,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                         # grab proportions of TP, rsTP, etc.
                         P = for_df['initial_corr'].values[0]
                         N = rev_df['initial_corr'].values[0]
+
+                        # total = for_df['n_corr'].values[0]
                         total = P + N
 
                         TP = for_df['true_frac'].values[0]
@@ -287,6 +289,99 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 # save and close figure
                 fig.savefig(output_dir + 'barplots_dfreal_combined_' + p + '_' + mc + '_' + fv + '.pdf')
                 plt.close(fig)
+
+    # generate figure 2
+        # specific strings
+    # p_fdr_1_kendall_False_lungc
+    # p_fdr_3_pearson_False_hdac
+    # p_fdr_1_spearman_False_lungtx
+    # p_fdr_1_spearman_False_who
+
+    fig_datasets = ['LC', 'LT', 'GE', 'WHO']
+
+    ds_to_analyses = {
+        'LC': ['p_fdr_1_kendall_False_lungc','p_fdr_1_rkendall_False_lungc'],
+        'LT': ['p_fdr_1_spearman_False_lungtx','p_fdr_1_rspearman_False_lungtx'],
+        'GE': ['p_fdr_3_pearson_False_hdac','p_fdr_3_rpearson_False_hdac'],
+        'WHO': ['p_fdr_1_spearman_False_who','p_fdr_1_rspearman_False_who'],
+
+    }
+
+    analyses = []
+    for ds in ds_to_analyses:
+        analyses.extend(ds_to_analyses[ds])
+
+    df = results_df[results_df['analysis_id'].isin(analyses)]
+
+    # '\u03C1' is rho, '\u03C4' is tau
+    x_labels = ['LC (\u03C4), fv = 1',
+                'LT (\u03C1), fv = 1',
+                'GE (r), fv = 3',
+                'WHO (\u03C1), fv = 1']
+
+    # iterate over datasets
+    ds_to_vals = defaultdict(list)
+
+    # hold values for stacked barplot
+    ds_to_sizes = {}
+
+    for d, ds in enumerate(fig_datasets):
+        # extend analysis id, e.g. p_fdr_1_spearman_False_hdac
+        for_analysis_id, rev_analysis_id = ds_to_analyses[ds]
+
+        # get two relevant entries of df
+        for_df = df[df['analysis_id'] == for_analysis_id]
+        rev_df = df[df['analysis_id'] == rev_analysis_id]
+
+        # total = for_df['n_corr'].values[0]
+        P = for_df['initial_corr'].values[0]
+        N = rev_df['initial_corr'].values[0]
+        total = P + N
+
+        # grab fractions
+        TP = for_df['true_frac'].values[0]
+        rsTP = for_df['rs_true_frac'].values[0]
+
+        FN = rev_df['true_frac'].values[0]
+        rsFN = rev_df['rs_true_frac'].values[0]
+
+        sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N] / total
+        ds_to_sizes[ds] = sizes
+
+    # create df
+    raw_data = defaultdict(list)
+    for j, label in enumerate(labels):
+        for ds in fig_datasets:
+            raw_data[label].append(ds_to_sizes[ds][j])
+
+    raw_df = pd.DataFrame(raw_data)
+
+    # set number of bars (# of datasets)
+    r = range(len(fig_datasets))
+
+    # ensure white background per plot
+    sns.set_style('white')
+
+    # build bottom bar stack
+    fig = plt.figure(figsize=(6,4))
+    complete = np.zeros(len(fig_datasets))
+    for k, label in enumerate(labels):
+        # create bars
+        plt.bar(r, raw_df[label], bottom = complete, color=colors[k],
+                edgecolor='white', width=0.75, label=label)
+        complete = np.add(complete, raw_df[label])
+
+    # subplot x ticks
+    plt.xticks(r, x_labels)
+
+    # Custom x axis
+    plt.xlabel("Dataset")
+
+    # remove axes
+    sns.despine()
+
+    fig.savefig(output_dir + 'Figure2_raw.pdf')
+    plt.close(fig)
 
 
 if __name__ == "__main__":
