@@ -301,7 +301,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
     ds_to_analyses = {
         'LC': ['p_fdr_1_kendall_False_lungc','p_fdr_1_rkendall_False_lungc'],
-        'LT': ['p_fdr_1_spearman_False_lungtx','p_fdr_1_rspearman_False_lungtx'],
+        'LT': ['p_fdr_1_kendall_False_lungtx','p_fdr_1_rkendall_False_lungtx'],
         'GE': ['p_fdr_3_pearson_False_hdac','p_fdr_3_rpearson_False_hdac'],
         'WHO': ['p_fdr_1_spearman_False_who','p_fdr_1_rspearman_False_who'],
 
@@ -315,7 +315,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
     # '\u03C1' is rho, '\u03C4' is tau
     x_labels = ['LC (\u03C4)',# fv = 1',
-                'LT (\u03C1)',# fv = 1',
+                'LT (\u03C4)',# fv = 1',
                 'GE (r)',# fv = 3',
                 'WHO (\u03C1)']#, fv = 1']
 
