@@ -35,7 +35,7 @@ def gen_batch(max_seed, working_dir, input_dir):
 
     for s in range(max_seed):
         with open(working_dir + 'batch_jobs/batch_' + str(s) + '.txt', 'w') as f:
-            f.write('export PYTHONPATH=$PYTHONPATH:/hpc/users/buk02/tools/sandbox/lib/python3.7/site-packages/')
+            f.write('module load python/3.7.3 && export PYTHONPATH=$PYTHONPATH:/hpc/users/buk02/tools/sandbox/lib/python3.7/site-packages/')
             for c in seed_to_dirs[str(s)]:
                 f.write(' && ')
                 f.write(c)
