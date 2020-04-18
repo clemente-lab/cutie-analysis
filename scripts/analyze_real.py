@@ -41,7 +41,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         defaulted = False
         if cookd == 'True':
             for l in lines:
-                if "number of" in l:
+                if "number of correlations" in l:
                     n_corr = int(l.split(' ')[-1])
                 elif "defaulted" in l:
                     defaulted = True
@@ -59,7 +59,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
         else:
             # check if FDR correction defaulted
             for l in lines:
-                if "number of" in l:
+                if "number of correlations" in l:
                     n_corr = int(l.split(' ')[-1])
                 elif "defaulted" in l:
                     defaulted = True
@@ -189,8 +189,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
                 labels = ['True Positive', 'reverse sign-True Positive',
                           'False Positive', 'False Negative', 'True Negative']
 
-                # set colors
-                colors = ['#66b3ff','#ADD8E6','#ff9999','#99ff99','#8064A2']
+                # set colors # #228B22  #99ff99
+                colors = ['#66b3ff','#ADD8E6','#ff9999','#228B22','#8064A2']
 
                 # iterate over datasets
                 first = True

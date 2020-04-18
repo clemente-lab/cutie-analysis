@@ -49,7 +49,7 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
         lines = [l.strip() for l in f.readlines()]
         if cookd == 'True':
             for l in lines:
-                if "number of" in l:
+                if "number of correlations" in l:
                     n_corr = int(l.split(' ')[-1])
                 elif "initial_corr" in l:
                     initial_corr = int(l.split(' ')[-1])
@@ -65,7 +65,7 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
         else:
             # check if FDR correction defaulted
             for l in lines:
-                if "number of" in l:
+                if "number of correlations" in l:
                     n_corr = int(l.split(' ')[-1])
                 elif "initial_corr" in l:
                     initial_corr = int(l.split(' ')[-1])
