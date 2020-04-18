@@ -14,8 +14,6 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
               help='fold value for criterion for p value change')
 @click.option('-s', '--statistic', type=str,
               help='string denoting type of analysis')
-@click.option('-m', '--multi_corr', type=str,
-              help='string denoting type of multiple corrections')
 @click.option('-c', '--corr_compare', type=str,
               help='boolean denoting whether performing cooksd or not')
 @click.option('-cf', '--cutie_fp', type=click.Path(exists=True),
@@ -27,7 +25,7 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 @click.option('-o', '--output_dir', type=click.Path(exists=True),
               help='output dir to put config files')
 
-def gen_commands_configs(param, fold_value, statistic, multi_corr, corr_compare,
+def gen_commands_configs(param, fold_value, statistic, corr_compare,
                          cutie_fp, working_dir, input_dir, output_dir):
     fv = fold_value
     files = glob.glob(input_dir + '*.txt')
@@ -35,7 +33,7 @@ def gen_commands_configs(param, fold_value, statistic, multi_corr, corr_compare,
         fn = os.path.basename(fp)
         if statistic != 'pearson':
             corr_compare = 'False'
-        f_id = param + '_' + multi_corr + '_' + fv + '_' + statistic + '_' + corr_compare + '_' + os.path.splitext(fn)[0]
+        f_id = '_'.join([param, fv, statistic, corr_compare, os.path.splitext(fn)[0]])
         out_dir = output_dir + f_id + '/'
         if not os.path.isdir(out_dir):
             os.mkdir(out_dir)
@@ -93,7 +91,7 @@ def gen_commands_configs(param, fold_value, statistic, multi_corr, corr_compare,
                 f.write('\n')
                 f.write('alpha: 0.50')
             f.write('\n')
-            f.write('mc: ' + multi_corr)
+            f.write('mc: nomc')
             f.write('\n')
             f.write('fold: True')
             f.write('\n')

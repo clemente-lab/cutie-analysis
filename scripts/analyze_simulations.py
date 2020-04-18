@@ -21,8 +21,6 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
               help='string denoting type of analysis')
 @click.option('-p', '--param', type=str,
               help='string denoting type of param used')
-@click.option('-m', '--multi_corr', type=str,
-              help='string denoting type of multiple corrections')
 @click.option('-c', '--corr_compare', type=str,
               help='boolean denoting whether performing cooksd or not')
 @click.option('-cl', '--classes', type=str,
@@ -39,8 +37,8 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
               help='output dir to put config files')
 
 
-def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
-    classes, n_seed, n_samp, rangestr, input_dir, output_dir):
+def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
+    n_seed, n_samp, rangestr, input_dir, output_dir):
     '''
     Script for analysis of simulated data by CUTIE
     '''
@@ -86,27 +84,25 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
     df_dict = {}
     for p in param.split(','):
         df_dict[p] = {}
-        for mc in multi_corr.split(','):
-            df_dict[p][mc] = {}
-            for fv in fold_value.split(','):
-                df_dict[p][mc][fv] = {}
-                for stat in statistic.split(','):
-                    df_dict[p][mc][fv][stat] = {}
-                    for cc in corr_compare.split(','):
-                        df_dict[p][mc][fv][stat][cc] = {}
-                        for seed in [str(x) for x in range(int(n_seed))]:
-                            df_dict[p][mc][fv][stat][cc][seed] = {}
-                            for c in classes.split(','):
-                                df_dict[p][mc][fv][stat][cc][seed][c] = {}
-                                for samp in n_samp.split(','):
-                                    df_dict[p][mc][fv][stat][cc][seed][c][samp] = {}
-                                    for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
-                                        df_dict[p][mc][fv][stat][cc][seed][c][samp][cor] = (np.nan, np.nan)
+        for fv in fold_value.split(','):
+            df_dict[p][fv] = {}
+            for stat in statistic.split(','):
+                df_dict[p][fv][stat] = {}
+                for cc in corr_compare.split(','):
+                    df_dict[p][fv][stat][cc] = {}
+                    for seed in [str(x) for x in range(int(n_seed))]:
+                        df_dict[p][fv][stat][cc][seed] = {}
+                        for c in classes.split(','):
+                            df_dict[p][fv][stat][cc][seed][c] = {}
+                            for samp in n_samp.split(','):
+                                df_dict[p][fv][stat][cc][seed][c][samp] = {}
+                                for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
+                                    df_dict[p][fv][stat][cc][seed][c][samp][cor] = (np.nan, np.nan)
 
 
     file_dirs = glob.glob(input_dir + '*')
     missing = []
-    done = []
+    done = 0
     failed = []
 
     # troubleshooting
@@ -127,10 +123,10 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
         with open(fn, 'r') as rf:
             label = f.split('/')[-1]
             try:
-                p, mc, fv, stat, cc, seed, c, samp, cor = label.split('_')
+                p, fv, stat, cc, seed, c, samp, cor = label.split('_')
                 n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, cookd=cc)
-                df_dict[p][mc][fv][stat][cc][seed][c][samp][cor] = (true_corr, initial_corr)
-                done.append(f)
+                df_dict[p][fv][stat][cc][seed][c][samp][cor] = (true_corr, initial_corr)
+                done += 1
             except:
                 failed.append(label)
                 print(label)
@@ -141,7 +137,6 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
     # print([os.path.basename(x) for x in missing])
     analysis_ids = []
     ps = []
-    mcs = []
     fvs = []
     stats = []
     ccs = []
@@ -151,30 +146,28 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
     cors = []
     results = []
     for p in param.split(','):
-        for mc in multi_corr.split(','):
-            for fv in fold_value.split(','):
-                for stat in statistic.split(','):
-                    for cc in corr_compare.split(','):
-                        for seed in [str(x) for x in range(int(n_seed))]:
-                            for c in classes.split(','):
-                                for samp in n_samp.split(','):
-                                    for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
-                                        d = df_dict[p][mc][fv][stat][cc][seed][c][samp][cor]
-                                        # d = true corr, initial corr
-                                        # if initial corr is 0, we don't add it to df
-                                        if not np.isnan(d[0]):
-                                            if d[1] == 1:
-                                                analysis_ids.append('_'.join([p, fv, stat, cc, seed, c, samp, cor]))
-                                                ps.append(p)
-                                                mcs.append(mc)
-                                                fvs.append(fv)
-                                                stats.append(stat)
-                                                ccs.append(cc)
-                                                seeds.append(seed)
-                                                class_labs.append(c)
-                                                nsamps.append(samp)
-                                                cors.append(cor)
-                                                results.append(d[0])
+        for fv in fold_value.split(','):
+            for stat in statistic.split(','):
+                for cc in corr_compare.split(','):
+                    for seed in [str(x) for x in range(int(n_seed))]:
+                        for c in classes.split(','):
+                            for samp in n_samp.split(','):
+                                for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
+                                    d = df_dict[p][fv][stat][cc][seed][c][samp][cor]
+                                    # d = true corr, initial corr
+                                    # if initial corr is 0, we don't add it to df
+                                    if not np.isnan(d[0]):
+                                        if d[1] == 1:
+                                            analysis_ids.append('_'.join([p, fv, stat, cc, seed, c, samp, cor]))
+                                            ps.append(p)
+                                            fvs.append(fv)
+                                            stats.append(stat)
+                                            ccs.append(cc)
+                                            seeds.append(seed)
+                                            class_labs.append(c)
+                                            nsamps.append(samp)
+                                            cors.append(cor)
+                                            results.append(d[0])
 
     results_df = pd.DataFrame({'analysis_id': analysis_ids, 'parameter': ps, 'fold_value': fvs, 'stat': stats, 'cooksd': ccs,
                                'seed': seeds, 'class': class_labs,
@@ -188,46 +181,44 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
     corr_ticks = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1]
     # indiv plots
     for p in param.split(','):
-        for mc in multi_corr.split(','):
-            for fv in fold_value.split(','):
-                for stat in stat_pairs:
-                    for cc in ['False']:
-                        for c in classes.split(','):
-                            for samp in n_samp.split(','):
-                                for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
-                                    try:
-                                        df = results_df[results_df['parameter'] == p]
-                                        df = df[df['mc'] == mc]
-                                        df = df[df['fold_value'] == fv]
-                                        df = df[df['stat'].isin(stat)]
-                                        df = df[df['cooksd'] == cc]
-                                        df = df[df['class'] == c]
-                                        df = df[df['sample_size'] == samp]
-                                        # title = 'True_corr as a function of corr in ' + c
-                                        plt.figure(figsize=(6,6))
-                                        sns.set_style("white")
-                                        colors = ['#4F81BD','#C0504D']
-                                        ax = sns.pointplot(x="corr_strength", y="indicator", hue='stat',
-                                            data=df, ci=95, palette=sns.color_palette(colors))#, legend=False)
-                                        # ax.set_title(title, fontsize=15)
-                                        plt.setp(ax.collections, alpha=.3) #for the markers
-                                        plt.setp(ax.lines, alpha=.3)
-                                        # plt.xlim(-0.1,1.1)
-                                        plt.ylim(-0.2, 1.2)
-                                        ax.set_ylabel('Proportion of Correlations classified as True using CUTIE')
-                                        ax.set_xlabel('Correlation Strength')
-                                        ax.set_xticklabels(corr_ticks,rotation=90)
-                                        ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
-                                        plt.tick_params(axis='both', which='both', top=False, right=False)
-                                        sns.despine()
-                                        plt.savefig(output_dir + p + '_' + mc + '_' + fv + '_' + str(stat) + '_' + cc + '_' + c + '_' + samp + '.pdf')
-                                        plt.close()
-                                    except:
-                                        print(df['analysis_id'])
+        for fv in fold_value.split(','):
+            for stat in stat_pairs:
+                for cc in ['False']:
+                    for c in classes.split(','):
+                        for samp in n_samp.split(','):
+                            for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
+                                try:
+                                    df = results_df[results_df['parameter'] == p]
+                                    df = df[df['fold_value'] == fv]
+                                    df = df[df['stat'].isin(stat)]
+                                    df = df[df['cooksd'] == cc]
+                                    df = df[df['class'] == c]
+                                    df = df[df['sample_size'] == samp]
+                                    # title = 'True_corr as a function of corr in ' + c
+                                    plt.figure(figsize=(6,6))
+                                    sns.set_style("white")
+                                    colors = ['#4F81BD','#C0504D']
+                                    ax = sns.pointplot(x="corr_strength", y="indicator", hue='stat',
+                                        data=df, ci=95, palette=sns.color_palette(colors))#, legend=False)
+                                    # ax.set_title(title, fontsize=15)
+                                    plt.setp(ax.collections, alpha=.3) #for the markers
+                                    plt.setp(ax.lines, alpha=.3)
+                                    # plt.xlim(-0.1,1.1)
+                                    plt.ylim(-0.2, 1.2)
+                                    ax.set_ylabel('Proportion of Correlations classified as True using CUTIE')
+                                    ax.set_xlabel('Correlation Strength')
+                                    ax.set_xticklabels(corr_ticks,rotation=90)
+                                    ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
+                                    plt.tick_params(axis='both', which='both', top=False, right=False)
+                                    sns.despine()
+                                    plt.savefig(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.pdf')
+                                    plt.close()
+                                except:
+                                    print(df['analysis_id'])
 
     def new_label(row):
         '''
-        Will map True pearson -> pearson_cookd
+        Will map True pearson -> Cook's D
         Will map False pearson -> pearson and False rpearson -> rpearson
         '''
         if row['cc'] == 'True':
@@ -241,48 +232,46 @@ def analyze_simulations(fold_value, statistic, param, multi_corr, corr_compare,
     # cook D comparison
     if 'True' in corr_compare.split(','):
         for p in param.split(','):
-            for mc in multi_corr.split(','):
-                for fv in fold_value.split(','):
-                    for stat in [ ['pearson','rpearson'] ]:
-                        for c in classes.split(','):
-                            for samp in n_samp.split(','):
-                                for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
-                                    try:
-                                        df = results_df[results_df['parameter'] == p]
-                                        df = df[df['mc'] == mc]
-                                        df = df[df['fold_value'] == fv]
-                                        df = df[df['stat'].isin(stat)]
-                                        df = df[df['cooksd'] == cc]
-                                        df = df[df['class'] == c]
-                                        df = df[df['sample_size'] == samp]
-                                        df['statistic'] = df.apply(lambda row: new_label(row),axis=1)
-                                        df = df[df['statistic'] != 'exclude']
-                                        df = df.drop(['stat'], axis=1)
-                                        # title = 'True_corr as a function of corr in ' + c
-                                        plt.figure(figsize=(6,6))
-                                        sns.set_style("white")
-                                        colors = ['#4F81BD','#9BBB59','#C0504D']
-                                        ax = sns.pointplot(x="cors", y="results", hue='statistic',data=df, ci=95,
-                                            palette=sns.color_palette(colors))#, legend=False)
-                                        # ax.set_title(title, fontsize=15)
-                                        plt.setp(ax.collections, alpha=.3) #for the markers
-                                        plt.setp(ax.lines, alpha=.3)
-                                        # plt.xlim(-0.1,1.1)
-                                        plt.ylim(-0.2,1.2)
-                                        ax.set_xticklabels(corr_ticks, rotation=90)
-                                        ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
-                                        ax.set_ylabel('Proportion of Correlations classified as True using CUTIE')
-                                        ax.set_xlabel('Correlation Strength')
-                                        plt.tick_params(axis='both', which='both', top=False, right=False)
-                                        sns.despine()
-                                        plt.savefig(output_dir + p + '_' + mc + '_' + fv + '_' + str(stat) + '_cookdcompare_' + c + '_' + samp + '.pdf')
-                                        plt.close()
-                                    except:
-                                        print(stat)
-                                        print('cookd')
+            for fv in fold_value.split(','):
+                for stat in [ ['pearson','rpearson'] ]:
+                    for c in classes.split(','):
+                        for samp in n_samp.split(','):
+                            for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
+                                try:
+                                    df = results_df[results_df['parameter'] == p]
+                                    df = df[df['fold_value'] == fv]
+                                    df = df[df['stat'].isin(stat)]
+                                    df = df[df['cooksd'] == cc]
+                                    df = df[df['class'] == c]
+                                    df = df[df['sample_size'] == samp]
+                                    df['statistic'] = df.apply(lambda row: new_label(row),axis=1)
+                                    df = df[df['statistic'] != 'exclude']
+                                    df = df.drop(['stat'], axis=1)
+                                    # title = 'True_corr as a function of corr in ' + c
+                                    plt.figure(figsize=(6,6))
+                                    sns.set_style("white")
+                                    colors = ['#4F81BD','#9BBB59','#C0504D']
+                                    ax = sns.pointplot(x="cors", y="results", hue='statistic',data=df, ci=95,
+                                        palette=sns.color_palette(colors))#, legend=False)
+                                    # ax.set_title(title, fontsize=15)
+                                    plt.setp(ax.collections, alpha=.3) #for the markers
+                                    plt.setp(ax.lines, alpha=.3)
+                                    # plt.xlim(-0.1,1.1)
+                                    plt.ylim(-0.2,1.2)
+                                    ax.set_xticklabels(corr_ticks, rotation=90)
+                                    ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
+                                    ax.set_ylabel('Proportion of Correlations classified as True using CUTIE')
+                                    ax.set_xlabel('Correlation Strength')
+                                    plt.tick_params(axis='both', which='both', top=False, right=False)
+                                    sns.despine()
+                                    plt.savefig(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.pdf')
+                                    plt.close()
+                                except:
+                                    print(stat)
+                                    print('cookd')
 
 
-    print(len(missing),len(done),len(failed))
+    print(len(missing),done,len(failed))
     print(results_df.head())
     results_df.to_csv(output_dir + 'sim_results_df.txt', sep='\t')
 
