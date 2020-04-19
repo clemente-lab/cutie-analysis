@@ -25,9 +25,9 @@ def gen_batch(max_seed, working_dir, input_dir):
     seed_to_dirs = defaultdict(list)
 
     for d in dirs:
-        # fp = p_nomc_1_rpearson_False_4_NP_25_0.9
+        # fp = p_1_rpearson_False_4_NP_25_0.9
         fp = os.path.basename(d)
-        seed = fp.split('_')[5]
+        seed = fp.split('_')[4]
         with open(d + '/commands_' + fp + '.txt', 'r') as f:
             line = f.readline()
             command = line.split('&&')[-1]
