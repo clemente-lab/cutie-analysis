@@ -22,6 +22,8 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
               help='string denoting type of multiple corrections')
 @click.option('-p', '--param', type=str,
               help='string denoting params used')
+@click.option('-d', '--datasets', type=str,
+              help='string denoting datasets used')
 @click.option('-c', '--corr_compare', type=str,
               help='boolean denoting whether performing cooksd or not')
 @click.option('-i', '--input_dir', type=click.Path(exists=True),
@@ -30,7 +32,7 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
               help='output dir to put config files')
 
 
-def analyze_simulations_real(fold_value, statistic, multi_corr, param,
+def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
                              corr_compare, input_dir, output_dir):
     '''
     Script for analysis of real data by CUTIE
@@ -106,7 +108,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
     fvs = fold_value.split(',')
     stats = statistic.split(',')
     cds = corr_compare.split(',')
-    ds = ['lungc', 'lungpt', 'lungtx','who','hdac']
+    ds = datasets.split(',')
     params = param.split(',')
     for p in params:
         for mc in mcs:
@@ -150,7 +152,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param,
 
     results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t')
 
-
+    # lungc,lungtx,hdac,who
     datasets = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
 
     col_to_id = {
