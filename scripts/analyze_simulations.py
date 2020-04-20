@@ -251,7 +251,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                     plt.figure(figsize=(6,6))
                                     sns.set_style("white")
                                     colors = ['#4F81BD','#9BBB59','#C0504D']
-                                    ax = sns.pointplot(x="cors", y="results", hue='statistic',data=df, ci=95,
+                                    ax = sns.pointplot(x="corr_strength", y="indicator", hue='statistic',data=df, ci=95,
                                         palette=sns.color_palette(colors))#, legend=False)
                                     # ax.set_title(title, fontsize=15)
                                     plt.setp(ax.collections, alpha=.3) #for the markers
