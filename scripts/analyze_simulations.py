@@ -221,7 +221,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
         Will map True pearson -> Cook's D
         Will map False pearson -> pearson and False rpearson -> rpearson
         '''
-        if row['cc'] == 'True':
+        if row['cooksd'] == 'True':
             if row['stat'] != 'pearson':
                 return 'exclude'
             else:
@@ -241,7 +241,6 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df = results_df[results_df['parameter'] == p]
                                 df = df[df['fold_value'] == fv]
                                 df = df[df['stat'].isin(stat)]
-                                df = df[df['cooksd'] == cc]
                                 df = df[df['class'] == c]
                                 df = df[df['sample_size'] == samp]
                                 df['statistic'] = df.apply(lambda row: new_label(row),axis=1)
