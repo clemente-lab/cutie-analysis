@@ -337,8 +337,6 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         for_df = df[df['analysis_id'] == for_analysis_id]
         rev_df = df[df['analysis_id'] == rev_analysis_id]
 
-        total = for_df['n_corr'].values[0]
-
         # grab fractions
         TP = for_df['true_frac'].values[0]
         rsTP = for_df['rs_true_frac'].values[0]
@@ -346,7 +344,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         FN = rev_df['true_frac'].values[0]
         rsFN = rev_df['rs_true_frac'].values[0]
 
-        sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N] / total
+        sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N]
         ds_to_sizes[ds] = sizes
 
     # create df
