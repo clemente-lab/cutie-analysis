@@ -214,24 +214,20 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
 
                         # labels = ['TP', 'rsTP', 'FP', 'FN', 'rsFN', 'TN']
 
-                        # TP is blue FP is red FN is green TN is purple
-                        # for rs case
-                        # reverse sign but still true FP is non reverse sign
                         # grab proportions of TP, rsTP, etc.
-                        P = for_df['initial_corr'].values[0]
-                        N = rev_df['initial_corr'].values[0]
+                        total = for_df['n_corr'].values[0]
 
-                        # total = for_df['n_corr'].values[0]
-                        total = P + N
+                        P = for_df['initial_corr'].values[0] / total
+                        N = rev_df['initial_corr'].values[0] / total
 
                         TP = for_df['true_frac'].values[0]
                         rsTP = for_df['rs_true_frac'].values[0]
 
                         FN = rev_df['true_frac'].values[0]
-                        rsFN = rev_df['rs_true_frac'].values[0]
+                        # rsFN = rev_df['rs_true_frac'].values[0]
 
                         # sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, (FN - rsFN) * N, rsFN * N, (1-FN)*N]
-                        sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N] / total
+                        sizes = [(TP - rsTP) * P, rsTP * P,(1-TP)*P, FN * N, (1-FN)*N]
                         stat_to_sizes[stat] = sizes
 
                     # create df
@@ -336,6 +332,11 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         # get two relevant entries of df
         for_df = df[df['analysis_id'] == for_analysis_id]
         rev_df = df[df['analysis_id'] == rev_analysis_id]
+
+        # get N and P
+        total = for_df['n_corr'].values[0]
+        P = for_df['initial_corr'].values[0] / total
+        N = rev_df['initial_corr'].values[0] / total
 
         # grab fractions
         TP = for_df['true_frac'].values[0]
