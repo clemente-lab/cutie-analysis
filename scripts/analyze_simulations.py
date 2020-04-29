@@ -178,7 +178,12 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
     for v, w in zip(statistic.split(',')[::2], statistic.split(',')[1::2]):
         stat_pairs.append([v, w])
 
-    corr_ticks = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1]
+    # corr_ticks = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, \
+    # 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1]
+    corr_ticks = ['0','','0.1','','0.2','','0.3','','0.4','','0.5','','0.6','',\
+                  '0.7','','0.8','','0.9','','1']
+
+
     # indiv plots
     for p in param.split(','):
         for fv in fold_value.split(','):
@@ -186,35 +191,42 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                 for cc in ['False']:
                     for c in classes.split(','):
                         for samp in n_samp.split(','):
-                            for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
-                                try:
-                                    df = results_df[results_df['parameter'] == p]
-                                    df = df[df['fold_value'] == fv]
-                                    df = df[df['stat'].isin(stat)]
-                                    df = df[df['cooksd'] == cc]
-                                    df = df[df['class'] == c]
-                                    df = df[df['sample_size'] == samp]
-                                    # title = 'True_corr as a function of corr in ' + c
-                                    plt.figure(figsize=(6,6))
-                                    sns.set_style("white")
-                                    colors = ['#4F81BD','#C0504D']
-                                    ax = sns.pointplot(x="corr_strength", y="indicator", hue='stat',
-                                        data=df, ci=95, palette=sns.color_palette(colors))#, legend=False)
-                                    # ax.set_title(title, fontsize=15)
-                                    plt.setp(ax.collections, alpha=.3) #for the markers
-                                    plt.setp(ax.lines, alpha=.3)
-                                    # plt.xlim(-0.1,1.1)
-                                    plt.ylim(-0.2, 1.2)
-                                    ax.set_ylabel('Proportion of Correlations classified as True using CUTIE')
-                                    ax.set_xlabel('Correlation Strength')
-                                    ax.set_xticklabels(corr_ticks,rotation=90)
-                                    ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
-                                    plt.tick_params(axis='both', which='both', top=False, right=False)
-                                    sns.despine()
-                                    plt.savefig(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.pdf')
-                                    plt.close()
-                                except:
-                                    print(df['analysis_id'])
+                            try:
+                                # subset dataframe
+                                df = results_df[results_df['parameter'] == p]
+                                df = df[df['fold_value'] == fv]
+                                df = df[df['stat'].isin(stat)]
+                                df = df[df['cooksd'] == cc]
+                                df = df[df['class'] == c]
+                                df = df[df['sample_size'] == samp]
+
+                                # set styles
+                                sns.set(font_scale=1.4)
+                                sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
+
+                                # green, blue, red
+                                colors = ['#4F81BD','#C0504D']
+                                stats = ['CUTIE, p < 0.05', 'CUTIE, p > 0.05']
+
+                                title = 'Power Curves for simulations of ' + c + '\n scatterplots using ' + stat[0].capitalize()
+
+                                plt.figure(figsize=(6,6))
+                                ax = sns.pointplot(x="corr_strength", y="indicator", hue='Method',data=df, ci=95,
+                                    palette=sns.color_palette(colors), hue_order=stats)#, legend=False)
+                                ax.set_title(title, fontsize=15)
+                                plt.setp(ax.collections, alpha=.3) #for the markers
+                                plt.setp(ax.lines, alpha=.3)
+                                plt.ylim(-0.2, 1.2)
+                                ax.set_ylabel('Proportion of Correlations classified as True using CUTIE')
+                                ax.set_xlabel('Correlation Strength')
+                                ax.set_xticklabels(corr_ticks,rotation=90)
+                                ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
+                                plt.tick_params(axis='both', which='both', top=False, right=False)
+                                sns.despine()
+                                plt.savefig(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.pdf')
+                                plt.close()
+                            except:
+                                print(df['analysis_id'])
 
     def new_label(row):
         '''
@@ -236,38 +248,47 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                 for stat in [ ['pearson','rpearson'] ]:
                     for c in classes.split(','):
                         for samp in n_samp.split(','):
-                            for cor in ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]:
-                                try:
-                                    df = results_df[results_df['parameter'] == p]
-                                    df = df[df['fold_value'] == fv]
-                                    df = df[df['stat'].isin(stat)]
-                                    df = df[df['class'] == c]
-                                    df = df[df['sample_size'] == samp]
-                                    df['statistic'] = df.apply(lambda row: new_label(row),axis=1)
-                                    df = df[df['statistic'] != 'exclude']
-                                    df = df.drop(['stat'], axis=1)
-                                    # title = 'True_corr as a function of corr in ' + c
-                                    plt.figure(figsize=(6,6))
-                                    sns.set_style("white")
-                                    colors = ['#4F81BD','#9BBB59','#C0504D']
-                                    ax = sns.pointplot(x="corr_strength", y="indicator", hue='statistic',data=df, ci=95,
-                                        palette=sns.color_palette(colors))#, legend=False)
-                                    # ax.set_title(title, fontsize=15)
-                                    plt.setp(ax.collections, alpha=.3) #for the markers
-                                    plt.setp(ax.lines, alpha=.3)
-                                    # plt.xlim(-0.1,1.1)
-                                    plt.ylim(-0.2,1.2)
-                                    ax.set_xticklabels(corr_ticks, rotation=90)
-                                    ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
-                                    ax.set_ylabel('Proportion of Correlations classified as True using CUTIE')
-                                    ax.set_xlabel('Correlation Strength')
-                                    plt.tick_params(axis='both', which='both', top=False, right=False)
-                                    sns.despine()
-                                    plt.savefig(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.pdf')
-                                    plt.close()
-                                except:
-                                    print(stat)
-                                    print('cookd')
+                            try:
+                                # subset dataframe
+                                df = results_df[results_df['parameter'] == p]
+                                df = df[df['fold_value'] == fv]
+                                df = df[df['stat'].isin(stat)]
+                                df = df[df['class'] == c]
+                                df = df[df['sample_size'] == samp]
+                                df['statistic'] = df.apply(lambda row: new_label(row),axis=1)
+                                df = df[df['statistic'] != 'exclude']
+                                df = df.drop(['stat'], axis=1)
+
+                                # generate plot
+                                sns.set(font_scale=1.4)
+                                sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
+
+                                # green, blue, red
+                                colors = ['#9BBB59','#4F81BD','#C0504D']
+                                stats = ['Cook\'s D, p < 0.05', 'CUTIE, p < 0.05', 'CUTIE, p > 0.05']
+                                title = 'Power Curves for simulations of ' + c + '\n scatterplots using ' + stat[0].capitalize()
+
+                                plt.figure(figsize=(6,6))
+                                ax = sns.pointplot(x="corr_strength", y="indicator", hue='Method',data=df, ci=95,
+                                    palette=sns.color_palette(colors), hue_order=stats)#, legend=False)
+                                ax.set_title(title, fontsize=15)
+                                plt.setp(ax.collections, alpha=.3) #for the markers
+                                plt.setp(ax.lines, alpha=.3)
+                                plt.ylim(-0.2,1.2)
+
+                                ax.set_xticklabels(corr_ticks, rotation=0)
+                                ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
+                                ax.set_ylabel('Proportion of Correlations classified as True')
+                                ax.set_xlabel('Correlation Strength')
+
+                                plt.tick_params(axis='both', which='both', top=False, right=False)
+                                sns.despine()
+
+                                plt.savefig(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.pdf')
+                                plt.close()
+                            except:
+                                print(stat)
+                                print('cookd')
 
 
     print(len(missing),done,len(failed))
