@@ -183,6 +183,26 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
     corr_ticks = ['0','','0.1','','0.2','','0.3','','0.4','','0.5','','0.6','',\
                   '0.7','','0.8','','0.9','','1']
 
+    def new_label(row):
+        '''
+        Relabels the statistic for the legend
+        (1) If cooksd is True and the statistic is not pearson, don't make a plot for it
+        (2) If cooksd is True and the statistic is pearson, then label with Cook's D instead
+        (3) If the statistic is TN/FN separation, label that line p > 0.05
+        (4) Else the statistic is TP/FP separation, label that line p < 0.05
+        '''
+        if row['cooksd'] == True:
+            if row['stat'] != 'pearson':
+                return 'exclude'
+            else:
+                return 'Cook\'s D, p < 0.05'
+        else:
+            if row['stat'][0] == 'r':
+                # return row['stat'][1:].capitalize() + ', CUTIE, p > 0.05'
+                return 'CUTIE, p > 0.05'
+            else:
+                # return row['stat'].capitalize() + ', CUTIE, p < 0.05'
+                return 'CUTIE, p < 0.05'
 
     # indiv plots
     for p in param.split(','):
@@ -199,7 +219,8 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df = df[df['cooksd'] == cc]
                                 df = df[df['class'] == c]
                                 df = df[df['sample_size'] == samp]
-
+                                df['Method'] = df.apply(lambda row: new_label(row),axis=1)
+                                df = df.drop(['stat'], axis=1)
                                 # set styles
                                 sns.set(font_scale=1.4)
                                 sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
@@ -228,18 +249,6 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                             except:
                                 print(df['analysis_id'])
 
-    def new_label(row):
-        '''
-        Will map True pearson -> Cook's D
-        Will map False pearson -> pearson and False rpearson -> rpearson
-        '''
-        if row['cooksd'] == 'True':
-            if row['stat'] != 'pearson':
-                return 'exclude'
-            else:
-                return 'Cook\'s D'
-        else:
-            return row['stat']
 
     # cook D comparison
     if 'True' in corr_compare.split(','):
@@ -255,8 +264,8 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df = df[df['stat'].isin(stat)]
                                 df = df[df['class'] == c]
                                 df = df[df['sample_size'] == samp]
-                                df['statistic'] = df.apply(lambda row: new_label(row),axis=1)
-                                df = df[df['statistic'] != 'exclude']
+                                df['Method'] = df.apply(lambda row: new_label(row),axis=1)
+                                df = df[df['Method'] != 'exclude']
                                 df = df.drop(['stat'], axis=1)
 
                                 # generate plot
