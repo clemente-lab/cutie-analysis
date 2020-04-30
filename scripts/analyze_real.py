@@ -416,13 +416,18 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     raw_df.head()
     raw_df.to_csv(output_dir + 'condensed_results.txt', sep='\t',index=False)
 
+    ds_to_titles = {
+        'LC': 'Lung Cancer (\u03C4)',
+        'LT': 'Lung Transcriptomics (\u03C4)',
+        'GE': 'Gene Expression (r)',
+        'WHO': 'WHO (\u03C1)'
+
+    }
+
     for ds in ds_to_analyses:
         analysis_id = ds_to_analyses[ds][0]
-        print(analysis_id)
         df = raw_df[raw_df['analysis_id'] == analysis_id]
 
-        # custom title
-        # plt.title(analysis_id)
         # ensure white background per plot
         sns.set(font_scale=1)
         sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
@@ -430,8 +435,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         # initialize subplopts
         fig, axarr = plt.subplots(nrows=1, ncols=2, figsize=(4,3))
 
-        # Custom x axis
-        # plt.xlabel("Set of Correlations")
+        # set title
+        fig.suptitle(ds_to_titles[ds], fontsize=14)
 
         # generate subplot x ticks
         x_stats = [['p < 0.05'], ['p > 0.05']] # latter are rho and tau
