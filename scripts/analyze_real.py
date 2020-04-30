@@ -460,7 +460,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
 
         # dataset axes labels
         plt.xticks(ticks=[0,0.5,1], labels=['p < 0.05','', 'p > 0.05'])
-        plt.ylabel('Number of correlations')
+        plt.ylabel('# of correlations')
         plt.tick_params(bottom=False)
         plt.tight_layout()
         sns.despine()
