@@ -416,6 +416,64 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     raw_df.head()
     raw_df.to_csv(output_dir + 'condensed_results.txt', sep='\t',index=False)
 
+    for ds in ds_to_analyses:
+        analysis_id = ds_to_analyses[ds][0]
+        print(analysis_id)
+        df = raw_df[raw_df['analysis_id'] == analysis_id]
+
+        # custom title
+        # plt.title(analysis_id)
+        # ensure white background per plot
+        sns.set(font_scale=1.3)
+        sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
+
+        # initialize subplopts
+        fig, axarr = plt.subplots(nrows=1, ncols=2, figsize=(4,3))
+
+        # Custom x axis
+        # plt.xlabel("Set of Correlations")
+
+        # generate subplot x ticks
+        x_stats = [['p < 0.05'], ['p > 0.05']] # latter are rho and tau
+
+
+        # set labels
+        labels = [['True Positive', 'reverse sign-True Positive',
+                  'False Positive'], ['False Negative', 'True Negative']]
+        labels = [['TP', 'rsTP', 'FP'], ['FN', 'TN']]
+
+
+        # set colors # #228B22  #99ff99
+        colors = [['#66b3ff','#ADD8E6','#ff9999'],['#228B22','#8064A2']]
+
+        # iterate over for and rev dfs
+        for d, name in enumerate(x_stats):
+
+            # define subplot
+            ax = plt.subplot(1, 2, d+1)
+
+            # build bottom bar stack
+            complete = np.zeros(1)
+            for k, label in enumerate(labels[d]):
+                # create bars
+                plt.bar(d, df[label], bottom = complete, color=colors[d][k],
+                        edgecolor='white', width=0.55, label=label, linewidth=0)
+                complete = np.add(complete, df[label])
+
+            # subplot x ticks
+            plt.xticks([])
+
+            # remove axes
+            ax.spines['right'].set_visible(False)
+            ax.spines['top'].set_visible(False)
+
+            # dataset x label
+            plt.xlabel(name[0])
+            plt.tight_layout()
+
+        fig.savefig(output_dir + 'barplots_dfcondensed' + analysis_id + '.pdf')
+        plt.close(fig)
+
 
 if __name__ == "__main__":
     analyze_simulations_real()
