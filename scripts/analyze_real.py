@@ -424,7 +424,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         # custom title
         # plt.title(analysis_id)
         # ensure white background per plot
-        sns.set(font_scale=1.2)
+        sns.set(font_scale=0.9)
         sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
 
         # initialize subplopts
