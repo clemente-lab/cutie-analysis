@@ -476,6 +476,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
             plt.xlabel(name[0])
             plt.tight_layout()
 
+        plt.tight_layout()
         fig.savefig(output_dir + 'barplots_dfcondensed_' + analysis_id + '.pdf')
         plt.close(fig)
 
