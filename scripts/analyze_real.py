@@ -429,18 +429,14 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         df = raw_df[raw_df['analysis_id'] == analysis_id]
 
         # ensure white background per plot
-        sns.set(font_scale=1)
+        sns.set(font_scale=1.3)
         sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
 
-        # initialize subplopts
-        fig, axarr = plt.subplots(nrows=1, ncols=2, figsize=(4,3))
-
-        # set title
-        fig.suptitle(ds_to_titles[ds], fontsize=12)
+        fig = plt.figure(figsize=(4,3))
+        plt.title(x_labels[i], y=1.08)
 
         # generate subplot x ticks
-        x_stats = [['p < 0.05'], ['p > 0.05']] # latter are rho and tau
-
+        x_stats = ['p < 0.05', 'p > 0.05'] # latter are rho and tau
 
         # set labels
         labels = [['True Positive', 'reverse sign-True Positive',
@@ -454,29 +450,21 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         # iterate over for and rev dfs
         for d, name in enumerate(x_stats):
 
-            # define subplot
-            ax = plt.subplot(1, 2, d+1)
-
             # build bottom bar stack
             complete = np.zeros(1)
             for k, label in enumerate(labels[d]):
                 # create bars
                 plt.bar(d, df[label], bottom = complete, color=colors[d][k],
-                        edgecolor='white', width=0.55, label=label, linewidth=0)
+                        edgecolor='white', width=0.55, label=label, linewidth=0)#, tick_label=name)
                 complete = np.add(complete, df[label])
 
-            # subplot x ticks
-            plt.xticks([])
-
-            # remove axes
-            ax.spines['right'].set_visible(False)
-            ax.spines['top'].set_visible(False)
-
-            # dataset x label
-            plt.xlabel(name[0])
-            plt.tight_layout()
-
+        # dataset axes labels
+        plt.xticks(ticks=[0,0.5,1], labels=['p < 0.05','', 'p > 0.05'])
+        plt.ylabel('Number of correlations')
+        plt.tick_params(bottom=False)
         plt.tight_layout()
+        sns.despine()
+
         fig.savefig(output_dir + 'barplots_dfcondensed_' + analysis_id + '.pdf')
         plt.close(fig)
 
