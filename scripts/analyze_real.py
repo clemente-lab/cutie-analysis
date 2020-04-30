@@ -433,7 +433,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
 
         fig = plt.figure(figsize=(4,3))
-        plt.title(x_labels[i], y=1.08)
+        plt.title(ds_to_titles[ds], y=1.08)
 
         # generate subplot x ticks
         x_stats = ['p < 0.05', 'p > 0.05'] # latter are rho and tau
