@@ -177,6 +177,10 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
                 # create analysis id, e.g. p_fdr_1
                 analysis_id = '_'.join([p, mc, fv])
 
+                # ensure white background per plot with ticks
+                sns.set(font_scale=1.4)
+                sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
+
                 # create figure
                 fig, axarr = plt.subplots(nrows=1, ncols=len(datasets),
                                           figsize=(10,6))
@@ -244,16 +248,13 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
                     # define subplot
                     ax = plt.subplot(1, len(datasets), d+1)
 
-                    # ensure white background per plot
-                    sns.set_style('white')
-
                     # build bottom bar stack
                     # fig = plt.figure(figsize=(8,4))
                     complete = np.zeros(len(statistics))
                     for k, label in enumerate(labels):
                         # create bars
                         plt.bar(r, raw_df[label], bottom = complete, color=colors[k],
-                                edgecolor='white', width=0.85, label=label)
+                                edgecolor='white', width=0.85, label=label, linewidth=0)
                         complete = np.add(complete, raw_df[label])
 
                     # subplot x ticks
@@ -361,7 +362,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     r = range(len(fig_datasets))
 
     # ensure white background per plot
-    sns.set_style('white')
+    sns.set(font_scale=1.4)
+    sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
 
     # build bottom bar stack
     fig = plt.figure(figsize=(5,4))
@@ -369,7 +371,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     for k, label in enumerate(labels):
         # create bars
         plt.bar(r, raw_df[label], bottom = complete, color=colors[k],
-                edgecolor='white', width=0.75, label=label)
+                edgecolor='white', width=0.75, label=label, linewidth=0)
         complete = np.add(complete, raw_df[label])
 
     # subplot x ticks
@@ -405,8 +407,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
                         analysis_id = '_'.join([p,mc,str(fv),stat,'False',d])
                         raw_data['analysis_id'].append(analysis_id)
                         raw_data['TP'].append(for_df['true_corr(TP_FN)'].values[0])
-                        raw_data['FP'].append(rev_df['false_corr(FP_TN)'].values[0])
-                        raw_data['FN'].append(for_df['true_corr(TP_FN)'].values[0])
+                        raw_data['FP'].append(for_df['false_corr(FP_TN)'].values[0])
+                        raw_data['FN'].append(rev_df['true_corr(TP_FN)'].values[0])
                         raw_data['TN'].append(rev_df['false_corr(FP_TN)'].values[0])
                         raw_data['rsTP'].append(for_df['rs_true_corr_TP_FN'].values[0])
 
