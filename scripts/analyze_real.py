@@ -393,7 +393,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
             for fv in ['1','3','10']:
                 for d in ['lungc','lungtx','hdac','who']:
                     for stat in ['pearson','spearman','kendall']:
-                        df = df_subset[df_subset['parameter'] == p]
+                        df = results_df[results_df['parameter'] == p]
                         df = df[df['mc_used'] == mc]
                         df = df[df['fold_value'] == int(fv)]
                         df = df[df['dataset'] == d]
