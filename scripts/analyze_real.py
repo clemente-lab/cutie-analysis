@@ -436,7 +436,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         fig, axarr = plt.subplots(nrows=1, ncols=2, figsize=(4,3))
 
         # set title
-        fig.suptitle(ds_to_titles[ds], fontsize=14)
+        fig.suptitle(ds_to_titles[ds], fontsize=12)
 
         # generate subplot x ticks
         x_stats = [['p < 0.05'], ['p > 0.05']] # latter are rho and tau
@@ -476,7 +476,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
             plt.xlabel(name[0])
             plt.tight_layout()
 
-        fig.savefig(output_dir + 'barplots_dfcondensed' + analysis_id + '.pdf')
+        fig.savefig(output_dir + 'barplots_dfcondensed_' + analysis_id + '.pdf')
         plt.close(fig)
 
 
