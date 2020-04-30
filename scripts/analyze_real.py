@@ -386,6 +386,35 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     plt.close(fig)
 
 
+    # condensed df
+    raw_data = defaultdict(list)
+    for p in ['p']:
+        for mc in ['nomc','fdr']:
+            for fv in ['1','3','10']:
+                for d in ['lungc','lungtx','hdac','who']:
+                    for stat in ['pearson','spearman','kendall']:
+                        df = df_subset[df_subset['parameter'] == p]
+                        df = df[df['mc_used'] == mc]
+                        df = df[df['fold_value'] == int(fv)]
+                        df = df[df['dataset'] == d]
+                        df = df[df['statistic'].isin([stat, 'r'+stat])]
+
+                        for_df = df[df['statistic'] == stat]
+                        rev_df = df[df['statistic'] == 'r'+stat]
+
+                        analysis_id = '_'.join([p,mc,str(fv),stat,'False',d])
+                        raw_data['analysis_id'].append(analysis_id)
+                        raw_data['TP'].append(for_df['true_corr(TP_FN)'].values[0])
+                        raw_data['FP'].append(rev_df['false_corr(FP_TN)'].values[0])
+                        raw_data['FN'].append(for_df['true_corr(TP_FN)'].values[0])
+                        raw_data['TN'].append(rev_df['false_corr(FP_TN)'].values[0])
+                        raw_data['rsTP'].append(for_df['rs_true_corr_TP_FN'].values[0])
+
+    raw_df = pd.DataFrame.from_dict(raw_data)
+    raw_df.head()
+    raw_df.to_csv(output_dir + 'condensed_results.txt', sep='\t',index=False)
+
+
 if __name__ == "__main__":
     analyze_simulations_real()
 
