@@ -191,7 +191,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
         (3) If the statistic is TN/FN separation, label that line p > 0.05
         (4) Else the statistic is TP/FP separation, label that line p < 0.05
         '''
-        if row['cooksd'] == True:
+        if row['cooksd'] == 'True':
             if row['stat'] != 'pearson':
                 return 'exclude'
             else:
@@ -213,13 +213,21 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                         for samp in n_samp.split(','):
                             # subset dataframe
                             df = results_df[results_df['parameter'] == p]
+                            print(df)
                             df = df[df['fold_value'] == fv]
+                            print(df)
                             df = df[df['stat'].isin(stat)]
+                            print(df)
                             df = df[df['cooksd'] == cc]
+                            print(df)
                             df = df[df['class'] == c]
+                            print(df)
                             df = df[df['sample_size'] == samp]
+                            print(df)
                             df['Method'] = df.apply(lambda row: new_label(row),axis=1)
+                            print(df)
                             df = df.drop(['stat'], axis=1)
+                            print(df)
 
                             # set styles
                             sns.set(font_scale=1.4)
