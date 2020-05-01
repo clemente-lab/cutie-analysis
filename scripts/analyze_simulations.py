@@ -179,7 +179,8 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                    'sample_size': nsamps, 'corr_strength': cors, 'indicator': results})
 
         results_df.to_csv(output_dir + 'sim_results_df.txt', sep='\t')
-
+        # diagnostics
+        print(len(missing),done,len(failed))
     else:
         # load in DF
         results_df = pd.read_csv(output_dir + 'sim_results_df.txt', sep='\t')
@@ -320,7 +321,6 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 print('cookd')
 
 
-    print(len(missing),done,len(failed))
     print(results_df.head())
 
 if __name__ == "__main__":
