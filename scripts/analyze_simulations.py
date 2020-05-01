@@ -236,7 +236,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df = df[df['cooksd'] == cc]
                                 df = df[df['class'] == c]
                                 df = df[df['sample_size'] == samp]
-                                df['Method'] = df.apply(lambda row: new_label(row),axis=1)
+                                df['Significance'] = df.apply(lambda row: new_label(row),axis=1)
                                 df = df.drop(['stat'], axis=1)
 
                                 # set styles
@@ -245,19 +245,19 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
 
                                 # blue, red
                                 colors = ['#4F81BD','#C0504D']
-                                stats = ['CUTIE, p < 0.05', 'CUTIE, p > 0.05']
+                                stats = ['p < 0.05', 'p > 0.05']
 
-                                title = 'Power Curves for simulations of ' + c + '\n scatterplots using ' + stat[0].capitalize()
+                                title = 'Power Curves for simulations of ' + c + '\n scatterplots using ' + stat[0].capitalize() + ' and CUTIE'
 
                                 plt.figure(figsize=(6,6))
-                                ax = sns.pointplot(x="corr_strength", y="indicator", hue='Method',data=df, ci=95,
+                                ax = sns.pointplot(x="corr_strength", y="indicator", hue='Significance',data=df, ci=95,
                                     palette=sns.color_palette(colors), hue_order=stats)#, legend=False)
                                 ax.set_title(title, fontsize=15)
                                 plt.setp(ax.collections, alpha=.3) #for the markers
                                 plt.setp(ax.lines, alpha=.3)
                                 plt.ylim(-0.2, 1.2)
 
-                                ax.set_ylabel('Proportion of Correlations classified as True using CUTIE')
+                                ax.set_ylabel('Proportion classified as TP (blue) or FN (red)')
                                 ax.set_xlabel('Correlation Strength')
                                 ax.set_xticklabels(corr_ticks,rotation=0)
                                 ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
