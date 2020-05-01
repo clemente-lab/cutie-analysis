@@ -196,7 +196,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
     corr_ticks = ['0.0','','0.1','','0.2','','0.3','','0.4','','0.5','','0.6','',\
                   '0.7','','0.8','','0.9','','1.0']
 
-    def new_label(row):
+    def new_label(row, cookd):
         '''
         Relabels the statistic for the legend
         (1) If cooksd is True and the statistic is not pearson, don't make a plot for it
@@ -212,10 +212,16 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
         else:
             if row['stat'][0] == 'r':
                 # return row['stat'][1:].capitalize() + ', CUTIE, p > 0.05'
-                return 'CUTIE (p > 0.05)'
+                if cookd:
+                    return 'CUTIE (p > 0.05)'
+                else:
+                    return 'p > 0.05'
             else:
                 # return row['stat'].capitalize() + ', CUTIE, p < 0.05'
-                return 'CUTIE (p < 0.05)'
+                if cookd:
+                    return 'CUTIE (p < 0.05)'
+                else:
+                    return 'p < 0.05'
 
 
     # grab statistics
@@ -239,7 +245,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df = df[df['cooksd'] == cc]
                                 df = df[df['class'] == c]
                                 df = df[df['sample_size'] == samp]
-                                df['Significance'] = df.apply(lambda row: new_label(row),axis=1)
+                                df['Significance'] = df.apply(lambda row: new_label(row, False),axis=1)
                                 df = df.drop(['stat'], axis=1)
 
                                 # set styles
@@ -248,10 +254,15 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
 
                                 # blue, red
                                 colors = ['#4F81BD','#C0504D']
-                                stats = ['CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
+                                # stats = ['CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
+                                stats = ['p < 0.05', 'p > 0.05']
 
+                                if c == 'NP':
+                                    ctitle = 'TP and TN'
+                                else:
+                                    ctitle = c
 
-                                title = 'Power Curves for simulations of ' + c + \
+                                title = 'Power Curves for simulations of ' + ctitle + \
                                      '\n scatterplots using ' + stat[0].capitalize()  + ' and CUTIE'
                                 plt.figure(figsize=(6,6))
                                 ax = sns.pointplot(x="corr_strength", y="indicator", hue='Significance',data=df, ci=95,
@@ -261,7 +272,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 plt.setp(ax.lines, alpha=.3)
                                 plt.ylim(-0.2, 1.2)
 
-                                ax.set_ylabel('Proportion classified as True (TP, blue or FN, red)')
+                                ax.set_ylabel('Proportion classified as True')
                                 ax.set_xlabel('Correlation Strength')
                                 ax.set_xticklabels(corr_ticks,rotation=0)
                                 ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
@@ -289,7 +300,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df = df[df['stat'].isin(stat)]
                                 df = df[df['class'] == c]
                                 df = df[df['sample_size'] == samp]
-                                df['Method'] = df.apply(lambda row: new_label(row),axis=1)
+                                df['Method'] = df.apply(lambda row: new_label(row, True),axis=1)
                                 df = df[df['Method'] != 'exclude']
                                 df = df.drop(['stat'], axis=1)
 
@@ -297,9 +308,16 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 sns.set(font_scale=1.4)
                                 sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
 
+
                                 # green, blue, red
                                 colors = ['#9BBB59','#4F81BD','#C0504D']
                                 stats = ['Cook\'s D (p < 0.05)', 'CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
+
+                                if c == 'NP':
+                                    ctitle = 'TP and TN'
+                                else:
+                                    ctitle = c
+
                                 title = 'Power Curves for simulations of ' + \
                                         c + '\n scatterplots using ' + stat[0].capitalize()
 
