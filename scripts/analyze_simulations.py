@@ -185,7 +185,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
         results_df = pd.read_csv(output_dir + 'sim_results_df.txt', sep='\t')
         # cast to string
         for col in ['fold_value', 'cooksd', 'sample_size']:
-            sim_results_df[col] = sim_results_df[col].astype(str)
+            results_df[col] = results_df[col].astype(str)
 
     # corr_ticks = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, \
     # 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1]
