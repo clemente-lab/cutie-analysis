@@ -171,8 +171,8 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                                 seeds.append(seed)
                                                 class_labs.append(c)
                                                 nsamps.append(samp)
-                                                cors.append(cor)
-                                                results.append(d[0])
+                                                cors.append(float(cor))
+                                                results.append(float(d[0]))
 
         results_df = pd.DataFrame({'analysis_id': analysis_ids, 'parameter': ps, 'fold_value': fvs, 'stat': stats, 'cooksd': ccs,
                                    'seed': seeds, 'class': class_labs,
@@ -248,11 +248,11 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
 
                                 # blue, red
                                 colors = ['#4F81BD','#C0504D']
-                                stats = ['CUTIE (p < 0.05)', 'CUTIE, (p > 0.05)']
+                                stats = ['CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
 
 
                                 title = 'Power Curves for simulations of ' + c + \
-                                     '\n scatterplots using ' + stat[0].capitalize() # + ' and CUTIE'
+                                     '\n scatterplots using ' + stat[0].capitalize()  + ' and CUTIE'
                                 plt.figure(figsize=(6,6))
                                 ax = sns.pointplot(x="corr_strength", y="indicator", hue='Significance',data=df, ci=95,
                                     palette=sns.color_palette(colors), hue_order=stats)#, legend=False)
