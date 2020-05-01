@@ -234,6 +234,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                             df = df[df['cooksd'] == cc]
                             df = df[df['class'] == c]
                             df = df[df['sample_size'] == samp]
+                            print(df['stat'].nunique())
                             df['Method'] = df.apply(lambda row: new_label(row),axis=1)
                             df = df.drop(['stat'], axis=1)
 
@@ -248,6 +249,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                             title = 'Power Curves for simulations of ' + c + '\n scatterplots using ' + stat[0].capitalize()
 
                             plt.figure(figsize=(6,6))
+                            print(stat)
                             print(df['corr_strength'])
                             print(df['indicator'])
                             print(df['Method'])
