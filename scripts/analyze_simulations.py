@@ -257,7 +257,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 plt.setp(ax.lines, alpha=.3)
                                 plt.ylim(-0.2, 1.2)
 
-                                ax.set_ylabel('Proportion classified as TP (blue) or FN (red)')
+                                ax.set_ylabel('Proportion classified as a True Correlation')
                                 ax.set_xlabel('Correlation Strength')
                                 ax.set_xticklabels(corr_ticks,rotation=0)
                                 ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
