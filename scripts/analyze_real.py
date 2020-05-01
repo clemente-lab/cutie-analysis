@@ -297,7 +297,8 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     ds_to_analyses = {
         'LC': ['p_fdr_1_kendall_False_lungc','p_fdr_1_rkendall_False_lungc'],
         'LT': ['p_fdr_1_kendall_False_lungtx','p_fdr_1_rkendall_False_lungtx'],
-        'GE': ['p_fdr_3_pearson_False_hdac','p_fdr_3_rpearson_False_hdac'],
+        #'GE': ['p_fdr_3_pearson_False_hdac','p_fdr_3_rpearson_False_hdac'],
+        'GE': ['p_fdr_1_pearson_False_hdac','p_fdr_1_rpearson_False_hdac'],
         'WHO': ['p_fdr_1_spearman_False_who','p_fdr_1_rspearman_False_who'],
 
     }
