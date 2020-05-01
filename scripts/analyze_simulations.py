@@ -205,14 +205,14 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
             if row['stat'] != 'pearson':
                 return 'exclude'
             else:
-                return 'Cook\'s D, p < 0.05'
+                return 'Cook\'s D (p < 0.05)'
         else:
             if row['stat'][0] == 'r':
                 # return row['stat'][1:].capitalize() + ', CUTIE, p > 0.05'
-                return 'CUTIE, p > 0.05'
+                return 'CUTIE (p > 0.05)'
             else:
                 # return row['stat'].capitalize() + ', CUTIE, p < 0.05'
-                return 'CUTIE, p < 0.05'
+                return 'CUTIE (p < 0.05)'
 
 
     # grab statistics
@@ -245,7 +245,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
 
                                 # blue, red
                                 colors = ['#4F81BD','#C0504D']
-                                stats = ['p < 0.05', 'p > 0.05']
+                                stats = ['CUTIE (p < 0.05)', 'CUTIE, (p > 0.05)']
 
                                 title = 'Power Curves for simulations of ' + c + '\n scatterplots using ' + stat[0].capitalize() + ' and CUTIE'
 
@@ -257,7 +257,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 plt.setp(ax.lines, alpha=.3)
                                 plt.ylim(-0.2, 1.2)
 
-                                ax.set_ylabel('Proportion classified as a True Correlation')
+                                ax.set_ylabel('Proportion classified as TP (blue) or FN (red)')
                                 ax.set_xlabel('Correlation Strength')
                                 ax.set_xticklabels(corr_ticks,rotation=0)
                                 ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
@@ -295,7 +295,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
 
                                 # green, blue, red
                                 colors = ['#9BBB59','#4F81BD','#C0504D']
-                                stats = ['Cook\'s D, p < 0.05', 'CUTIE, p < 0.05', 'CUTIE, p > 0.05']
+                                stats = ['Cook\'s D (p < 0.05)', 'CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
                                 title = 'Power Curves for simulations of ' + c + '\n scatterplots using ' + stat[0].capitalize()
 
                                 plt.figure(figsize=(6,6))
