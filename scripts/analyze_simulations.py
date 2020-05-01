@@ -241,7 +241,6 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df = df[df['sample_size'] == samp]
                                 df['Significance'] = df.apply(lambda row: new_label(row),axis=1)
                                 df = df.drop(['stat'], axis=1)
-                                print('1')
 
                                 # set styles
                                 sns.set(font_scale=1.4)
@@ -250,34 +249,28 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 # blue, red
                                 colors = ['#4F81BD','#C0504D']
                                 stats = ['CUTIE (p < 0.05)', 'CUTIE, (p > 0.05)']
-                                print('2')
+
 
                                 title = 'Power Curves for simulations of ' + c + \
-                                     '\n scatterplots using ' + stat[0].capitalize() + ' and CUTIE'
-                                print(df)
+                                     '\n scatterplots using ' + stat[0].capitalize() # + ' and CUTIE'
                                 plt.figure(figsize=(6,6))
                                 ax = sns.pointplot(x="corr_strength", y="indicator", hue='Significance',data=df, ci=95,
                                     palette=sns.color_palette(colors), hue_order=stats)#, legend=False)
-                                print('3')
                                 ax.set_title(title, fontsize=15)
                                 plt.setp(ax.collections, alpha=.3) #for the markers
                                 plt.setp(ax.lines, alpha=.3)
                                 plt.ylim(-0.2, 1.2)
-                                print('4')
 
                                 ax.set_ylabel('Proportion classified as True (TP, blue or FN, red)')
                                 ax.set_xlabel('Correlation Strength')
                                 ax.set_xticklabels(corr_ticks,rotation=0)
                                 ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
-                                print('5')
 
                                 plt.tick_params(axis='both', which='both', top=False, right=False)
                                 sns.despine()
                                 plt.tight_layout()
                                 plt.savefig(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.pdf')
                                 plt.close()
-                                if 'r_1_pearson_False_FN_25' == '_'.join([p, fv, stat[0], cc, c, samp]):
-                                    break
                             except:
                                  print('_'.join([p, fv, stat[0], cc, c, samp]))
 
