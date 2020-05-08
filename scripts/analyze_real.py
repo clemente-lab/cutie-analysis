@@ -184,7 +184,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
 
                 # create figure
                 fig, axarr = plt.subplots(nrows=1, ncols=len(datasets),
-                                          figsize=(10,6))
+                                          figsize=(3 * len(datasets),6))
 
                 # Custom x axis
                 plt.xlabel("Dataset")
@@ -518,7 +518,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
                         sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
 
                         # create figure
-                        fig, axarr = plt.subplots(nrows=1, ncols=3, figsize=(8,4))
+                        fig, axarr = plt.subplots(nrows=1, ncols=3, figsize=(len(datasets)*3,4))
 
                         # Custom x axis
                         # plt.xlabel("Cook's D")
