@@ -154,13 +154,13 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
 
     # lungc,lungtx,hdac,who
     # datasets = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
-    datasets = ['LungCancer', 'Gene Expression', 'WHO']
+    datasets = ['Microbiome', 'Gene Expression', 'World Health Statistics']
 
     col_to_id = {
-        'LungCancer': 'lungc',
+        'Microbiome': 'lungc',
         # 'LungTranscriptomics': 'lungtx',
         'Gene Expression': 'hdac',
-        'WHO': 'who'
+        'World Health Statistics': 'who'
     }
 
     statistics = ['pearson', 'spearman', 'kendall']
@@ -444,10 +444,10 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     }
 
     ds_to_titles = {
-        'LC': 'Lung Cancer',
+        'LC': 'Microbiome',
         # 'LT': 'Lung Transcriptomics',
         'GE': 'Gene Expression',
-        'WHO': 'WHO'
+        'WHO': 'World Health Statistics'
 
     }
 
@@ -498,10 +498,10 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
 
         datasets = ['lungc','hdac','who']
         ds_to_title = {
-            'lungc': 'Lung Cancer',
+            'lungc': 'Microbiome',
             # 'lungtx': 'Lung Transcriptomics',
             'hdac': 'Gene Expression',
-            'who': 'WHO'
+            'who': 'World Health Statistics'
         }
 
         condensed_df = raw_df
