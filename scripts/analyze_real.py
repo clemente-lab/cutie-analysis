@@ -295,12 +295,14 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     fig_datasets = ['LC', 'LT', 'GE', 'WHO']
 
     ds_to_analyses = {
-        'LC': ['p_fdr_1_kendall_False_lungc','p_fdr_1_rkendall_False_lungc'],
-        'LT': ['p_fdr_1_kendall_False_lungtx','p_fdr_1_rkendall_False_lungtx'],
+        #'LC': ['p_fdr_1_kendall_False_lungc','p_fdr_1_rkendall_False_lungc'],
+        #'LT': ['p_fdr_1_kendall_False_lungtx','p_fdr_1_rkendall_False_lungtx'],
+        'LC': ['p_fdr_1_pearson_False_lungc','p_fdr_1_rpearson_False_lungc'],
+        'LT': ['p_fdr_1_pearson_False_lungtx','p_fdr_1_rpearson_False_lungtx'],
         #'GE': ['p_fdr_3_pearson_False_hdac','p_fdr_3_rpearson_False_hdac'],
         'GE': ['p_fdr_1_pearson_False_hdac','p_fdr_1_rpearson_False_hdac'],
-        'WHO': ['p_fdr_1_spearman_False_who','p_fdr_1_rspearman_False_who'],
-
+        #'WHO': ['p_fdr_1_spearman_False_who','p_fdr_1_rspearman_False_who'],
+        'WHO': ['p_fdr_1_pearson_False_who','p_fdr_1_rpearson_False_who']
     }
 
     analyses = []
@@ -320,6 +322,11 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
             'Lung\nTranscriptomics\n(\u03C4)',
             'Gene\nExpression\n(r)',
             'WHO\n(\u03C1)']
+
+    x_labels = ['Lung\nCancer',
+            'Lung\nTranscriptomics',
+            'Gene\nExpression',
+            'WHO']
 
     # iterate over datasets
     ds_to_vals = defaultdict(list)
@@ -394,24 +401,28 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     for p in ['p']:
         for mc in ['nomc','fdr']:
             for fv in ['1','3','10']:
-                for d in ['lungc','lungtx','hdac','who']:
-                    for stat in ['pearson','spearman','kendall']:
-                        df = results_df[results_df['parameter'] == p]
-                        df = df[df['mc_used'] == mc]
-                        df = df[df['fold_value'] == fv]
-                        df = df[df['dataset'] == d]
-                        df = df[df['statistic'].isin([stat, 'r'+stat])]
+                for cd in ['False','True']:
+                    for d in ['lungc','lungtx','hdac','who']:
+                        for stat in ['pearson','spearman','kendall']:
+                            df = results_df[results_df['parameter'] == p]
+                            df = df[df['mc_used'] == mc]
+                            df = df[df['fold_value'] == fv]
+                            df = df[df['dataset'] == d]
+                            # df = df[df['cooksd'] == 'False']
+                            df = df[df['statistic'].isin([stat, 'r'+stat])]
 
-                        for_df = df[df['statistic'] == stat]
-                        rev_df = df[df['statistic'] == 'r'+stat]
+                            for_df = df[df['statistic'] == stat]
+                            rev_df = df[df['statistic'] == 'r'+stat]
 
-                        analysis_id = '_'.join([p,mc,str(fv),stat,'False',d])
-                        raw_data['analysis_id'].append(analysis_id)
-                        raw_data['TP'].append(for_df['true_corr(TP_FN)'].values[0])
-                        raw_data['FP'].append(for_df['false_corr(FP_TN)'].values[0])
-                        raw_data['FN'].append(rev_df['true_corr(TP_FN)'].values[0])
-                        raw_data['TN'].append(rev_df['false_corr(FP_TN)'].values[0])
-                        raw_data['rsTP'].append(for_df['rs_true_corr_TP_FN'].values[0])
+                            analysis_id = '_'.join([p,mc,str(fv),stat,'False',d])
+                            raw_data['analysis_id'].append(analysis_id)
+                            # values[0] gets non cooksd, 1 gets cookds
+                            # raw_data['TP'].append(for_df['true_corr(TP_FN)'].values[0])
+                            raw_data['TP'].append(for_df['true_corr(TP_FN)'].values)
+                            raw_data['FP'].append(for_df['false_corr(FP_TN)'].values)
+                            raw_data['FN'].append(rev_df['true_corr(TP_FN)'].values)
+                            raw_data['TN'].append(rev_df['false_corr(FP_TN)'].values)
+                            raw_data['rsTP'].append(for_df['rs_true_corr_TP_FN'].values)
 
     raw_df = pd.DataFrame.from_dict(raw_data)
     raw_df.head()
@@ -422,6 +433,14 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         'LT': 'Lung Transcriptomics (\u03C4)',
         'GE': 'Gene Expression (r)',
         'WHO': 'WHO (\u03C1)'
+
+    }
+
+    ds_to_titles = {
+        'LC': 'Lung Cancer',
+        'LT': 'Lung Transcriptomics',
+        'GE': 'Gene Expression',
+        'WHO': 'WHO'
 
     }
 
