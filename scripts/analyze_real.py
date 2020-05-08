@@ -153,11 +153,12 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t')
 
     # lungc,lungtx,hdac,who
-    datasets = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
+    # datasets = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
+    datasets = ['LungCancer', 'Gene Expression', 'WHO']
 
     col_to_id = {
         'LungCancer': 'lungc',
-        'LungTranscriptomics': 'lungtx',
+        # 'LungTranscriptomics': 'lungtx',
         'Gene Expression': 'hdac',
         'WHO': 'who'
     }
@@ -292,13 +293,13 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
     # p_fdr_1_spearman_False_lungtx
     # p_fdr_1_spearman_False_who
 
-    fig_datasets = ['LC', 'LT', 'GE', 'WHO']
+    fig_datasets = ['LC','GE', 'WHO']
 
     ds_to_analyses = {
         #'LC': ['p_fdr_1_kendall_False_lungc','p_fdr_1_rkendall_False_lungc'],
         #'LT': ['p_fdr_1_kendall_False_lungtx','p_fdr_1_rkendall_False_lungtx'],
         'LC': ['p_fdr_1_pearson_False_lungc','p_fdr_1_rpearson_False_lungc'],
-        'LT': ['p_fdr_1_pearson_False_lungtx','p_fdr_1_rpearson_False_lungtx'],
+        # 'LT': ['p_fdr_1_pearson_False_lungtx','p_fdr_1_rpearson_False_lungtx'],
         #'GE': ['p_fdr_3_pearson_False_hdac','p_fdr_3_rpearson_False_hdac'],
         'GE': ['p_fdr_1_pearson_False_hdac','p_fdr_1_rpearson_False_hdac'],
         #'WHO': ['p_fdr_1_spearman_False_who','p_fdr_1_rspearman_False_who'],
@@ -324,7 +325,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
             'WHO\n(\u03C1)']
 
     x_labels = ['Lung\nCancer',
-            'Lung\nTranscriptomics',
+            # 'Lung\nTranscriptomics',
             'Gene\nExpression',
             'WHO']
 
@@ -436,7 +437,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
 
     ds_to_titles = {
         'LC': 'Lung Cancer (\u03C4)',
-        'LT': 'Lung Transcriptomics (\u03C4)',
+        # 'LT': 'Lung Transcriptomics (\u03C4)',
         'GE': 'Gene Expression (r)',
         'WHO': 'WHO (\u03C1)'
 
@@ -444,7 +445,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
 
     ds_to_titles = {
         'LC': 'Lung Cancer',
-        'LT': 'Lung Transcriptomics',
+        # 'LT': 'Lung Transcriptomics',
         'GE': 'Gene Expression',
         'WHO': 'WHO'
 
@@ -498,7 +499,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         datasets = ['lungc','hdac','who']
         ds_to_title = {
             'lungc': 'Lung Cancer',
-            'lungtx': 'Lung Transcriptomics',
+            # 'lungtx': 'Lung Transcriptomics',
             'hdac': 'Gene Expression',
             'who': 'WHO'
         }
