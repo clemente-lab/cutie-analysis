@@ -408,13 +408,13 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
                             df = df[df['mc_used'] == mc]
                             df = df[df['fold_value'] == fv]
                             df = df[df['dataset'] == d]
-                            # df = df[df['cooksd'] == 'False']
+                            df = df[df['cooksd'] == cd]
                             df = df[df['statistic'].isin([stat, 'r'+stat])]
 
                             for_df = df[df['statistic'] == stat]
                             rev_df = df[df['statistic'] == 'r'+stat]
 
-                            analysis_id = '_'.join([p,mc,str(fv),stat,'False',d])
+                            analysis_id = '_'.join([p,mc,str(fv),stat,cd,d])
                             raw_data['analysis_id'].append(analysis_id)
                             # values[0] gets non cooksd, 1 gets cookds
                             # raw_data['TP'].append(for_df['true_corr(TP_FN)'].values[0])
