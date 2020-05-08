@@ -419,9 +419,16 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
                             # values[0] gets non cooksd, 1 gets cookds. also converts it from 1 element list to float
                             raw_data['TP'].append(for_df['true_corr(TP_FN)'].values[0])
                             raw_data['FP'].append(for_df['false_corr(FP_TN)'].values[0])
-                            raw_data['FN'].append(rev_df['true_corr(TP_FN)'].values[0])
-                            raw_data['TN'].append(rev_df['false_corr(FP_TN)'].values[0])
-                            raw_data['rsTP'].append(for_df['rs_true_corr_TP_FN'].values[0])
+
+                            if cd == 'False':
+                                raw_data['rsTP'].append(for_df['rs_true_corr_TP_FN'].values[0])
+                                raw_data['FN'].append(rev_df['true_corr(TP_FN)'].values[0])
+                                raw_data['TN'].append(rev_df['false_corr(FP_TN)'].values[0])
+                            else:
+                                raw_data['rsTP'].append(0)
+                                raw_data['FN'].append(0)
+                                raw_data['TN'].append(rev_df['true_corr(TP_FN)'].values[0] + rev_df['false_corr(FP_TN)'].values[0])
+
 
     raw_df = pd.DataFrame.from_dict(raw_data)
     raw_df.head()
