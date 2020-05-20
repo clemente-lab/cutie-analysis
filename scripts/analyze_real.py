@@ -45,7 +45,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
             for l in lines:
                 if "number of correlations" in l:
                     n_corr = int(l.split(' ')[-1])
-                elif "defaulted" in l:
+                elif "is 0.05" in l:
                     defaulted = True
                 elif "initial_corr" in l:
                     initial_corr = int(l.split(' ')[-1])
@@ -63,7 +63,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
             for l in lines:
                 if "number of correlations" in l:
                     n_corr = int(l.split(' ')[-1])
-                elif "defaulted" in l:
+                elif "is 0.05" in l:
                     defaulted = True
                 elif "initial_corr" in l:
                     initial_corr = int(l.split(' ')[-1])
