@@ -248,6 +248,15 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df['Significance'] = df.apply(lambda row: new_label(row, False),axis=1)
                                 df = df.drop(['stat'], axis=1)
 
+                                # for the FP simulation class, switch all 0s and 1s in pearson,
+                                # but keep assignments in rpearson
+
+                                # for the FN simulations, keep as is
+
+                                # for CD simulations, keep as is ?
+                                # if c == ['']
+                                # df['indicator'] = 1 - df['indicator']
+
                                 # set styles
                                 sns.set(font_scale=1.4)
                                 sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
@@ -280,6 +289,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 plt.tick_params(axis='both', which='both', top=False, right=False)
                                 sns.despine()
                                 plt.tight_layout()
+                                df.to_csv(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.tsv', sep='\t')
                                 plt.savefig(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.pdf')
                                 plt.close()
                             except:
@@ -337,6 +347,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 plt.tick_params(axis='both', which='both', top=False, right=False)
                                 sns.despine()
                                 plt.tight_layout()
+                                df.to_csv(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.tsv', sep='\t')
                                 plt.savefig(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.pdf')
                                 plt.close()
                             except:
