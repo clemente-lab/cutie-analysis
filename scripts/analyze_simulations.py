@@ -289,7 +289,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 plt.tick_params(axis='both', which='both', top=False, right=False)
                                 sns.despine()
                                 plt.tight_layout()
-                                df.to_csv(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.tsv', index=False, sep='\t')
+                                df.to_csv(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.tsv', index=False)
                                 plt.savefig(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.pdf')
                                 plt.close()
                             except:
@@ -347,7 +347,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 plt.tick_params(axis='both', which='both', top=False, right=False)
                                 sns.despine()
                                 plt.tight_layout()
-                                df.to_csv(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.tsv', index=False, sep='\t')
+                                df.to_csv(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.csv', index=False)
                                 plt.savefig(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.pdf')
                                 plt.close()
                             except:
