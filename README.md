@@ -1,6 +1,6 @@
 # cutie-analysis #
 
-The repositoory 'cutie-analysis' contains all relevant scripts for simulating correlation classes as well as automated generation of configuration files, commands, and figures associated with the CUTIE (Correlations Under the Influence) package and publication.
+The repository 'cutie-analysis' contains all relevant scripts for simulating correlation classes as well as automated generation of configuration files, commands, and figures associated with the CUTIE (Correlations Under the Influence) package and publication.
 
 ## File structure ###
 
