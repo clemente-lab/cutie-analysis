@@ -150,7 +150,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
                                 else:
                                     print(analysis_id)
 
-    results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t')
+    results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t', index=False)
 
     # lungc,lungtx,hdac,who
     # datasets = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
@@ -364,7 +364,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
         for ds in fig_datasets:
             raw_data[label].append(ds_to_sizes[ds][j])
 
-    raw_df = pd.DataFrame(raw_data)
+    raw_df = pd.DataFrame(raw_data, index=fig_datasets)
     raw_df.to_csv(output_dir + 'Fig2_rawdata_df.txt', sep='\t')
 
     # set number of bars (# of datasets)
