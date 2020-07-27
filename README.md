@@ -17,4 +17,5 @@ scripts/
     gen_batch.py: generates batch jobs
     gen_commands_configs.py: generates configs for simulated data
     gen_real_commands_configs.py: generates configs for real data
+    cutie_figures.R: generates publication-ready plots based on output from above
 ```
