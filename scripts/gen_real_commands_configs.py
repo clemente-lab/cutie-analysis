@@ -31,8 +31,8 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
                          corr_compare, cutie_fp, working_dir, output_dir):
     data_to_params = {
         'hdac': {
-            'samp_var1_fp': '/sc/hydra/work/buk02/HDAC_data/GSE15222_series_matrix_x1000.txt',
-            'samp_var2_fp': '/sc/hydra/work/buk02/HDAC_data/GSE15222_series_matrix_x1000.txt',
+            'samp_var1_fp': '/sc/arion/projects/clemej05a/kevin/data/HDAC_data/GSE15222_series_matrix_x1000.txt',
+            'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/data/HDAC_data/GSE15222_series_matrix_x1000.txt',
             'f1type': 'untidy',
             'f2type': 'untidy',
             'skip1': '62',
@@ -43,8 +43,8 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'endcol2': '-1',
             'paired': 'True'},
         'lungtx': {
-            'samp_var1_fp': '/sc/hydra/work/buk02/lungtx_data/otu_table_L6_filt1e3.txt',
-            'samp_var2_fp': '/sc/hydra/work/buk02/lungtx_data/Genes.KEGG.L3.add_counts.txt',
+            'samp_var1_fp': '/sc/arion/projects/clemej05a/kevin/data/lungtx_data/otu_table_L6_filt1e3.txt',
+            'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/data/lungtx_data/Genes.KEGG.L3.add_counts.txt',
             'f1type': 'untidy',
             'f2type': 'untidy',
             'skip1': '0',
@@ -55,8 +55,8 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'endcol2': '-1',
             'paired': 'False'},
         'lungc': {
-            'samp_var1_fp': '/sc/hydra/work/buk02/pre_sparcc_MSQ/otu_table.MSQ34_L6.txt',
-            'samp_var2_fp': '/sc/hydra/work/buk02/pre_sparcc_MSQ/otu_table.MSQ34_L6.txt',
+            'samp_var1_fp': '/sc/arion/projects/clemej05a/kevin/data/pre_sparcc_MSQ/otu_table.MSQ34_L6.txt',
+            'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/data/pre_sparcc_MSQ/otu_table.MSQ34_L6.txt',
             'f1type': 'untidy',
             'f2type': 'untidy',
             'skip1': '1',
@@ -67,8 +67,8 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'endcol2': '-1',
             'paired': 'True'},
         'lungpt': {
-            'samp_var1_fp': '/sc/hydra/work/buk02/lungpt_data/otu_table_MultiO_merged___L6.txt',
-            'samp_var2_fp': '/sc/hydra/work/buk02/lungpt_data/Mapping.Pneumotype.Multiomics.RL.NYU.w_metabolites.w_inflamm.txt',
+            'samp_var1_fp': '/sc/arion/projects/clemej05a/kevin/data/lungpt_data/otu_table_MultiO_merged___L6.txt',
+            'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/data/lungpt_data/Mapping.Pneumotype.Multiomics.RL.NYU.w_metabolites.w_inflamm.txt',
             'f1type': 'untidy',
             'f2type': 'tidy',
             'skip1': '1',
@@ -79,8 +79,8 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'endcol2': '100',
             'paired': 'False'},
         'who': {
-            'samp_var1_fp': '/sc/hydra/work/buk02/MINE_data/WHOfix.txt',
-            'samp_var2_fp': '/sc/hydra/work/buk02/MINE_data/WHOfix.txt',
+            'samp_var1_fp': '/sc/arion/projects/clemej05a/kevin/data/MINE_data/WHOfix.txt',
+            'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/data/MINE_data/WHOfix.txt',
             'f1type': 'tidy',
             'f2type': 'tidy',
             'skip1': '0',
@@ -103,7 +103,7 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
         # if statistic != 'pearson':
         #    corr_compare = 'False'
         f_id = '_'.join([param, multi_corr, fv, statistic, corr_compare, data])
-        # output_dir = '/sc/hydra/work/buk02/real_data_analysis/'
+        # output_dir = '/sc/arion/projects/clemej05a/kevin/data/real_data_analysis/'
         out_dir = output_dir + f_id + '/'
         try:
             os.makedirs(out_dir)
