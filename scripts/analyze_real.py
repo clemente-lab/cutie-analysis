@@ -32,7 +32,7 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
               help='output dir to put config files')
 
 
-def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
+def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                              corr_compare, input_dir, output_dir):
     '''
     Script for analysis of real data by CUTIE
@@ -579,7 +579,7 @@ def analyze_simulations_real(fold_value, statistic, multi_corr, param, datasets,
 
 
 if __name__ == "__main__":
-    analyze_simulations_real()
+    analyze_real()
 
 
 
