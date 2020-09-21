@@ -450,8 +450,8 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
         f_id = '_'.join([param, multi_corr, fv, statistic, corr_compare, data])
 
         ftype, samp_var_fp, startcol, endcol, delimiter, skip = param_to_str['f1type'], \
-            param_to_str['samp_var1_fp'], param_to_str['startcol1'], \
-            param_to_str['endcol1'], param_to_str['delimiter1'], param_to_str['skip1']
+            param_to_str['samp_var1_fp'], int(param_to_str['startcol1']), \
+            int(param_to_str['endcol1']), param_to_str['delimiter1'], int(param_to_str['skip1'])
         samp_ids, var_names, samp_var_df, n_var, n_samp = parse.parse_input(
             ftype, samp_var_fp, startcol, endcol, delimiter, skip)
 
