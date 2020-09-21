@@ -1,7 +1,7 @@
 import glob
 import os
 import click
-import cutie
+from cutie import parse
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -452,7 +452,7 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
         ftype, samp_var_fp, startcol, endcol, delimiter, skip = param_to_str['f1type'], \
             param_to_str['samp_var1_fp'], param_to_str['startcol1'], \
             param_to_str['endcol1'], param_to_str['delimiter1'], param_to_str['skip1']
-        samp_ids, var_names, samp_var_df, n_var, n_samp = cutie.parse.parse_input(
+        samp_ids, var_names, samp_var_df, n_var, n_samp = parse.parse_input(
             ftype, samp_var_fp, startcol, endcol, delimiter, skip)
 
         try:
