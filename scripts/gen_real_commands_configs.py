@@ -456,7 +456,7 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             ftype, samp_var_fp, startcol, endcol, delimiter, skip)
 
         try:
-            njobs = data_to_params['njobs']
+            njobs = param_to_str['njobs']
         except:
             njobs = 1
 
