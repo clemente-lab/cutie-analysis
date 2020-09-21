@@ -1,6 +1,7 @@
 import glob
 import os
 import click
+import cutie
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -245,8 +246,8 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/cutie_exp/inputs/liver/df_liver_female_500.txt',
             'delimiter1': '\\t',
             'delimiter2': '\\t',
-            'f1type': 'tidy',
-            'f2type': 'tidy',
+            'f1type': 'untidy',
+            'f2type': 'untidy',
             'skip1': '0',
             'skip2': '0',
             'startcol1': '-1',
@@ -260,8 +261,8 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/cutie_exp/inputs/liver/df_liver_male_500.txt',
             'delimiter1': '\\t',
             'delimiter2': '\\t',
-            'f1type': 'tidy',
-            'f2type': 'tidy',
+            'f1type': 'untidy',
+            'f2type': 'untidy',
             'skip1': '0',
             'skip2': '0',
             'startcol1': '-1',
@@ -420,6 +421,22 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'endcol2': '-1',
             'paired': 'True',
             'alpha': '0.05'}
+        'livermfull': {
+            'samp_var1_fp': '/sc/arion/projects/clemej05a/kevin/cutie_exp/inputs/liver/df_liver_male.txt',
+            'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/cutie_exp/inputs/liver/df_liver_male.txt',
+            'delimiter1': '\\t',
+            'delimiter2': '\\t',
+            'f1type': 'untidy',
+            'f2type': 'untidy',
+            'skip1': '0',
+            'skip2': '0',
+            'startcol1': '-1',
+            'endcol1': '-1',
+            'startcol2': '-1',
+            'endcol2': '-1',
+            'paired': 'True',
+            'alpha': '0.05',
+            'njobs': 20},
         }
 
     fv = fold_value
@@ -429,87 +446,131 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
     for data in datasets:
         param_to_str = data_to_params[data]
 
-        # for fp in files:
-        # fn = os.path.basename(fp)
-        # if statistic != 'pearson':
-        #    corr_compare = 'False'
+        # example fid: p_nomc_1_mine_False_lungtx
         f_id = '_'.join([param, multi_corr, fv, statistic, corr_compare, data])
-        # output_dir = '/sc/arion/projects/clemej05a/kevin/data/real_data_analysis/'
-        out_dir = output_dir + f_id + '/'
-        try:
-            os.makedirs(out_dir)
-        except:
-            pass
-        # working_dir = '/sc/hydra/scratch/buk02/real_data_analysis/'
-        working_outdir = working_dir + f_id + '/'
-        try:
-            os.makedirs(working_outdir)
-        except:
-            pass
-        with open(out_dir + 'config_' + f_id + '.txt','w') as f:
-            f.write('[input]')
-            f.write('\n')
-            f.write('samp_var1_fp: ' + param_to_str['samp_var1_fp'])
-            f.write('\n')
-            f.write('delimiter1: ' + param_to_str['delimiter2'])
-            f.write('\n')
-            f.write('samp_var2_fp: ' + param_to_str['samp_var2_fp'])
-            f.write('\n')
-            f.write('delimiter2: ' + param_to_str['delimiter2'])
-            f.write('\n')
-            f.write('f1type: ' + param_to_str['f1type'])
-            f.write('\n')
-            f.write('f2type: ' + param_to_str['f2type'])
-            f.write('\n')
-            f.write('skip1: ' + param_to_str['skip1'])
-            f.write('\n')
-            f.write('skip2: ' + param_to_str['skip2'])
-            f.write('\n')
-            f.write('startcol1: ' + param_to_str['startcol1'])
-            f.write('\n')
-            f.write('endcol1: ' + param_to_str['endcol1'])
-            f.write('\n')
-            f.write('startcol2: ' + param_to_str['startcol2'])
-            f.write('\n')
-            f.write('endcol2: ' + param_to_str['endcol2'])
-            f.write('\n')
-            f.write('paired: ' + param_to_str['paired'])
-            f.write('\n')
-            f.write('\n')
-            f.write('[output]')
-            f.write('\n')
-            f.write('working_dir: ' + working_outdir)
-            f.write('\n')
-            f.write('overwrite: True')
-            f.write('\n')
-            f.write('\n')
-            f.write('[stats]')
-            f.write('\n')
-            f.write('param: ' + param)
-            f.write('\n')
-            f.write('statistic: ' + statistic)
-            f.write('\n')
-            f.write('resample_k: 1')
-            f.write('\n')
-            f.write('alpha: ' + param_to_str['alpha'])
-            f.write('\n')
-            f.write('mc: ' + multi_corr)
-            f.write('\n')
-            f.write('fold: True')
-            f.write('\n')
-            f.write('fold_value: ' + fv)
-            f.write('\n')
-            f.write('corr_compare: ' + corr_compare)
-            f.write('\n')
-            f.write('\n')
-            f.write('[graph]')
-            f.write('\n')
-            f.write('graph_bound: 30')
-            f.write('\n')
-            f.write('fix_axis: False')
 
-        with open(out_dir + 'commands_' + f_id + '.txt','w') as f:
-            f.write('export PYTHONPATH=$PYTHONPATH:/hpc/users/buk02/tools/sandbox/lib/python3.7/site-packages/ && python ' + cutie_fp + ' -i ' + out_dir + 'config_' + f_id + '.txt')
+        ftype, samp_var_fp, startcol, endcol, delimiter, skip = param_to_str['f1type'], \
+            param_to_str['samp_var1_fp'], param_to_str['startcol1'], \
+            param_to_str['endcol1'], param_to_str['delimiter1'], param_to_str['skip1']
+        samp_ids, var_names, samp_var_df, n_var, n_samp = cutie.parse.parse_input(
+            ftype, samp_var_fp, startcol, endcol, delimiter, skip)
+
+        try:
+            njobs = data_to_params['njobs']
+        except:
+            njobs = 1
+
+        for i in range(njobs):
+
+            # sub fid
+            fid = f_id + '_' + str(i)
+
+            # output_dir = '/sc/arion/projects/clemej05a/kevin/data/real_data_analysis/'
+            # out_dir = output_dir + f_id + '/'
+            out_dir = output_dir + fid + '/'
+            try:
+                os.makedirs(out_dir)
+            except:
+                pass
+            # working_dir = '/sc/hydra/scratch/buk02/real_data_analysis/'
+            working_outdir = working_dir + fid + '/'
+            try:
+                os.makedirs(working_outdir)
+            except:
+                pass
+
+            if njobs > 1 and param_to_str['paired'] == 'True':
+                # create subtypes
+                # only works with paired vatm
+                if ftype == 'tidy':
+                    dfs = np.array_split(samp_var_df, njobs, axis=0)
+                    vals = [df.shape[0] for df in dfs]
+                elif ftype == 'untidy':
+                    dfs = np.array_split(samp_var_df, njobs, axis=1)
+                    vals = [df.shape[1] for df in dfs]
+
+                col_tuples = [(0,0)]
+
+                indices = [0]
+                indices.extend(vals)
+                for i in range(len(indices)-1):
+                    t = []
+                    prev = col_tuples[i]
+                    t.append(prev[1])
+                    t.append(indices[i+1] + prev[1])
+                    col_tuples.append(t)
+
+                # get rid of 0,0  placeholder
+                col_tuples.pop(0)
+            else:
+                col_tuples = [[param_to_str['endcol1'],param_to_str['endcol2']]]
+
+
+            with open(out_dir + 'config_' + fid + '.txt','w') as f:
+                f.write('[input]')
+                f.write('\n')
+                f.write('samp_var1_fp: ' + param_to_str['samp_var1_fp'])
+                f.write('\n')
+                f.write('delimiter1: ' + param_to_str['delimiter2'])
+                f.write('\n')
+                f.write('samp_var2_fp: ' + param_to_str['samp_var2_fp'])
+                f.write('\n')
+                f.write('delimiter2: ' + param_to_str['delimiter2'])
+                f.write('\n')
+                f.write('f1type: ' + param_to_str['f1type'])
+                f.write('\n')
+                f.write('f2type: ' + param_to_str['f2type'])
+                f.write('\n')
+                f.write('skip1: ' + param_to_str['skip1'])
+                f.write('\n')
+                f.write('skip2: ' + param_to_str['skip2'])
+                f.write('\n')
+                f.write('startcol1: ' + param_to_str['startcol1'])
+                f.write('\n')
+                f.write('endcol1: ' + param_to_str['endcol1'])
+                f.write('\n')
+                f.write('startcol2: ' + str(col_tuples[i][0]))
+                f.write('\n')
+                f.write('endcol2: ' + str(col_tuples[i][1]))
+                f.write('\n')
+                f.write('paired: ' + param_to_str['paired'])
+                f.write('\n')
+                f.write('\n')
+                f.write('[output]')
+                f.write('\n')
+                f.write('working_dir: ' + working_outdir)
+                f.write('\n')
+                f.write('overwrite: True')
+                f.write('\n')
+                f.write('\n')
+                f.write('[stats]')
+                f.write('\n')
+                f.write('param: ' + param)
+                f.write('\n')
+                f.write('statistic: ' + statistic)
+                f.write('\n')
+                f.write('resample_k: 1')
+                f.write('\n')
+                f.write('alpha: ' + param_to_str['alpha'])
+                f.write('\n')
+                f.write('mc: ' + multi_corr)
+                f.write('\n')
+                f.write('fold: True')
+                f.write('\n')
+                f.write('fold_value: ' + fv)
+                f.write('\n')
+                f.write('corr_compare: ' + corr_compare)
+                f.write('\n')
+                f.write('\n')
+                f.write('[graph]')
+                f.write('\n')
+                f.write('graph_bound: 30')
+                f.write('\n')
+                f.write('fix_axis: False')
+
+            with open(out_dir + 'commands_' + fid + '.txt','w') as f:
+                f.write('export PYTHONPATH=$PYTHONPATH:/hpc/users/buk02/tools/sandbox/lib/python3.7/site-packages/ && python ' + \
+                        cutie_fp + ' -i ' + out_dir + 'config_' + fid + '.txt')
 
 if __name__ == "__main__":
     gen_commands_configs()
