@@ -1,6 +1,7 @@
 import glob
 import os
 import click
+import numpy as np
 from cutie import parse
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
