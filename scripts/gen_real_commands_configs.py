@@ -461,8 +461,34 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
         except:
             njobs = 1
 
-        for i in range(njobs):
+        # create column tuples
+        if njobs > 1 and param_to_str['paired'] == 'True':
+            # create subtypes
+            # only works with paired vatm
+            if ftype == 'tidy':
+                dfs = np.array_split(samp_var_df, njobs, axis=0)
+                vals = [df.shape[0] for df in dfs]
+            elif ftype == 'untidy':
+                dfs = np.array_split(samp_var_df, njobs, axis=1)
+                vals = [df.shape[1] for df in dfs]
 
+            col_tuples = [(0,0)]
+
+            indices = [0]
+            indices.extend(vals)
+            for i in range(len(indices)-1):
+                t = []
+                prev = col_tuples[i]
+                t.append(prev[1])
+                t.append(indices[i+1] + prev[1])
+                col_tuples.append(t)
+
+            # get rid of 0,0  placeholder
+            col_tuples.pop(0)
+        else:
+            col_tuples = [[param_to_str['endcol1'],param_to_str['endcol2']]]
+
+        for i in range(njobs):
             # sub fid
             fid = f_id + '_' + str(i)
 
@@ -479,33 +505,6 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
                 os.makedirs(working_outdir)
             except:
                 pass
-
-            if njobs > 1 and param_to_str['paired'] == 'True':
-                # create subtypes
-                # only works with paired vatm
-                if ftype == 'tidy':
-                    dfs = np.array_split(samp_var_df, njobs, axis=0)
-                    vals = [df.shape[0] for df in dfs]
-                elif ftype == 'untidy':
-                    dfs = np.array_split(samp_var_df, njobs, axis=1)
-                    vals = [df.shape[1] for df in dfs]
-
-                col_tuples = [(0,0)]
-
-                indices = [0]
-                indices.extend(vals)
-                for i in range(len(indices)-1):
-                    t = []
-                    prev = col_tuples[i]
-                    t.append(prev[1])
-                    t.append(indices[i+1] + prev[1])
-                    col_tuples.append(t)
-
-                # get rid of 0,0  placeholder
-                col_tuples.pop(0)
-            else:
-                col_tuples = [[param_to_str['endcol1'],param_to_str['endcol2']]]
-
 
             with open(out_dir + 'config_' + fid + '.txt','w') as f:
                 f.write('[input]')
