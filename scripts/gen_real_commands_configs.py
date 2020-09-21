@@ -420,7 +420,7 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'startcol2': '-1',
             'endcol2': '-1',
             'paired': 'True',
-            'alpha': '0.05'}
+            'alpha': '0.05'},
         'livermfull': {
             'samp_var1_fp': '/sc/arion/projects/clemej05a/kevin/cutie_exp/inputs/liver/df_liver_male.txt',
             'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/cutie_exp/inputs/liver/df_liver_male.txt',
