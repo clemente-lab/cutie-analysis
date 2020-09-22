@@ -463,9 +463,9 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             njobs = 1
 
         # create column tuples
-        if njobs > 1 and param_to_str['paired'] == 'True':
+        if njobs > 1:
             # create subtypes
-            # only works with paired vatm
+            # only works with paired atm
             if ftype == 'tidy':
                 dfs = np.array_split(samp_var_df, njobs, axis=0)
                 vals = [df.shape[0] for df in dfs]
