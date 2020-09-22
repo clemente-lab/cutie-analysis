@@ -435,10 +435,11 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'endcol1': '-1',
             'startcol2': '-1',
             'endcol2': '-1',
-            'paired': 'True',
+            'paired': 'False',
             'alpha': '0.05',
-            'njobs': 20},
+            'njobs': 100},
         }
+        # liverffull, microfull, hdacfull
 
     fv = fold_value
     # files = glob.glob(input_dir + '*.txt')
@@ -490,7 +491,10 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
 
         for i in range(njobs):
             # sub fid
-            fid = f_id + '_' + str(i)
+            if njobs > 1:
+                fid = f_id
+            else:
+                fid = f_id + '_' + str(i)
 
             # output_dir = '/sc/arion/projects/clemej05a/kevin/data/real_data_analysis/'
             # out_dir = output_dir + f_id + '/'

@@ -81,6 +81,53 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
         return n_corr, defaulted, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime
 
 
+
+
+    # lungc,lungtx,hdac,who
+    # datasets = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
+    # datasets = ['Microbiome', 'Gene Expression', 'World Health Statistics']
+
+    # ds = ['lungc','hdac','who']
+    # happens later
+    # ds = datasets.split(',')
+
+    # parallel_ds = ['livermfull', ...]
+    # if d in []
+
+    # '\u03C1' is rho, '\u03C4' is tau
+    x_labels = ['LC (\u03C4)',# fv = 1',
+                'LT (\u03C4)',# fv = 1',
+                'GE (r)',# fv = 3',
+                'WHO (\u03C1)']#, fv = 1']
+
+    # more verbose labels
+    x_labels = ['Lung\nCancer\n(\u03C4)',
+            'Lung\nTranscriptomics\n(\u03C4)',
+            'Gene\nExpression\n(r)',
+            'WHO\n(\u03C1)']
+
+    ds_to_titles = {
+        'lungc': 'Lung Cancer (\u03C4)', # Microbiome
+        # 'lungtx': 'Lung Transcriptomics (\u03C4)',
+        'hdac': 'Gene Expression (r)',
+        'who': 'WHO (\u03C1)' # 'World Health Statistics'
+
+    }
+
+
+    ds_to_analyses = {
+        'lungc': ['p_fdr_1_pearson_False_lungc','p_fdr_1_rpearson_False_lungc'],
+        # 'lungtx': ['p_fdr_1_pearson_False_lungtx','p_fdr_1_rpearson_False_lungtx'],
+        'hdac': ['p_fdr_1_pearson_False_hdac','p_fdr_1_rpearson_False_hdac'],
+        'who': ['p_fdr_1_pearson_False_who','p_fdr_1_rpearson_False_who']
+    }
+
+
+    statistics = ['pearson', 'spearman', 'kendall', 'mine']
+
+
+
+
     headers = [
         'analysis_id',
         'parameter',
@@ -116,12 +163,16 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                 for s in stats:
                     for cd in cds:
                         for d in ds:
+                            # construct identifier string
                             # nomc_10_pearson_True_lungpt
                             analysis_id = '_'.join([p, mc, fv, s, cd, d])
-                            path = input_dir + analysis_id + '/'
-                            files = sorted(glob.glob(path + '*.txt'))
-                            # grab most recent log file
+
+                            # for single jobs
                             try:
+                                path = input_dir + analysis_id + '/'
+                                files = sorted(glob.glob(path + '*.txt'))
+
+                                # grab most recent log file
                                 rel_logfile = files[-1]
                                 with open(rel_logfile, 'r') as f:
                                     n_corr, defaulted, initial_corr, false_corr, \
@@ -141,29 +192,68 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                                             columns=headers)
 
                                     results_df = results_df.append(new_row)
+                            # for split jobs
                             except:
-                                print(analysis_id)
-                                print('Failed parsing')
-                                if cd == 'True':
-                                    if s == 'pearson':
-                                        print(analysis_id)
-                                else:
+                                try:
+                                    path = input_dir + analysis_id
+                                    # if analysis id is in []
+                                    split_jobs = glob.glob(path + '*')
+                                    # nomc_10_pearson_True_lungpt_0/, etc.
+
+                                    dfs = []
+                                    for j in split_jobs:
+                                        df = pd.read_csv(j + 'data_processing/summary_df_resample_1.txt', sep='\t')
+
+                                        # filter out 'unpaired' identical var pairs
+                                        df = df[df['var1'] != df['var2']]
+
+                                        dfs.append(df)
+
+                                    # merge all dfs
+                                    final_df = pd.concat(dfs, axis=1)
+
+                                    # sort columns to remove duplicate var pairs
+                                    final_df.sort_values(by=['var1', 'var2'])
+                                    final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
+
+                                    n_corr = len(final_df)
+                                    initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
+                                    initial_corr = len(initial_df)
+                                    true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
+                                    true_corr = len(true_df)
+                                    false_corr = len(initial_df[initial_df['class'].isin(['FP','TN'])])
+                                    rs_true = len(true_df[true_df['reverse'] == 'Yes'])
+
+                                    true_frac = true_corr / initial_corr
+                                    false_frac = false_corr / initial_corr
+                                    rs_true_frac = rs_true / initial_corr
+                                    runtime = 'parallel'
+
+                                    new_row = pd.DataFrame([[analysis_id, p, d, s,
+                                                            mc, fv, cd, n_corr,
+                                                            initial_corr, true_corr,
+                                                            false_corr, rs_true,
+                                                            rs_false, true_frac,
+                                                            false_frac, rs_true_frac,
+                                                            runtime]],
+                                                            columns=headers)
+
+                                    results_df = results_df.append(new_row)
+
+                                except:
                                     print(analysis_id)
+                                    print('Failed parsing')
+                                    if cd == 'True':
+                                        if s == 'pearson':
+                                            print(analysis_id)
+                                    else:
+                                        print(analysis_id)
+
+
+
 
     results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t', index=False)
 
-    # lungc,lungtx,hdac,who
-    # datasets = ['LungCancer', 'LungTranscriptomics', 'Gene Expression', 'WHO']
-    datasets = ['Microbiome', 'Gene Expression', 'World Health Statistics']
-
-    col_to_id = {
-        'Microbiome': 'lungc',
-        # 'LungTranscriptomics': 'lungtx',
-        'Gene Expression': 'hdac',
-        'World Health Statistics': 'who'
-    }
-
-    statistics = ['pearson', 'spearman', 'kendall']
 
 
     # populate indices and ids for the dataframe and barplot
@@ -201,7 +291,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
                 # iterate over datasets
                 first = True
-                for d, name in enumerate(datasets):
+                for d, ds in enumerate(datasets):
                     # iterate over statistic
                     stat_to_vals = defaultdict(list)
 
@@ -210,8 +300,8 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
                     for s, stat in enumerate(statistics):
                         # extend analysis id, e.g. p_fdr_1_spearman_False_hdac
-                        for_analysis_id = '_'.join([analysis_id, stat, 'False', col_to_id[name]])
-                        rev_analysis_id = '_'.join([analysis_id, 'r' + stat, 'False', col_to_id[name]])
+                        for_analysis_id = '_'.join([analysis_id, stat, 'False', ds])
+                        rev_analysis_id = '_'.join([analysis_id, 'r' + stat, 'False', ds])
 
                         # get two relevant entries of df
                         for_df = df[df['analysis_id'] == for_analysis_id]
@@ -273,7 +363,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                     first = False
 
                     # dataset x label
-                    plt.xlabel(name)
+                    plt.xlabel(ds)
 
 
                 # Add a legend: not useful when rs-TP is negligible
@@ -293,41 +383,11 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     # p_fdr_1_spearman_False_lungtx
     # p_fdr_1_spearman_False_who
 
-    fig_datasets = ['LC','GE', 'WHO']
-
-    ds_to_analyses = {
-        #'LC': ['p_fdr_1_kendall_False_lungc','p_fdr_1_rkendall_False_lungc'],
-        #'LT': ['p_fdr_1_kendall_False_lungtx','p_fdr_1_rkendall_False_lungtx'],
-        'LC': ['p_fdr_1_pearson_False_lungc','p_fdr_1_rpearson_False_lungc'],
-        # 'LT': ['p_fdr_1_pearson_False_lungtx','p_fdr_1_rpearson_False_lungtx'],
-        #'GE': ['p_fdr_3_pearson_False_hdac','p_fdr_3_rpearson_False_hdac'],
-        'GE': ['p_fdr_1_pearson_False_hdac','p_fdr_1_rpearson_False_hdac'],
-        #'WHO': ['p_fdr_1_spearman_False_who','p_fdr_1_rspearman_False_who'],
-        'WHO': ['p_fdr_1_pearson_False_who','p_fdr_1_rpearson_False_who']
-    }
-
     analyses = []
     for ds in ds_to_analyses:
         analyses.extend(ds_to_analyses[ds])
 
     df = results_df[results_df['analysis_id'].isin(analyses)]
-
-    # '\u03C1' is rho, '\u03C4' is tau
-    x_labels = ['LC (\u03C4)',# fv = 1',
-                'LT (\u03C4)',# fv = 1',
-                'GE (r)',# fv = 3',
-                'WHO (\u03C1)']#, fv = 1']
-
-    # more verbose labels
-    x_labels = ['Lung\nCancer\n(\u03C4)',
-            'Lung\nTranscriptomics\n(\u03C4)',
-            'Gene\nExpression\n(r)',
-            'WHO\n(\u03C1)']
-
-    x_labels = ['Lung\nCancer',
-            # 'Lung\nTranscriptomics',
-            'Gene\nExpression',
-            'WHO']
 
     # iterate over datasets
     ds_to_vals = defaultdict(list)
@@ -396,15 +456,21 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     fig.savefig(output_dir + 'Figure2_raw.pdf')
     plt.close(fig)
 
+    #mcs = multi_corr.split(',')
+    #fvs = fold_value.split(',')
+    #stats = statistic.split(',')
+    #cds = corr_compare.split(',')
+    #ds = datasets.split(',')
+    #params = param.split(',')
 
     # condensed df
     raw_data = defaultdict(list)
-    for p in ['p']:
-        for mc in ['nomc','fdr']:
-            for fv in ['1','3','10']:
-                for cd in ['False','True']:
-                    for d in ['lungc','hdac','who']:
-                        for stat in ['pearson','spearman','kendall']:
+    for p in params:
+        for mc in mcs:
+            for fv in fvs:
+                for cd in cds:
+                    for d in ds:
+                        for stat in stats:
                             df = results_df[results_df['parameter'] == p]
                             df = df[df['mc_used'] == mc]
                             df = df[df['fold_value'] == fv]
@@ -435,21 +501,6 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     raw_df.head()
     raw_df.to_csv(output_dir + 'condensed_results.txt', sep='\t',index=False)
 
-    ds_to_titles = {
-        'LC': 'Lung Cancer (\u03C4)',
-        # 'LT': 'Lung Transcriptomics (\u03C4)',
-        'GE': 'Gene Expression (r)',
-        'WHO': 'WHO (\u03C1)'
-
-    }
-
-    ds_to_titles = {
-        'LC': 'Microbiome',
-        # 'LT': 'Lung Transcriptomics',
-        'GE': 'Gene Expression',
-        'WHO': 'World Health Statistics'
-
-    }
 
     for ds in ds_to_analyses:
         analysis_id = ds_to_analyses[ds][0]
@@ -494,15 +545,6 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
         fig.savefig(output_dir + 'barplots_dfcondensed_' + analysis_id + '.pdf')
         plt.close(fig)
-
-
-        datasets = ['lungc','hdac','who']
-        ds_to_title = {
-            'lungc': 'Microbiome',
-            # 'lungtx': 'Lung Transcriptomics',
-            'hdac': 'Gene Expression',
-            'who': 'World Health Statistics'
-        }
 
         condensed_df = raw_df
         # p_fdr_1_rpearson_False_lungc
