@@ -202,7 +202,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
                                 dfs = []
                                 for j in split_jobs:
-                                    df = pd.read_csv(j + 'data_processing/summary_df_resample_1.txt', sep='\t')
+                                    df = pd.read_csv(j + '/data_processing/summary_df_resample_1.txt', sep='\t')
 
                                     # filter out 'unpaired' identical var pairs
                                     df = df[df['var1'] != df['var2']]
