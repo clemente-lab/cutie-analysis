@@ -214,6 +214,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
                                 # sort columns to remove duplicate var pairs
                                 final_df.sort_values(by=['var1', 'var2'])
+                                print(final_df.columns.values)
                                 final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
 
                                 n_corr = len(final_df)
