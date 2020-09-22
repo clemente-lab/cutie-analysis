@@ -489,13 +489,14 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
         else:
             col_tuples = [[param_to_str['endcol1'],param_to_str['endcol2']]]
 
+        print(njobs)
         for i in range(njobs):
             # sub fid
             if njobs > 1:
                 fid = f_id
             else:
                 fid = f_id + '_' + str(i)
-
+            print(fid)
             # output_dir = '/sc/arion/projects/clemej05a/kevin/data/real_data_analysis/'
             # out_dir = output_dir + f_id + '/'
             out_dir = output_dir + fid + '/'
