@@ -194,52 +194,53 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                     results_df = results_df.append(new_row)
                             # for split jobs
                             except:
-                                try:
-                                    path = input_dir + analysis_id
-                                    # if analysis id is in []
-                                    split_jobs = glob.glob(path + '*')
-                                    # nomc_10_pearson_True_lungpt_0/, etc.
+                                # try:
+                                path = input_dir + analysis_id
+                                # if analysis id is in []
+                                split_jobs = glob.glob(path + '*')
+                                # nomc_10_pearson_True_lungpt_0/, etc.
 
-                                    dfs = []
-                                    for j in split_jobs:
-                                        df = pd.read_csv(j + 'data_processing/summary_df_resample_1.txt', sep='\t')
+                                dfs = []
+                                for j in split_jobs:
+                                    df = pd.read_csv(j + 'data_processing/summary_df_resample_1.txt', sep='\t')
 
-                                        # filter out 'unpaired' identical var pairs
-                                        df = df[df['var1'] != df['var2']]
+                                    # filter out 'unpaired' identical var pairs
+                                    df = df[df['var1'] != df['var2']]
 
-                                        dfs.append(df)
+                                    dfs.append(df)
 
-                                    # merge all dfs
-                                    final_df = pd.concat(dfs, axis=1)
+                                # merge all dfs
+                                final_df = pd.concat(dfs, axis=1)
 
-                                    # sort columns to remove duplicate var pairs
-                                    final_df.sort_values(by=['var1', 'var2'])
-                                    final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
+                                # sort columns to remove duplicate var pairs
+                                final_df.sort_values(by=['var1', 'var2'])
+                                final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
 
-                                    n_corr = len(final_df)
-                                    initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
-                                    initial_corr = len(initial_df)
-                                    true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
-                                    true_corr = len(true_df)
-                                    false_corr = len(initial_df[initial_df['class'].isin(['FP','TN'])])
-                                    rs_true = len(true_df[true_df['reverse'] == 'Yes'])
+                                n_corr = len(final_df)
+                                initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
+                                initial_corr = len(initial_df)
+                                true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
+                                true_corr = len(true_df)
+                                false_corr = len(initial_df[initial_df['class'].isin(['FP','TN'])])
+                                rs_true = len(true_df[true_df['reverse'] == 'Yes'])
 
-                                    true_frac = true_corr / initial_corr
-                                    false_frac = false_corr / initial_corr
-                                    rs_true_frac = rs_true / initial_corr
-                                    runtime = 'parallel'
+                                true_frac = true_corr / initial_corr
+                                false_frac = false_corr / initial_corr
+                                rs_true_frac = rs_true / initial_corr
+                                runtime = 'parallel'
 
-                                    new_row = pd.DataFrame([[analysis_id, p, d, s,
-                                                            mc, fv, cd, n_corr,
-                                                            initial_corr, true_corr,
-                                                            false_corr, rs_true,
-                                                            rs_false, true_frac,
-                                                            false_frac, rs_true_frac,
-                                                            runtime]],
-                                                            columns=headers)
+                                new_row = pd.DataFrame([[analysis_id, p, d, s,
+                                                        mc, fv, cd, n_corr,
+                                                        initial_corr, true_corr,
+                                                        false_corr, rs_true,
+                                                        rs_false, true_frac,
+                                                        false_frac, rs_true_frac,
+                                                        runtime]],
+                                                        columns=headers)
 
-                                    results_df = results_df.append(new_row)
+                                results_df = results_df.append(new_row)
 
+                                '''
                                 except:
                                     print(analysis_id)
                                     print('Failed parsing')
@@ -248,7 +249,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                             print(analysis_id)
                                     else:
                                         print(analysis_id)
-
+                                '''
 
 
 
