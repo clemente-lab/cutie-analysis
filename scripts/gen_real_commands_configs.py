@@ -88,8 +88,8 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'skip2': '0',
             'startcol1': '-1',
             'endcol1': '-1',
-            'startcol2': '17',
-            'endcol2': '100',
+            'startcol2': '16',
+            'endcol2': '99',
             'paired': 'False',
             'alpha': '0.05'},
         'who': {
@@ -101,10 +101,10 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'f2type': 'tidy',
             'skip1': '0',
             'skip2': '0',
-            'startcol1': '3',
-            'endcol1': '357',
-            'startcol2': '3',
-            'endcol2': '357',
+            'startcol1': '2',
+            'endcol1': '356',
+            'startcol2': '2',
+            'endcol2': '356',
             'paired': 'True',
             'alpha': '0.05'},
         'baseball': {
@@ -440,6 +440,7 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'njobs': 1000},
         }
         # liverffull, microfull, hdacfull
+        # endcol startcol check: lungpt and WHO
 
     fv = fold_value
     # files = glob.glob(input_dir + '*.txt')
