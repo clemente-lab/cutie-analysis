@@ -453,7 +453,7 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'endcol2': '-1',
             'paired': 'True',
             'alpha': '0.05',
-            'nobs': 5},        }
+            'njobs': 5},        }
         # liverffull, microfull, hdacfull
         # endcol startcol check: lungpt and WHO
 
