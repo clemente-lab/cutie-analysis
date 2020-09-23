@@ -212,9 +212,6 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                 # merge all dfs
                                 final_df = pd.concat(dfs, axis=0)
 
-                                print(final_df.columns.values)
-                                print(final_df.shape)
-                                print(final_df)
                                 # sort columns to remove duplicate var pairs
                                 final_df.sort_values(by=['var1', 'var2'])
                                 final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
@@ -223,9 +220,11 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                 initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
                                 initial_corr = len(initial_df)
                                 true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
+                                false_df = initial_df[initial_df['class'].isin(['FP','TN'])]
                                 true_corr = len(true_df)
                                 false_corr = len(initial_df[initial_df['class'].isin(['FP','TN'])])
                                 rs_true = len(true_df[true_df['reverse'] == 'Yes'])
+                                rs_false = len(false_corr[false_corr['reverse'] == 'Yes'])
 
                                 true_frac = true_corr / initial_corr
                                 false_frac = false_corr / initial_corr
