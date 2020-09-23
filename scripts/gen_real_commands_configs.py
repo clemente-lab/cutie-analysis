@@ -502,9 +502,29 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             if ftype == 'tidy':
                 dfs = np.array_split(samp_var_df, njobs, axis=1)
                 vals = [df.shape[1] for df in dfs]
+                print(vals)
+                dfs = np.array_split(samp_var_df, njobs, axis=1)
+                vals = [df.shape[0] for df in dfs]
+                print(vals)
+                dfs = np.array_split(samp_var_df, njobs, axis=0)
+                vals = [df.shape[1] for df in dfs]
+                print(vals)
+                dfs = np.array_split(samp_var_df, njobs, axis=0)
+                vals = [df.shape[0] for df in dfs]
+                print(vals)
             elif ftype == 'untidy':
                 dfs = np.array_split(samp_var_df, njobs, axis=0)
                 vals = [df.shape[0] for df in dfs]
+                print(vals)
+                dfs = np.array_split(samp_var_df, njobs, axis=0)
+                vals = [df.shape[1] for df in dfs]
+                print(vals)
+                dfs = np.array_split(samp_var_df, njobs, axis=1)
+                vals = [df.shape[0] for df in dfs]
+                print(vals)
+                dfs = np.array_split(samp_var_df, njobs, axis=1)
+                vals = [df.shape[1] for df in dfs]
+                print(vals)
 
             col_tuples = [(0,0)]
 
