@@ -438,7 +438,22 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'paired': 'False',
             'alpha': '0.05',
             'njobs': 1000},
-        }
+        'airplanefull': {
+            'samp_var1_fp': '/sc/arion/projects/clemej05a/kevin/data/MINE_data/2008_data.txt',
+            'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/data/MINE_data/2008_data.txt',
+            'delimiter1': '\\t',
+            'delimiter2': '\\t',
+            'f1type': 'tidy',
+            'f2type': 'tidy',
+            'skip1': '0',
+            'skip2': '0',
+            'startcol1': '-1',
+            'endcol1': '-1',
+            'startcol2': '-1',
+            'endcol2': '-1',
+            'paired': 'True',
+            'alpha': '0.05',
+            'nobs': 5},        }
         # liverffull, microfull, hdacfull
         # endcol startcol check: lungpt and WHO
 
