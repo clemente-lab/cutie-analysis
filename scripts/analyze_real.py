@@ -96,37 +96,51 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
     # '\u03C1' is rho, '\u03C4' is tau
     x_labels = ['LC (\u03C4)',# fv = 1',
-                'LT (\u03C4)',# fv = 1',
+                # 'LT (\u03C4)',# fv = 1',
                 'GE (r)',# fv = 3',
                 'WHO (\u03C1)']#, fv = 1']
 
     # more verbose labels
     x_labels = ['Lung\nCancer\n(\u03C4)',
-            'Lung\nTranscriptomics\n(\u03C4)',
+            # 'Lung\nTranscriptomics\n(\u03C4)',
             'Gene\nExpression\n(r)',
             'WHO\n(\u03C1)']
 
+    # temporary for testing
+    x_labels = datasets.split(',')
+
     ds_to_titles = {
-        'lungc': 'Lung Cancer (\u03C4)', # Microbiome
+        #'lungc': 'Lung Cancer (\u03C4)', # Microbiome
         # 'lungtx': 'Lung Transcriptomics (\u03C4)',
         'hdac': 'Gene Expression (r)',
-        'who': 'WHO (\u03C1)' # 'World Health Statistics'
+        # 'who': 'WHO (\u03C1)' # 'World Health Statistics'
+        'airplane': 'airplane',
+        'airplanefull': 'airplanefull',
+        'hdacfull': 'hdacfull'
 
     }
 
 
     ds_to_analyses = {
-        'lungc': ['p_fdr_1_pearson_False_lungc','p_fdr_1_rpearson_False_lungc'],
+        #'lungc': ['p_fdr_1_pearson_False_lungc','p_fdr_1_rpearson_False_lungc'],
         # 'lungtx': ['p_fdr_1_pearson_False_lungtx','p_fdr_1_rpearson_False_lungtx'],
-        'hdac': ['p_fdr_1_pearson_False_hdac','p_fdr_1_rpearson_False_hdac'],
-        'who': ['p_fdr_1_pearson_False_who','p_fdr_1_rpearson_False_who']
+        #'hdac': ['p_fdr_1_pearson_False_hdac','p_fdr_1_rpearson_False_hdac'],
+        'hdac': ['p_nomc_1_pearson_False_hdac','p_nomc_1_rpearson_False_hdac'],
+        # 'who': ['p_fdr_1_pearson_False_who','p_fdr_1_rpearson_False_who']
+        'airplane': ['p_nomc_1_pearson_False_airplane','p_nomc_1_rpearson_False_airplanefull'],
+        'airplanefull': ['p_nomc_1_pearson_False_airplane','p_nomc_1_rpearson_False_airplanefull'],
+        'hdacfull': ['p_nomc_1_pearson_False_hdacfull','p_nomc_1_rpearson_False_hdacfull']
     }
 
 
-    statistics = ['pearson', 'spearman', 'kendall', 'mine']
+    statistics = statistic.split(',')
 
+    for s in statistics:
+        if s[0] == 'r':
+            statistics.remove(s)
 
-
+    # want statistics to be just forward
+    # ['pearson', 'spearman', 'kendall', 'mine']
 
     headers = [
         'analysis_id',
