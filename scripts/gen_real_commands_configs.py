@@ -453,7 +453,24 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'endcol2': '-1',
             'paired': 'True',
             'alpha': '0.05',
-            'njobs': 5},        }
+            'njobs': 5},
+       'hdacfull': {
+            'samp_var1_fp': '/sc/arion/projects/clemej05a/kevin/data/HDAC_data/GSE15222_series_matrix_x100_del62.txt',
+            'samp_var2_fp': '/sc/arion/projects/clemej05a/kevin/data/HDAC_data/GSE15222_series_matrix_x100_del62.txt',
+            'delimiter1': '\\t',
+            'delimiter2': '\\t',
+            'f1type': 'untidy',
+            'f2type': 'untidy',
+            'skip1': '0',
+            'skip2': '0',
+            'startcol1': '-1',
+            'endcol1': '-1',
+            'startcol2': '-1',
+            'endcol2': '-1',
+            'paired': 'True',
+            'alpha': '0.05',
+            'njobs': 5},
+            }
         # liverffull, microfull, hdacfull
         # endcol startcol check: lungpt and WHO
 
