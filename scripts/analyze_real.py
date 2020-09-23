@@ -210,7 +210,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                     dfs.append(df)
 
                                 # merge all dfs
-                                final_df = pd.concat(dfs, axis=1)
+                                final_df = pd.concat(dfs, axis=0)
 
                                 print(final_df.columns.values)
                                 print(final_df.shape)
