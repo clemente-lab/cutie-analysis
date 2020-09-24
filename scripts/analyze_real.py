@@ -208,57 +208,57 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                     results_df = results_df.append(new_row)
                             # for split jobs
                             except:
-                                # try:
-                                path = input_dir + analysis_id
-                                # if analysis id is in []
-                                split_jobs = glob.glob(path + '*')
-                                # nomc_10_pearson_True_lungpt_0/, etc.
+                                try:
+                                    path = input_dir + analysis_id
+                                    # if analysis id is in []
+                                    split_jobs = glob.glob(path + '*')
+                                    # nomc_10_pearson_True_lungpt_0/, etc.
 
-                                dfs = []
-                                for j in split_jobs:
-                                    df = pd.read_csv(j + '/data_processing/summary_df_resample_1.txt', sep='\t')
+                                    dfs = []
+                                    for j in split_jobs:
+                                        df = pd.read_csv(j + '/data_processing/summary_df_resample_1.txt', sep='\t')
 
-                                    # filter out 'unpaired' identical var pairs
-                                    df = df[df['var1'] != df['var2']]
+                                        # filter out 'unpaired' identical var pairs
+                                        df = df[df['var1'] != df['var2']]
 
-                                    dfs.append(df)
+                                        dfs.append(df)
 
-                                # merge all dfs
-                                final_df = pd.concat(dfs, axis=0)
+                                    # merge all dfs
+                                    final_df = pd.concat(dfs, axis=0)
 
-                                # sort columns to remove duplicate var pairs
-                                # final_df = final_df.sort_values(by=['var1', 'var2'])
-                                # final_df = final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
-                                # instead of trying to figure out how to drop duplicates, we divide length by 2
-                                # to account for double counting (assumes statistic is symmetric)
+                                    # sort columns to remove duplicate var pairs
+                                    # final_df = final_df.sort_values(by=['var1', 'var2'])
+                                    # final_df = final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
+                                    # instead of trying to figure out how to drop duplicates, we divide length by 2
+                                    # to account for double counting (assumes statistic is symmetric)
 
-                                n_corr = len(final_df) / 2
-                                initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
-                                initial_corr = len(initial_df) / 2
-                                true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
-                                false_df = initial_df[initial_df['class'].isin(['FP','TN'])]
-                                true_corr = len(true_df) / 2
-                                false_corr = len(initial_df[initial_df['class'].isin(['FP','TN'])]) / 2
-                                rs_true = len(true_df[true_df['reverse'] == 'Yes']) / 2
-                                rs_false = len(false_df[false_df['reverse'] == 'Yes']) / 2
+                                    n_corr = len(final_df) / 2
+                                    initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
+                                    initial_corr = len(initial_df) / 2
+                                    true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
+                                    false_df = initial_df[initial_df['class'].isin(['FP','TN'])]
+                                    true_corr = len(true_df) / 2
+                                    false_corr = len(initial_df[initial_df['class'].isin(['FP','TN'])]) / 2
+                                    rs_true = len(true_df[true_df['reverse'] == 'Yes']) / 2
+                                    rs_false = len(false_df[false_df['reverse'] == 'Yes']) / 2
 
-                                true_frac = true_corr / initial_corr
-                                false_frac = false_corr / initial_corr
-                                rs_true_frac = rs_true / initial_corr
-                                runtime = 'parallel'
+                                    true_frac = true_corr / initial_corr
+                                    false_frac = false_corr / initial_corr
+                                    rs_true_frac = rs_true / initial_corr
+                                    runtime = 'parallel'
 
-                                new_row = pd.DataFrame([[analysis_id, p, d, s,
-                                                        mc, fv, cd, n_corr,
-                                                        initial_corr, true_corr,
-                                                        false_corr, rs_true,
-                                                        rs_false, true_frac,
-                                                        false_frac, rs_true_frac,
-                                                        runtime]],
-                                                        columns=headers)
+                                    new_row = pd.DataFrame([[analysis_id, p, d, s,
+                                                            mc, fv, cd, n_corr,
+                                                            initial_corr, true_corr,
+                                                            false_corr, rs_true,
+                                                            rs_false, true_frac,
+                                                            false_frac, rs_true_frac,
+                                                            runtime]],
+                                                            columns=headers)
 
-                                results_df = results_df.append(new_row)
+                                    results_df = results_df.append(new_row)
 
-                                '''
+
                                 except:
                                     print(analysis_id)
                                     print('Failed parsing')
@@ -267,7 +267,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                             print(analysis_id)
                                     else:
                                         print(analysis_id)
-                                '''
+
 
 
 
@@ -307,6 +307,8 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
                 # set colors # #228B22  #99ff99
                 colors = ['#66b3ff','#ADD8E6','#ff9999','#228B22','#8064A2']
+
+                print(df)
 
                 # iterate over datasets
                 first = True
