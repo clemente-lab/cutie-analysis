@@ -322,15 +322,13 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                         for_analysis_id = '_'.join([analysis_id, stat, 'False', ds])
                         rev_analysis_id = '_'.join([analysis_id, 'r' + stat, 'False', ds])
 
+                        print(for_analysis_id)
+
                         # get two relevant entries of df
                         for_df = df[df['analysis_id'] == for_analysis_id]
                         rev_df = df[df['analysis_id'] == rev_analysis_id]
 
                         # labels = ['TP', 'rsTP', 'FP', 'FN', 'rsFN', 'TN']
-                        print(for_df)
-                        print(for_df['n_corr'])
-                        print(for_df['n_corr'].values)
-                        print(for_df['n_corr'].values[0])
 
                         # grab proportions of TP, rsTP, etc.
                         total = for_df['n_corr'].values[0]
