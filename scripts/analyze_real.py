@@ -490,27 +490,26 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                 for cd in cds:
                     for d in datasets:
                         for stat in stats:
-                            for_analysis_id = '_'.join([p,mc,str(fv),stat,cd,d])
-                            rev_analysis_id = '_'.join([p,mc,str(fv),'r'+stat,cd,d])
-                            print(for_analysis_id, rev_analysis_id)
-                            for_df = results_df[results_df['analysis_id'] == for_analysis_id]
-                            rev_df = results_df[results_df['analysis_id'] == rev_analysis_id]
+                            # do for only forward stats
+                            if stat[0] != 'r':
+                                for_analysis_id = '_'.join([p,mc,str(fv),stat,cd,d])
+                                rev_analysis_id = '_'.join([p,mc,str(fv),'r'+stat,cd,d])
+                                print(for_analysis_id, rev_analysis_id)
+                                for_df = results_df[results_df['analysis_id'] == for_analysis_id]
+                                rev_df = results_df[results_df['analysis_id'] == rev_analysis_id]
 
-                            raw_data['analysis_id'].append(for_analysis_id)
-                            raw_data['TP'].append(for_df['true_corr(TP_FN)'].values[0])
-                            raw_data['FP'].append(for_df['false_corr(FP_TN)'].values[0])
+                                raw_data['analysis_id'].append(for_analysis_id)
+                                raw_data['TP'].append(for_df['true_corr(TP_FN)'].values[0])
+                                raw_data['FP'].append(for_df['false_corr(FP_TN)'].values[0])
 
-                            print(for_df)
-                            print(rev_df)
-
-                            if cd == 'False':
-                                raw_data['rsTP'].append(for_df['rs_true_corr_TP_FN'].values[0])
-                                raw_data['FN'].append(rev_df['true_corr(TP_FN)'].values[0])
-                                raw_data['TN'].append(rev_df['false_corr(FP_TN)'].values[0])
-                            else:
-                                raw_data['rsTP'].append(0)
-                                raw_data['FN'].append(0)
-                                raw_data['TN'].append(rev_df['true_corr(TP_FN)'].values[0] + rev_df['false_corr(FP_TN)'].values[0])
+                                if cd == 'False':
+                                    raw_data['rsTP'].append(for_df['rs_true_corr_TP_FN'].values[0])
+                                    raw_data['FN'].append(rev_df['true_corr(TP_FN)'].values[0])
+                                    raw_data['TN'].append(rev_df['false_corr(FP_TN)'].values[0])
+                                else:
+                                    raw_data['rsTP'].append(0)
+                                    raw_data['FN'].append(0)
+                                    raw_data['TN'].append(rev_df['true_corr(TP_FN)'].values[0] + rev_df['false_corr(FP_TN)'].values[0])
 
 
     raw_df = pd.DataFrame.from_dict(raw_data)
