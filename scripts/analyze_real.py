@@ -563,76 +563,79 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
         condensed_df = raw_df
         # p_fdr_1_rpearson_False_lungc
-        for p in ['p']:
-            for mc in ['nomc','fdr']:
-                for fv in ['1','3','10']:
-                    for stat in ['pearson','spearman','kendall']:
-                        # create prefix analysis id, e.g. p_fdr_1
-                        prefix = '_'.join([p, mc, fv, stat])
 
-                        # ensure white background per plot with ticks
-                        sns.set(font_scale=1.2)
-                        sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
+        if 'True' in cds:
+            for p in params:
+                for mc in mcs:
+                    for fv in fvs:
+                        for stat in statistics:
+                            if stat[0] != 'r':
+                                # create prefix analysis id, e.g. p_fdr_1
+                                prefix = '_'.join([p, mc, fv, stat])
 
-                        # create figure
-                        fig, axarr = plt.subplots(nrows=1, ncols=3, figsize=(len(datasets)*3,4))
+                                # ensure white background per plot with ticks
+                                sns.set(font_scale=1.2)
+                                sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
 
-                        # Custom x axis
-                        # plt.xlabel("Cook's D")
+                                # create figure
+                                fig, axarr = plt.subplots(nrows=1, ncols=3, figsize=(len(datasets)*3,4))
 
-                        # generate subplot x ticks
-                        x_stats = ['CUTIE','Cook\'s D']
+                                # Custom x axis
+                                # plt.xlabel("Cook's D")
 
-                        # set labels
-                        labels = ['True Positive', # 'reverse sign-True Positive',
-                                  'False Positive', 'False Negative', 'True Negative']
-                        labels = ['TP', 'FP', 'FN', 'TN']
-                        # set colors # #228B22  #99ff99
-                        colors = ['#66b3ff',# '#ADD8E6',
-                                  '#ff9999','#228B22','#8064A2']
+                                # generate subplot x ticks
+                                x_stats = ['CUTIE','Cook\'s D']
 
-                        # iterate over datasets
-                        for d, ds in enumerate(datasets):
-                            # get relevant subset of df
-                            # no then yes for Cooks D
-                            df = condensed_df[condensed_df['analysis_id'].isin([prefix + '_False_' + ds, prefix + '_True_' + ds])]
+                                # set labels
+                                labels = ['True Positive', # 'reverse sign-True Positive',
+                                          'False Positive', 'False Negative', 'True Negative']
+                                labels = ['TP', 'FP', 'FN', 'TN']
+                                # set colors # #228B22  #99ff99
+                                colors = ['#66b3ff',# '#ADD8E6',
+                                          '#ff9999','#228B22','#8064A2']
+
+                                # iterate over datasets
+                                for d, ds in enumerate(datasets):
+                                    # get relevant subset of df
+                                    # no then yes for Cooks D
+                                    df = condensed_df[condensed_df['analysis_id'].isin([prefix + '_False_' + ds, prefix + '_True_' + ds])]
 
 
-                            # set number of bars (Cook D or not)
-                            r = range(2)
+                                    # set number of bars (Cook D or not)
+                                    r = range(2)
 
-                            # define subplot
-                            ax = plt.subplot(1, 3, d+1)
-                            plt.title(ds_to_titles[ds])
-                            # build bottom bar stack
-                            # fig = plt.figure(figsize=(8,4))
-                            complete = np.zeros(2)
-                            for k, label in enumerate(labels):
-                                # create bars
-                                plt.bar(r, df[label], bottom = complete, color=colors[k],
-                                        edgecolor='white', width=0.85, label=label, linewidth=0)
-                                complete = np.add(complete, df[label])
+                                    # define subplot
+                                    ax = plt.subplot(1, 3, d+1)
+                                    plt.title(ds_to_titles[ds])
+                                    # build bottom bar stack
+                                    # fig = plt.figure(figsize=(8,4))
+                                    complete = np.zeros(2)
+                                    for k, label in enumerate(labels):
+                                        # create bars
+                                        plt.bar(r, df[label], bottom = complete, color=colors[k],
+                                                edgecolor='white', width=0.85, label=label, linewidth=0)
+                                        complete = np.add(complete, df[label])
 
-                            # subplot x ticks
-                            plt.xticks(r, x_stats)
+                                    # subplot x ticks
+                                    plt.xticks(r, x_stats)
 
-                            # remove axes
-                            ax.spines['right'].set_visible(False)
-                            ax.spines['top'].set_visible(False)
+                                    # remove axes
+                                    ax.spines['right'].set_visible(False)
+                                    ax.spines['top'].set_visible(False)
 
-                            # dataset x label
-                            # plt.xlabel('Cook\'s D')
-                            plt.tight_layout()
+                                    # dataset x label
+                                    # plt.xlabel('Cook\'s D')
+                                    plt.tight_layout()
 
-                        # Add a legend: not useful when rs-TP is negligible
-                        # plt.legend(labels, loc='right', bbox_to_anchor=(1,1), ncol=1)
+                                # Add a legend: not useful when rs-TP is negligible
+                                # plt.legend(labels, loc='right', bbox_to_anchor=(1,1), ncol=1)
 
-                        # ensures legend is not cropped
-                        plt.tight_layout()
+                                # ensures legend is not cropped
+                                plt.tight_layout()
 
-                        # save and close figure
-                        fig.savefig(output_dir + 'Fig2CD_' + p + '_' + mc + '_' + fv + '_' + stat + '.pdf')
-                        plt.close(fig)
+                                # save and close figure
+                                fig.savefig(output_dir + 'Fig2CD_' + p + '_' + mc + '_' + fv + '_' + stat + '.pdf')
+                                plt.close(fig)
 
 
 if __name__ == "__main__":
