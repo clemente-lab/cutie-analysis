@@ -322,8 +322,6 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                         for_analysis_id = '_'.join([analysis_id, stat, 'False', ds])
                         rev_analysis_id = '_'.join([analysis_id, 'r' + stat, 'False', ds])
 
-                        print(for_analysis_id)
-
                         # get two relevant entries of df
                         for_df = df[df['analysis_id'] == for_analysis_id]
                         rev_df = df[df['analysis_id'] == rev_analysis_id]
@@ -490,7 +488,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
         for mc in mcs:
             for fv in fvs:
                 for cd in cds:
-                    for d in ds:
+                    for d in datasets:
                         for stat in stats:
                             df = results_df[results_df['parameter'] == p]
                             df = df[df['mc_used'] == mc]
