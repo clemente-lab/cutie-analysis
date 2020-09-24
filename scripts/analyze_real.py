@@ -506,6 +506,8 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                             raw_data['TP'].append(for_df['true_corr(TP_FN)'].values[0])
                             raw_data['FP'].append(for_df['false_corr(FP_TN)'].values[0])
 
+                            print(rev_df)
+
                             if cd == 'False':
                                 raw_data['rsTP'].append(for_df['rs_true_corr_TP_FN'].values[0])
                                 raw_data['FN'].append(rev_df['true_corr(TP_FN)'].values[0])
