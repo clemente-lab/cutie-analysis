@@ -490,22 +490,17 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                 for cd in cds:
                     for d in datasets:
                         for stat in stats:
-                            df = results_df[results_df['parameter'] == p]
-                            df = df[df['mc_used'] == mc]
-                            df = df[df['fold_value'] == fv]
-                            df = df[df['dataset'] == d]
-                            df = df[df['cooksd'] == cd]
-                            df = df[df['statistic'].isin([stat, 'r'+stat])]
+                            for_analysis_id = '_'.join([p,mc,str(fv),stat,cd,d])
+                            rev_analysis_id = '_'.join([p,mc,str(fv),'r'+stat,cd,d])
+                            print(for_analysis_id, rev_analysis_id)
+                            for_df = results_df[results_df['analysis_id'] == for_analysis_id]
+                            rev_df = results_df[results_df['analysis_id'] == rev_analysis_id]
 
-                            for_df = df[df['statistic'] == stat]
-                            rev_df = df[df['statistic'] == 'r'+stat]
-
-                            analysis_id = '_'.join([p,mc,str(fv),stat,cd,d])
-                            raw_data['analysis_id'].append(analysis_id)
-                            # values[0] gets non cooksd, 1 gets cookds. also converts it from 1 element list to float
+                            raw_data['analysis_id'].append(for_analysis_id)
                             raw_data['TP'].append(for_df['true_corr(TP_FN)'].values[0])
                             raw_data['FP'].append(for_df['false_corr(FP_TN)'].values[0])
 
+                            print(for_df)
                             print(rev_df)
 
                             if cd == 'False':
