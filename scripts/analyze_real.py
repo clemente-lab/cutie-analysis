@@ -230,9 +230,9 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                 # final_df = final_df.sort_values(by=['var1', 'var2'])
                                 # final_df = final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
                                 # instead of trying to figure out how to drop duplicates, we divide length by 2
-                                # to account for double counting
+                                # to account for double counting (assumes statistic is symmetric)
 
-                                n_corr = len(final_df)
+                                n_corr = len(final_df) / 2
                                 initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
                                 initial_corr = len(initial_df) / 2
                                 true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
