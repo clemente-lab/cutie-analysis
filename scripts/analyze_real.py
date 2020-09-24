@@ -308,8 +308,6 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                 # set colors # #228B22  #99ff99
                 colors = ['#66b3ff','#ADD8E6','#ff9999','#228B22','#8064A2']
 
-                print(df)
-
                 # iterate over datasets
                 first = True
                 for d, ds in enumerate(datasets):
@@ -329,6 +327,10 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                         rev_df = df[df['analysis_id'] == rev_analysis_id]
 
                         # labels = ['TP', 'rsTP', 'FP', 'FN', 'rsFN', 'TN']
+                        print(for_df)
+                        print(for_df['n_corr'])
+                        print(for_df['n_corr'].values)
+                        print(for_df['n_corr'].values[0])
 
                         # grab proportions of TP, rsTP, etc.
                         total = for_df['n_corr'].values[0]
