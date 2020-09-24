@@ -603,7 +603,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
                             # define subplot
                             ax = plt.subplot(1, 3, d+1)
-                            plt.title(ds_to_title[ds])
+                            plt.title(ds_to_titles[ds])
                             # build bottom bar stack
                             # fig = plt.figure(figsize=(8,4))
                             complete = np.zeros(2)
