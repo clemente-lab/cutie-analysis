@@ -169,14 +169,14 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     fvs = fold_value.split(',')
     stats = statistic.split(',')
     cds = corr_compare.split(',')
-    ds = datasets.split(',')
+    datasets = datasets.split(',')
     params = param.split(',')
     for p in params:
         for mc in mcs:
             for fv in fvs:
                 for s in stats:
                     for cd in cds:
-                        for d in ds:
+                        for d in datasets:
                             # construct identifier string
                             # nomc_10_pearson_True_lungpt
                             analysis_id = '_'.join([p, mc, fv, s, cd, d])
@@ -416,7 +416,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     # hold values for stacked barplot
     ds_to_sizes = {}
 
-    for d, ds in enumerate(fig_datasets):
+    for d, ds in enumerate(datasets):
         # extend analysis id, e.g. p_fdr_1_spearman_False_hdac
         for_analysis_id, rev_analysis_id = ds_to_analyses[ds]
 
@@ -442,14 +442,14 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     # create df
     raw_data = defaultdict(list)
     for j, label in enumerate(labels):
-        for ds in fig_datasets:
+        for ds in datasets:
             raw_data[label].append(ds_to_sizes[ds][j])
 
-    raw_df = pd.DataFrame(raw_data, index=fig_datasets)
+    raw_df = pd.DataFrame(raw_data, index=datasets)
     raw_df.to_csv(output_dir + 'Fig2_rawdata_df.txt', sep='\t')
 
     # set number of bars (# of datasets)
-    r = range(len(fig_datasets))
+    r = range(len(datasets))
 
     # ensure white background per plot
     sns.set(font_scale=0.9)
@@ -457,7 +457,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
     # build bottom bar stack
     fig = plt.figure(figsize=(5,4))
-    complete = np.zeros(len(fig_datasets))
+    complete = np.zeros(len(datasets))
     for k, label in enumerate(labels):
         # create bars
         plt.bar(r, raw_df[label], bottom = complete, color=colors[k],
