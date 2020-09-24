@@ -225,23 +225,22 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
                                 # merge all dfs
                                 final_df = pd.concat(dfs, axis=0)
-                                print(len(final_df))
 
                                 # sort columns to remove duplicate var pairs
-                                final_df = final_df.sort_values(by=['var1', 'var2'])
-                                print(len(final_df))
-                                final_df = final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
-                                print(len(final_df))
+                                # final_df = final_df.sort_values(by=['var1', 'var2'])
+                                # final_df = final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
+                                # instead of trying to figure out how to drop duplicates, we divide length by 2
+                                # to account for double counting
 
                                 n_corr = len(final_df)
                                 initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
-                                initial_corr = len(initial_df)
+                                initial_corr = len(initial_df) / 2
                                 true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
                                 false_df = initial_df[initial_df['class'].isin(['FP','TN'])]
-                                true_corr = len(true_df)
-                                false_corr = len(initial_df[initial_df['class'].isin(['FP','TN'])])
-                                rs_true = len(true_df[true_df['reverse'] == 'Yes'])
-                                rs_false = len(false_df[false_df['reverse'] == 'Yes'])
+                                true_corr = len(true_df) / 2
+                                false_corr = len(initial_df[initial_df['class'].isin(['FP','TN'])]) / 2
+                                rs_true = len(true_df[true_df['reverse'] == 'Yes']) / 2
+                                rs_false = len(false_df[false_df['reverse'] == 'Yes']) / 2
 
                                 true_frac = true_corr / initial_corr
                                 false_frac = false_corr / initial_corr
