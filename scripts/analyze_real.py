@@ -494,7 +494,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                             if stat[0] != 'r':
                                 for_analysis_id = '_'.join([p,mc,str(fv),stat,cd,d])
                                 rev_analysis_id = '_'.join([p,mc,str(fv),'r'+stat,cd,d])
-                                print(for_analysis_id, rev_analysis_id)
+
                                 for_df = results_df[results_df['analysis_id'] == for_analysis_id]
                                 rev_df = results_df[results_df['analysis_id'] == rev_analysis_id]
 
