@@ -533,7 +533,7 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             # get rid of 0,0  placeholder
             col_tuples.pop(0)
         else:
-            col_tuples = [[param_to_str['endcol1'],param_to_str['endcol2']]]
+            col_tuples = [[param_to_str['startcol2'],param_to_str['endcol2']]]
 
         for i in range(njobs):
             # sub fid
