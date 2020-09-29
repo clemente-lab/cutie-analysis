@@ -532,8 +532,8 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     raw_df.to_csv(output_dir + 'condensed_results.txt', sep='\t',index=False)
 
 
-    for ds in ds_to_analyses:
-        analysis_id = ds_to_analyses[ds][0]
+    for ds in datasets:
+        analysis_id = '_'.join(['p','nomc','1','pearson','False',ds])
         df = raw_df[raw_df['analysis_id'] == analysis_id]
 
         # ensure white background per plot
