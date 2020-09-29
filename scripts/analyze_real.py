@@ -332,10 +332,13 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                         # extend analysis id, e.g. p_fdr_1_spearman_False_hdac
                         for_analysis_id = '_'.join([analysis_id, stat, 'False', ds])
                         rev_analysis_id = '_'.join([analysis_id, 'r' + stat, 'False', ds])
-
+                        print(for_analysis_id)
+                        print(rev_analysis_id)
                         # get two relevant entries of df
                         for_df = df[df['analysis_id'] == for_analysis_id]
                         rev_df = df[df['analysis_id'] == rev_analysis_id]
+                        print(for_df)
+                        print(rev_df)
 
                         # labels = ['TP', 'rsTP', 'FP', 'FN', 'rsFN', 'TN']
 
@@ -430,7 +433,6 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
         # for_analysis_id, rev_analysis_id = ds_to_analyses[ds]
         for_analysis_id = '_'.join(['p','nomc','1','pearson','False',ds])
         rev_analysis_id = '_'.join(['p','nomc','1','rpearson','False',ds])
-        print(for_analysis_id)
 
         # get two relevant entries of df
         for_df = df[df['analysis_id'] == for_analysis_id]
