@@ -427,7 +427,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     for d, ds in enumerate(datasets):
         # extend analysis id, e.g. p_fdr_1_spearman_False_hdac
         # for_analysis_id, rev_analysis_id = ds_to_analyses[ds]
-        for_analysis_id = '_'.join(['p','nomc','1','pearson','False',ds))
+        for_analysis_id = '_'.join(['p','nomc','1','pearson','False',ds])
         rev_analysis_id = '_'.join(['p','nomc','1','rpearson','False',ds])
 
         # get two relevant entries of df
