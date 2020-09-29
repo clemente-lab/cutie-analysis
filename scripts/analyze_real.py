@@ -110,28 +110,35 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     x_labels = datasets.split(',')
 
     ds_to_titles = {
-        #'lungc': 'Lung Cancer (\u03C4)', # Microbiome
-        # 'lungtx': 'Lung Transcriptomics (\u03C4)',
+        'lungc': 'Lung Cancer (\u03C4)', # Microbiome
+        'lungtx': 'Lung Transcriptomics (\u03C4)',
         'hdac': 'Gene Expression (r)',
-        # 'who': 'WHO (\u03C1)' # 'World Health Statistics'
+        'who': 'WHO (\u03C1)' # 'World Health Statistics'
         'airplane': 'airplane',
         'airplanefull': 'airplanefull',
-        'hdacfull': 'hdacfull'
-
+        'hdacfull': 'hdacfull',
+        'lungpt': 'Lung Pneumotyping',
+        'ad0': 'ad0',
+        'ad1': 'ad1',
+        'oom': 'oom',
+        'roc': 'roc',
+        'mennonites': 'mennonites',
+        'covid': 'covid',
+        'airplane': 'airplane',
+        'ici':'ici',
+        'liverf':'liverf',
+        'liverm':'liverm',
+        'hgoral': 'hgoral',
+        'crc':'crc',
+        'ibd': 'ibd',
+        'cell':'cell',
+        'nc':'nc',
+        'plos':'plos',
+        'ca':'ca',
+        'statin':'statin',
+        'livermfull':'livermfull',
+        'liverffull':'liverffull'
     }
-
-
-    ds_to_analyses = {
-        #'lungc': ['p_fdr_1_pearson_False_lungc','p_fdr_1_rpearson_False_lungc'],
-        # 'lungtx': ['p_fdr_1_pearson_False_lungtx','p_fdr_1_rpearson_False_lungtx'],
-        #'hdac': ['p_fdr_1_pearson_False_hdac','p_fdr_1_rpearson_False_hdac'],
-        'hdac': ['p_nomc_1_pearson_False_hdac','p_nomc_1_rpearson_False_hdac'],
-        # 'who': ['p_fdr_1_pearson_False_who','p_fdr_1_rpearson_False_who']
-        'airplane': ['p_nomc_1_pearson_False_airplane','p_nomc_1_rpearson_False_airplanefull'],
-        'airplanefull': ['p_nomc_1_pearson_False_airplane','p_nomc_1_rpearson_False_airplanefull'],
-        'hdacfull': ['p_nomc_1_pearson_False_hdacfull','p_nomc_1_rpearson_False_hdacfull']
-    }
-
 
     statistics = statistic.split(',')
 
@@ -171,111 +178,111 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     cds = corr_compare.split(',')
     datasets = datasets.split(',')
     params = param.split(',')
-    for p in params:
-        for mc in mcs:
-            for fv in fvs:
-                for s in stats:
-                    for cd in cds:
-                        for d in datasets:
-                            # construct identifier string
-                            # nomc_10_pearson_True_lungpt
-                            analysis_id = '_'.join([p, mc, fv, s, cd, d])
 
-                            # for single jobs
-                            try:
-                                path = input_dir + analysis_id + '/'
-                                files = sorted(glob.glob(path + '*.txt'))
+    if not os.path.exists(output_dir + 'real_results_df.txt'):
+        for p in params:
+            for mc in mcs:
+                for fv in fvs:
+                    for s in stats:
+                        for cd in cds:
+                            for d in datasets:
+                                # construct identifier string
+                                # nomc_10_pearson_True_lungpt
+                                analysis_id = '_'.join([p, mc, fv, s, cd, d])
 
-                                # grab most recent log file
-                                rel_logfile = files[-1]
-                                with open(rel_logfile, 'r') as f:
-                                    n_corr, defaulted, initial_corr, false_corr, \
-                                        true_corr, rs_false, rs_true, runtime = parse_log(f,cd)
-
-                                    true_frac = true_corr / initial_corr
-                                    false_frac = false_corr / initial_corr
-                                    rs_true_frac = rs_true / initial_corr
-
-                                    new_row = pd.DataFrame([[analysis_id, p, d, s,
-                                                            mc, fv, cd, n_corr,
-                                                            initial_corr, true_corr,
-                                                            false_corr, rs_true,
-                                                            rs_false, true_frac,
-                                                            false_frac, rs_true_frac,
-                                                            runtime]],
-                                                            columns=headers)
-
-                                    results_df = results_df.append(new_row)
-                            # for split jobs
-                            except:
+                                # for single jobs
                                 try:
-                                    path = input_dir + analysis_id
-                                    # if analysis id is in []
-                                    split_jobs = glob.glob(path + '*')
-                                    # nomc_10_pearson_True_lungpt_0/, etc.
+                                    path = input_dir + analysis_id + '/'
+                                    files = sorted(glob.glob(path + '*.txt'))
 
-                                    dfs = []
-                                    for j in split_jobs:
-                                        try:
-                                            df = pd.read_csv(j + '/data_processing/summary_df_resample_1.txt', sep='\t')
+                                    # grab most recent log file
+                                    rel_logfile = files[-1]
+                                    with open(rel_logfile, 'r') as f:
+                                        n_corr, defaulted, initial_corr, false_corr, \
+                                            true_corr, rs_false, rs_true, runtime = parse_log(f,cd)
 
-                                            # filter out 'unpaired' identical var pairs
-                                            df = df[df['var1'] != df['var2']]
+                                        true_frac = true_corr / initial_corr
+                                        false_frac = false_corr / initial_corr
+                                        rs_true_frac = rs_true / initial_corr
 
-                                            dfs.append(df)
-                                        except:
-                                            print(j)
+                                        new_row = pd.DataFrame([[analysis_id, p, d, s,
+                                                                mc, fv, cd, n_corr,
+                                                                initial_corr, true_corr,
+                                                                false_corr, rs_true,
+                                                                rs_false, true_frac,
+                                                                false_frac, rs_true_frac,
+                                                                runtime]],
+                                                                columns=headers)
 
-                                    # merge all dfs
-                                    final_df = pd.concat(dfs, axis=0)
-
-                                    # sort columns to remove duplicate var pairs
-                                    # final_df = final_df.sort_values(by=['var1', 'var2'])
-                                    # final_df = final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
-                                    # instead of trying to figure out how to drop duplicates, we divide length by 2
-                                    # to account for double counting (assumes statistic is symmetric)
-
-                                    n_corr = len(final_df) / 2
-                                    initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
-                                    initial_corr = len(initial_df) / 2
-                                    true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
-                                    false_df = initial_df[initial_df['class'].isin(['FP','TN'])]
-                                    true_corr = len(true_df) / 2
-                                    false_corr = len(initial_df[initial_df['class'].isin(['FP','TN'])]) / 2
-                                    rs_true = len(true_df[true_df['reverse'] == 'Yes']) / 2
-                                    rs_false = len(false_df[false_df['reverse'] == 'Yes']) / 2
-
-                                    true_frac = true_corr / initial_corr
-                                    false_frac = false_corr / initial_corr
-                                    rs_true_frac = rs_true / initial_corr
-                                    runtime = 'parallel'
-
-                                    new_row = pd.DataFrame([[analysis_id, p, d, s,
-                                                            mc, fv, cd, n_corr,
-                                                            initial_corr, true_corr,
-                                                            false_corr, rs_true,
-                                                            rs_false, true_frac,
-                                                            false_frac, rs_true_frac,
-                                                            runtime]],
-                                                            columns=headers)
-
-                                    results_df = results_df.append(new_row)
-
-
+                                        results_df = results_df.append(new_row)
+                                # for split jobs
                                 except:
-                                    print(analysis_id)
-                                    print('Failed parsing')
-                                    if cd == 'True':
-                                        if s == 'pearson':
-                                            print(analysis_id)
-                                    else:
+                                    try:
+                                        path = input_dir + analysis_id
+                                        # if analysis id is in []
+                                        split_jobs = glob.glob(path + '*')
+                                        # nomc_10_pearson_True_lungpt_0/, etc.
+
+                                        dfs = []
+                                        for j in split_jobs:
+                                            try:
+                                                df = pd.read_csv(j + '/data_processing/summary_df_resample_1.txt', sep='\t')
+
+                                                # filter out 'unpaired' identical var pairs
+                                                df = df[df['var1'] != df['var2']]
+
+                                                dfs.append(df)
+                                            except:
+                                                print(j)
+
+                                        # merge all dfs
+                                        final_df = pd.concat(dfs, axis=0)
+
+                                        # sort columns to remove duplicate var pairs
+                                        # final_df = final_df.sort_values(by=['var1', 'var2'])
+                                        # final_df = final_df.drop_duplicates(subset=['var1', 'var2'], keep='last')
+                                        # instead of trying to figure out how to drop duplicates, we divide length by 2
+                                        # to account for double counting (assumes statistic is symmetric)
+
+                                        n_corr = len(final_df) / 2
+                                        initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
+                                        initial_corr = len(initial_df) / 2
+                                        true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
+                                        false_df = initial_df[initial_df['class'].isin(['FP','TN'])]
+                                        true_corr = len(true_df) / 2
+                                        false_corr = len(initial_df[initial_df['class'].isin(['FP','TN'])]) / 2
+                                        rs_true = len(true_df[true_df['reverse'] == 'Yes']) / 2
+                                        rs_false = len(false_df[false_df['reverse'] == 'Yes']) / 2
+
+                                        true_frac = true_corr / initial_corr
+                                        false_frac = false_corr / initial_corr
+                                        rs_true_frac = rs_true / initial_corr
+                                        runtime = 'parallel'
+
+                                        new_row = pd.DataFrame([[analysis_id, p, d, s,
+                                                                mc, fv, cd, n_corr,
+                                                                initial_corr, true_corr,
+                                                                false_corr, rs_true,
+                                                                rs_false, true_frac,
+                                                                false_frac, rs_true_frac,
+                                                                runtime]],
+                                                                columns=headers)
+
+                                        results_df = results_df.append(new_row)
+
+
+                                    except:
                                         print(analysis_id)
+                                        print('Failed parsing')
+                                        if cd == 'True':
+                                            if s == 'pearson':
+                                                print(analysis_id)
+                                        else:
+                                            print(analysis_id)
 
-
-
-
-    results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t', index=False)
-
+        results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t', index=False)
+    else:
+        results_df = pd.read_csv(output_dir + 'real_results_df.txt', sep='\t')
 
 
     # populate indices and ids for the dataframe and barplot
@@ -405,9 +412,9 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     # p_fdr_1_spearman_False_lungtx
     # p_fdr_1_spearman_False_who
 
-    analyses = []
-    for ds in ds_to_analyses:
-        analyses.extend(ds_to_analyses[ds])
+    # analyses = []
+    #for ds in ds_to_analyses:
+    #    analyses.extend(ds_to_analyses[ds])
 
     df = results_df[results_df['analysis_id'].isin(analyses)]
 
@@ -419,7 +426,9 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
     for d, ds in enumerate(datasets):
         # extend analysis id, e.g. p_fdr_1_spearman_False_hdac
-        for_analysis_id, rev_analysis_id = ds_to_analyses[ds]
+        # for_analysis_id, rev_analysis_id = ds_to_analyses[ds]
+        for_analysis_id = '_'.join(['p','nomc','1','pearson','False',ds))
+        rev_analysis_id = '_'.join(['p','nomc','1','rpearson','False',ds])
 
         # get two relevant entries of df
         for_df = df[df['analysis_id'] == for_analysis_id]
