@@ -485,7 +485,7 @@ def gen_commands_configs(fold_value, statistic, multi_corr, param, datasets,
             'endcol2': '-1',
             'paired': 'False',
             'alpha': '0.05',
-            'njobs': 1000},
+            'njobs': 10000},
 
         }
         # liverffull, microfull, hdacfull
