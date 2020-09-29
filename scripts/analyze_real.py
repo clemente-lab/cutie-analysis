@@ -114,6 +114,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
         'lungc': 'Lung Cancer (\u03C4)', # Microbiome
         'lungtx': 'Lung Transcriptomics (\u03C4)',
         'hdac': 'Gene Expression (r)',
+        'baseball':'baseball',
         'who': 'WHO (\u03C1)', # 'World Health Statistics'
         'airplane': 'airplane',
         'airplanefull': 'airplanefull',
