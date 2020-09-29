@@ -430,6 +430,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
         # for_analysis_id, rev_analysis_id = ds_to_analyses[ds]
         for_analysis_id = '_'.join(['p','nomc','1','pearson','False',ds])
         rev_analysis_id = '_'.join(['p','nomc','1','rpearson','False',ds])
+        print(for_analysis_id)
 
         # get two relevant entries of df
         for_df = df[df['analysis_id'] == for_analysis_id]
