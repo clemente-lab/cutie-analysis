@@ -284,7 +284,8 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
         results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t', index=False)
     else:
         results_df = pd.read_csv(output_dir + 'real_results_df.txt', sep='\t')
-
+        for col in list(results_df):
+            results_df[col] = results_df[col].astype(str)
 
     # populate indices and ids for the dataframe and barplot
     for p in params:
