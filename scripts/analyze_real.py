@@ -418,7 +418,8 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     #for ds in ds_to_analyses:
     #    analyses.extend(ds_to_analyses[ds])
 
-    df = results_df[results_df['analysis_id'].isin(analyses)]
+    # df = results_df[results_df['analysis_id'].isin(analyses)]
+    df = results_df
 
     # iterate over datasets
     ds_to_vals = defaultdict(list)
