@@ -284,7 +284,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
         results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t', index=False)
     else:
         results_df = pd.read_csv(output_dir + 'real_results_df.txt', sep='\t')
-        for col in list(results_df):
+        for col in ['fold_vallue']:
             results_df[col] = results_df[col].astype(str)
 
     # populate indices and ids for the dataframe and barplot
@@ -333,13 +333,10 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                         # extend analysis id, e.g. p_fdr_1_spearman_False_hdac
                         for_analysis_id = '_'.join([analysis_id, stat, 'False', ds])
                         rev_analysis_id = '_'.join([analysis_id, 'r' + stat, 'False', ds])
-                        print(for_analysis_id)
-                        print(rev_analysis_id)
+
                         # get two relevant entries of df
                         for_df = df[df['analysis_id'] == for_analysis_id]
                         rev_df = df[df['analysis_id'] == rev_analysis_id]
-                        print(for_df)
-                        print(rev_df)
 
                         # labels = ['TP', 'rsTP', 'FP', 'FN', 'rsFN', 'TN']
 
