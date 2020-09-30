@@ -116,6 +116,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
         'hdac': 'Gene Expression (r)',
         'baseball':'baseball',
         'micro':'micro',
+        'microfull':'microfull',
         'who': 'WHO (\u03C1)', # 'World Health Statistics'
         'airplane': 'airplane',
         'airplanefull': 'airplanefull',
