@@ -147,10 +147,6 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
     statistics = statistic.split(',')
 
-    for s in statistics:
-        if s[0] == 'r':
-            statistics.remove(s)
-
     # want statistics to be just forward
     # ['pearson', 'spearman', 'kendall', 'mine']
 
