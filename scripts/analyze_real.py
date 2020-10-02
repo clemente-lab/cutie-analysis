@@ -239,9 +239,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                                 df = df[df['var1'] != df['var2']]
 
                                                 # filter out unneccssary columns
-                                                df = df.drop(['pvalues', 'correlations', 'r2vals', 'TP_rev_indicators',
-                                                              'FP_rev_indicators', 'extreme_p',
-                                                              'extreme_r',   'p_ratio', 'r2_ratio'], axis=1)
+                                                df = df[['var1','var2','class','reverse']]
 
                                                 dfs.append(df)
                                             except:
