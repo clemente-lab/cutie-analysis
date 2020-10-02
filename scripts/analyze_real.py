@@ -184,6 +184,8 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     datasets = datasets.split(',')
     params = param.split(',')
 
+    print('Parsing in separate dataframe results...')
+
     if not os.path.exists(output_dir + 'real_results_df.txt'):
         for p in params:
             for mc in mcs:
@@ -292,9 +294,12 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
         results_df.to_csv(output_dir + 'real_results_df.txt', sep='\t', index=False)
     else:
+        print('Loading pre-created df results...')
         results_df = pd.read_csv(output_dir + 'real_results_df.txt', sep='\t')
         for col in ['fold_value']:
             results_df[col] = results_df[col].astype(str)
+
+    print('Generating barplots...')
 
     # populate indices and ids for the dataframe and barplot
     for p in params:
@@ -417,6 +422,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                 plt.close(fig)
 
     # generate figure 2
+    print('Generating raw Fig2...')
     # specific strings
     # p_fdr_1_kendall_False_lungc
     # p_fdr_3_pearson_False_hdac
@@ -505,6 +511,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
     #cds = corr_compare.split(',')
     #ds = datasets.split(',')
     #params = param.split(',')
+    print('Generating condensed df...')
 
     # condensed df
     raw_data = defaultdict(list)
@@ -535,6 +542,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                     raw_data['FN'].append(0)
                                     raw_data['TN'].append(rev_df['true_corr(TP_FN)'].values[0] + rev_df['false_corr(FP_TN)'].values[0])
 
+    print('Generating condensed barplots and CD...')
 
     raw_df = pd.DataFrame.from_dict(raw_data)
     raw_df.head()
