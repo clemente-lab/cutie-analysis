@@ -230,27 +230,27 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                         n_corr, initial_corr, true_corr, false_corr, rs_true, rs_false = 0, 0, 0, 0, 0, 0
 
                                         for j in split_jobs:
-                                            try:
-                                                df = pd.read_csv(j + '/data_processing/summary_df_resample_1.txt', sep='\t')
+                                            #try:
+                                            df = pd.read_csv(j + '/data_processing/summary_df_resample_1.txt', sep='\t')
 
-                                                # filter out 'unpaired' identical var pairs
-                                                df = df[df['var1'] != df['var2']]
+                                            # filter out 'unpaired' identical var pairs
+                                            df = df[df['var1'] != df['var2']]
 
-                                                # filter out unneccssary columns
-                                                df = df[['var1','var2','class','reverse']]
+                                            # filter out unneccssary columns
+                                            df = df[['var1','var2','class','reverse']]
 
-                                                n_corr += len(final_df) / 2
-                                                initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
-                                                initial_corr += len(initial_df) / 2
-                                                true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
-                                                false_df = initial_df[initial_df['class'].isin(['FP','TN'])]
-                                                true_corr += len(true_df) / 2
-                                                false_corr += len(initial_df[initial_df['class'].isin(['FP','TN'])]) / 2
-                                                rs_true += len(true_df[true_df['reverse'] == 'Yes']) / 2
-                                                rs_false += len(false_df[false_df['reverse'] == 'Yes']) / 2
+                                            n_corr += len(final_df) / 2
+                                            initial_df = final_df[final_df['class'].isin(['TP','FP','TN','FN'])]
+                                            initial_corr += len(initial_df) / 2
+                                            true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
+                                            false_df = initial_df[initial_df['class'].isin(['FP','TN'])]
+                                            true_corr += len(true_df) / 2
+                                            false_corr += len(initial_df[initial_df['class'].isin(['FP','TN'])]) / 2
+                                            rs_true += len(true_df[true_df['reverse'] == 'Yes']) / 2
+                                            rs_false += len(false_df[false_df['reverse'] == 'Yes']) / 2
 
-                                            except:
-                                                print(j)
+                                            #except:
+                                            #    print(j)
 
 
                                         # sort columns to remove duplicate var pairs
