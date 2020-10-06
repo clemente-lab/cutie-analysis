@@ -118,6 +118,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
         'micro':'micro',
         'microfull':'microfull',
         'who': 'WHO (\u03C1)', # 'World Health Statistics'
+        'whonous': 'WHO_nous',
         'airplane': 'airplane',
         'airplanefull': 'airplanefull',
         'hdacfull': 'hdacfull',
