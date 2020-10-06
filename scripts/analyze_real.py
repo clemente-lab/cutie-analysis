@@ -291,6 +291,11 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
 
     print('Generating barplots...')
 
+    # convert statistics to just forward stats
+    for s in statistics:
+        if s[0] == 'r':
+            statistics.remove(s)
+
     # populate indices and ids for the dataframe and barplot
     for p in params:
         for fv in fvs:
