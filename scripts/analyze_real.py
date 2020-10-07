@@ -251,7 +251,7 @@ def analyze_real(fold_value, statistic, multi_corr, param, datasets,
                                                 true_df = initial_df[initial_df['class'].isin(['TP','FN'])]
                                                 false_df = initial_df[initial_df['class'].isin(['FP','TN'])]
                                                 true_corr += len(true_df) / 2
-                                                false_corr += len(initial_df[initial_df['class'].isin(['FP','TN'])]) / 2
+                                                false_corr += len(false_df) / 2
                                                 rs_true += len(true_df[true_df['reverse'] == 'Yes']) / 2
                                                 rs_false += len(false_df[false_df['reverse'] == 'Yes']) / 2
 
