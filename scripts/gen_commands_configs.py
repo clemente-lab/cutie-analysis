@@ -31,8 +31,8 @@ def gen_commands_configs(param, fold_value, statistic, corr_compare,
     files = glob.glob(input_dir + '*.txt')
     for fp in files:
         fn = os.path.basename(fp)
-        if statistic != 'pearson':
-            corr_compare = 'False'
+        # if statistic != 'pearson':
+        #    corr_compare = 'False'
         f_id = '_'.join([param, fv, statistic, corr_compare, os.path.splitext(fn)[0]])
         out_dir = output_dir + f_id + '/'
         if not os.path.isdir(out_dir):
