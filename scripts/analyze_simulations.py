@@ -132,6 +132,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                     p, fv, stat, cc, seed, c, samp, cor = label.split('_')
                     if cc == 'True':
                         for x in corr_compare.split(','):
+                            print(x)
                             n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=x)
                             df_dict[p][fv][stat][x][seed][c][samp][cor] = (true_corr, initial_corr)
                     else: # cc is false, aka for CUTIE
@@ -201,6 +202,10 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
     # 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1]
     corr_ticks = ['0.0','','0.1','','0.2','','0.3','','0.4','','0.5','','0.6','',\
                   '0.7','','0.8','','0.9','','1.0']
+    corr_ticks = ['{0:g}'.format(float(str(x))) for x in np.arange(start, stop+step, step)]
+    for c in corr_ticks:
+        if c[-1] != '0':
+            c = ''
 
     def new_label(row, cookd):
         '''
