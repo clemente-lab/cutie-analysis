@@ -130,13 +130,11 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                 #try:
                 # when you grab the label split, if true, partition to the types in the args to the script
                 p, fv, stat, cc, seed, c, samp, cor = label.split('_')
-                print(label)
-                print(fn)
                 if cc == 'True':
                     for x in corr_compare.split(','):
-                        print(x)
-                        n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=x)
-                        df_dict[p][fv][stat][x][seed][c][samp][cor] = (true_corr, initial_corr)
+                        if x != 'False':
+                            n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=x)
+                            df_dict[p][fv][stat][x][seed][c][samp][cor] = (true_corr, initial_corr)
                 else: # cc is false, aka for CUTIE
                     n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=cc)
                     df_dict[p][fv][stat][cc][seed][c][samp][cor] = (true_corr, initial_corr)
