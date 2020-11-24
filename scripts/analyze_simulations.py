@@ -135,8 +135,6 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
             if cc != 'False':
                 for x in corr_compare.split(','):
                     if x != 'False':
-                        print(label)
-                        print(x)
                         #try:
                         with open(fn, 'r') as rf:
                             n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=x)
