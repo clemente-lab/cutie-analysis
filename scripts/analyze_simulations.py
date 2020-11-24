@@ -43,6 +43,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
     '''
     Script for analysis of simulated data by CUTIE
     '''
+    start, stop, step = [float(x) for x in rangestr.split(',')]
 
     # check if results df exists already
     if not os.path.exists(output_dir + 'sim_results_df.txt'):
@@ -85,7 +86,6 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
             return n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime
 
 
-        start, stop, step = [float(x) for x in rangestr.split(',')]
         df_dict = {}
         for p in param.split(','):
             df_dict[p] = {}
