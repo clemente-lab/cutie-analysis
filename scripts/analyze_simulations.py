@@ -149,7 +149,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
             else:
                 with open(fn, 'r') as rf:
                     n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=cc)
-                    df_dict[p][fv][stat][x][seed][c][samp][cor] = (true_corr, initial_corr)
+                    df_dict[p][fv][stat][cc][seed][c][samp][cor] = (true_corr, initial_corr)
 
             done += 1
             if not subset_files:
