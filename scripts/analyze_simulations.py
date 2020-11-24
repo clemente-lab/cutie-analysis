@@ -47,17 +47,17 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
     # check if results df exists already
     if not os.path.exists(output_dir + 'sim_results_df.txt'):
 
-        def parse_log(f, cookd):
+        def parse_log(f, stat):
             lines = [l.strip() for l in f.readlines()]
-            if cookd == 'True':
+            if stat != 'True':
                 for l in lines:
                     if "number of correlations" in l:
                         n_corr = int(l.split(' ')[-1])
                     elif "initial_corr" in l:
                         initial_corr = int(l.split(' ')[-1])
-                    elif "false correlations according to cookd" in l:
+                    elif "false correlations according to " + stat in l:
                         false_corr = int(l.split(' ')[-1])
-                    elif "true correlations according to cookd" in l:
+                    elif "true correlations according to " + stat in l:
                         true_corr = int(l.split(' ')[-1])
                     elif "runtime" in l:
                         runtime = float(l.split(' ')[-1])
@@ -128,10 +128,16 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
             with open(fn, 'r') as rf:
                 label = f.split('/')[-1]
                 try:
+                    # when you grab the label split, if true, partition to the types in the args to the script
                     p, fv, stat, cc, seed, c, samp, cor = label.split('_')
-                    n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, cookd=cc)
+                if cc == 'True':
+                    for x in corr_compare.split(','):
+                        n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=x)
+                        df_dict[p][fv][stat][x][seed][c][samp][cor] = (true_corr, initial_corr)
+                else: # cc is false, aka for CUTIE
+                    n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=cc)
                     df_dict[p][fv][stat][cc][seed][c][samp][cor] = (true_corr, initial_corr)
-                    done += 1
+                done += 1
                 except:
                     failed.append(label)
                     print(label)
