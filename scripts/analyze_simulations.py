@@ -49,7 +49,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
 
         def parse_log(f, stat):
             lines = [l.strip() for l in f.readlines()]
-            if stat != 'True':
+            if stat != 'False':
                 for l in lines:
                     if "number of correlations" in l:
                         n_corr = int(l.split(' ')[-1])
