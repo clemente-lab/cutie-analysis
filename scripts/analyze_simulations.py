@@ -130,18 +130,28 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
             # get parts
             label = f.split('/')[-1]
             p, fv, stat, cc, seed, c, samp, cor = label.split('_')
-            for x in corr_compare.split(','):
-                print(label)
-                print(x)
-                #try:
-                # when you grab the label split, if true, partition to the types in the args to the script
+
+            # when you grab the label split, if true, partition to the types in the args to the script
+            if cc != 'False':
+                for x in corr_compare.split(','):
+                    if x != 'False':
+                        print(label)
+                        print(x)
+                        #try:
+                        with open(fn, 'r') as rf:
+                            n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=x)
+                            df_dict[p][fv][stat][x][seed][c][samp][cor] = (true_corr, initial_corr)
+                                #except:
+                            #    failed.append(label)
+                            #    print(label)
+
+            # for CUTIE alone (AKA False)
+            else:
                 with open(fn, 'r') as rf:
-                    n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=x)
+                    n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=cc)
                     df_dict[p][fv][stat][x][seed][c][samp][cor] = (true_corr, initial_corr)
-                    done += 1
-                #except:
-                #    failed.append(label)
-                #    print(label)
+
+            done += 1
             if not subset_files:
                 missing.append(f)
 
