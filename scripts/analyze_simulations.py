@@ -131,6 +131,8 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
             label = f.split('/')[-1]
             p, fv, stat, cc, seed, c, samp, cor = label.split('_')
             for x in corr_compare.split(','):
+                print(label)
+                print(x)
                 #try:
                 # when you grab the label split, if true, partition to the types in the args to the script
                 with open(fn, 'r') as rf:
