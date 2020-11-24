@@ -133,6 +133,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                 if cc == 'True':
                     for x in corr_compare.split(','):
                         if x != 'False':
+                            print(label)
                             n_corr, initial_corr, false_corr, true_corr, rs_false, rs_true, runtime = parse_log(rf, stat=x)
                             df_dict[p][fv][stat][x][seed][c][samp][cor] = (true_corr, initial_corr)
                 else: # cc is false, aka for CUTIE
