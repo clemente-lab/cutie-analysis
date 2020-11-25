@@ -202,7 +202,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
         # load in DF
         results_df = pd.read_csv(output_dir + 'sim_results_df.txt', sep='\t')
         # cast to string
-        for col in ['fold_value', 'cooksd', 'sample_size']:
+        for col in ['fold_value', 'infln', 'sample_size']:
             results_df[col] = results_df[col].astype(str)
         # cast to float
         for col in ['corr_strength', 'indicator']:
@@ -233,8 +233,8 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
     def new_label(row, stat):
         '''
         Relabels the statistic for the legend
-        (1) If cooksd is True and the statistic is not pearson, don't make a plot for it
-        (2) If cooksd is True and the statistic is pearson, then label with Cook's D instead
+        (1) If infln is True and the statistic is not pearson, don't make a plot for it
+        (2) If infln is True and the statistic is pearson, then label with stat instead
         (3) If the statistic is TN/FN separation, label that line p > 0.05
         (4) Else the statistic is TP/FP separation, label that line p < 0.05
         '''
@@ -343,56 +343,56 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                     for c in classes.split(','):
                         for samp in n_samp.split(','):
                             if cc != 'False':
-                                try:
-                                    # subset dataframe
-                                    df = results_df[results_df['parameter'] == p]
-                                    df = df[df['fold_value'] == fv]
-                                    df = df[df['stat'].isin(stat)]
-                                    df = df[df['class'] == c]
-                                    df = df[df['sample_size'] == samp]
-                                    df['Method'] = df.apply(lambda row: new_label(row, cc),axis=1)
-                                    df = df[df['Method'] != 'exclude']
-                                    df = df.drop(['stat'], axis=1)
+                                #try:
+                                # subset dataframe
+                                df = results_df[results_df['parameter'] == p]
+                                df = df[df['fold_value'] == fv]
+                                df = df[df['stat'].isin(stat)]
+                                df = df[df['class'] == c]
+                                df = df[df['sample_size'] == samp]
+                                df['Method'] = df.apply(lambda row: new_label(row, cc),axis=1)
+                                df = df[df['Method'] != 'exclude']
+                                df = df.drop(['stat'], axis=1)
 
-                                    # generate plot
-                                    sns.set(font_scale=1.4)
-                                    sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
+                                # generate plot
+                                sns.set(font_scale=1.4)
+                                sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
 
 
-                                    # green, blue, red
-                                    colors = ['#9BBB59','#9BBB59','#4F81BD','#C0504D']
-                                    stats = [infln_to_rev[cc], infln_to_for[cc], 'CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
+                                # green, blue, red
+                                colors = ['#8064A2','#9BBB59','#4F81BD','#C0504D']
+                                stats = [infln_to_rev[cc], infln_to_for[cc], 'CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
 
-                                    if c == 'NP':
-                                        ctitle = 'TP and TN'
-                                    else:
-                                        ctitle = c
+                                if c == 'NP':
+                                    ctitle = 'TP and TN'
+                                else:
+                                    ctitle = c
 
-                                    title = 'Power Curves for simulations of ' + \
-                                            c + '\n scatterplots using ' + stat[0].capitalize()
+                                title = 'Power Curves for simulations of ' + \
+                                        c + '\n scatterplots using ' + stat[0].capitalize()
 
-                                    plt.figure(figsize=(6,6))
-                                    ax = sns.pointplot(x="corr_strength", y="indicator", hue='Method',data=df, ci=95,
-                                        palette=sns.color_palette(colors), hue_order=stats)#, legend=False)
-                                    ax.set_title(title, fontsize=15)
-                                    plt.setp(ax.collections, alpha=.3) #for the markers
-                                    plt.setp(ax.lines, alpha=.3)
-                                    plt.ylim(-0.2,1.2)
+                                plt.figure(figsize=(6,6))
+                                ax = sns.pointplot(x="corr_strength", y="indicator", hue='Method',data=df, ci=95,
+                                    palette=sns.color_palette(colors), hue_order=stats)#, legend=False)
+                                ax.set_title(title, fontsize=15)
+                                plt.setp(ax.collections, alpha=.3) #for the markers
+                                plt.setp(ax.lines, alpha=.3)
+                                plt.ylim(-0.2,1.2)
 
-                                    ax.set_xticklabels(corr_ticks, rotation=0)
-                                    ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
-                                    ax.set_ylabel('Proportion of Correlations classified as True')
-                                    ax.set_xlabel('Correlation Strength')
+                                ax.set_xticklabels(corr_ticks, rotation=0)
+                                ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
+                                ax.set_ylabel('Proportion of Correlations classified as True')
+                                ax.set_xlabel('Correlation Strength')
 
-                                    plt.tick_params(axis='both', which='both', top=False, right=False)
-                                    sns.despine()
-                                    plt.tight_layout()
-                                    df.to_csv(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.csv', index=False)
-                                    plt.savefig(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.pdf')
-                                    plt.close()
-                                except:
-                                    print(stat)
-                                    print(cc)
+                                plt.tick_params(axis='both', which='both', top=False, right=False)
+                                sns.despine()
+                                plt.tight_layout()
+                                df.to_csv(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.csv', index=False)
+                                plt.savefig(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.pdf')
+                                plt.close()
+                                #except:
+                                #    print(stat)
+                                #   print(cc)
 
 
     print(results_df.head())
