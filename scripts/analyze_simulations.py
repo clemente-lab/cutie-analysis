@@ -190,7 +190,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                                 results.append(float(d[0]))
 
         results_df = pd.DataFrame({'analysis_id': analysis_ids, 'parameter': ps,
-                                   'fold_value': fvs, 'stat': stats, 'cooksd': ccs,
+                                   'fold_value': fvs, 'stat': stats, 'infln': ccs,
                                    'seed': seeds, 'class': class_labs,
                                    'sample_size': nsamps, 'corr_strength': cors,
                                    'indicator': results})
@@ -217,6 +217,19 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
         if c[-1] != '0':
             c = ''
 
+    infln_to_for = {
+        'cookd': 'Cook\'s D (p < 0.05)'
+        'dffits': 'DFFITS (p < 0.05)'
+        'dsr': 'DSR (p < 0.05)'
+    }
+
+    infln_to_rev = {
+        'cookd': 'Cook\'s D (p > 0.05)'
+        'dffits': 'DFFITS (p > 0.05)'
+        'dsr': 'DSR (p > 0.05)'
+
+    }
+
     def new_label(row, stat):
         '''
         Relabels the statistic for the legend
@@ -225,27 +238,29 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
         (3) If the statistic is TN/FN separation, label that line p > 0.05
         (4) Else the statistic is TP/FP separation, label that line p < 0.05
         '''
-        if row['cooksd'] == 'True':
+        # if an influence metric was used
+        if row['infln'] != 'False':
+            # ignore influence metrics for non pearson stats
             if row['stat'].isin(['pearson','rpearson']):
                 if row['stat'] == 'pearson':
-                    return 'Cook\'s D (p < 0.05)'
+                    return infln_to_for[stat]
                 else:
-                    return 'Cook\'s D (p > 0.05)'
+                    return infln_to_rev[stat]
             else:
                 return 'exclude'
+
+        # follows this if Pearson only
         else:
             if row['stat'][0] == 'r':
-                # return row['stat'][1:].capitalize() + ', CUTIE, p > 0.05'
                 if stat != 'False':
                     return 'CUTIE (p > 0.05)'
                 else:
-                    return stat + ' (p > 0.05)'
+                    return 'p > 0.05'
             else:
-                # return row['stat'].capitalize() + ', CUTIE, p < 0.05'
                 if stat != 'False':
                     return 'CUTIE (p < 0.05)'
                 else:
-                    return stat + ' (p < 0.05)'
+                    return 'p < 0.05'
 
 
     # grab statistics
@@ -266,7 +281,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df = results_df[results_df['parameter'] == p]
                                 df = df[df['fold_value'] == fv]
                                 df = df[df['stat'].isin(stat)]
-                                df = df[df['cooksd'] == cc]
+                                df = df[df['infln'] == cc]
                                 df = df[df['class'] == c]
                                 df = df[df['sample_size'] == samp]
                                 df['Significance'] = df.apply(lambda row: new_label(row, cc),axis=1)
@@ -346,7 +361,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
 
                                     # green, blue, red
                                     colors = ['#9BBB59','#9BBB59','#4F81BD','#C0504D']
-                                    stats = [cc + ' (p < 0.05)', cc + ' (p > 0.05)', 'CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
+                                    stats = [infln_to_rev[cc], infln_to_for[cc], 'CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
 
                                     if c == 'NP':
                                         ctitle = 'TP and TN'
