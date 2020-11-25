@@ -218,14 +218,14 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
             c = ''
 
     infln_to_for = {
-        'cookd': 'Cook\'s D (p < 0.05)'
-        'dffits': 'DFFITS (p < 0.05)'
+        'cookd': 'Cook\'s D (p < 0.05)',
+        'dffits': 'DFFITS (p < 0.05)',
         'dsr': 'DSR (p < 0.05)'
     }
 
     infln_to_rev = {
-        'cookd': 'Cook\'s D (p > 0.05)'
-        'dffits': 'DFFITS (p > 0.05)'
+        'cookd': 'Cook\'s D (p > 0.05)',
+        'dffits': 'DFFITS (p > 0.05)',
         'dsr': 'DSR (p > 0.05)'
 
     }
