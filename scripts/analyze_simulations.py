@@ -241,7 +241,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
         # if an influence metric was used
         if row['infln'] != 'False':
             # ignore influence metrics for non pearson stats
-            if row['stat'].isin(['pearson','rpearson']):
+            if row['stat'] in ['pearson','rpearson']:
                 if row['stat'] == 'pearson':
                     return infln_to_for[stat]
                 else:
