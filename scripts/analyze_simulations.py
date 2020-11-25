@@ -215,7 +215,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
         if c[-1] != '0':
             c = ''
 
-    def new_label(row, cookd):
+    def new_label(row, stat):
         '''
         Relabels the statistic for the legend
         (1) If cooksd is True and the statistic is not pearson, don't make a plot for it
@@ -224,23 +224,26 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
         (4) Else the statistic is TP/FP separation, label that line p < 0.05
         '''
         if row['cooksd'] == 'True':
-            if row['stat'] != 'pearson':
-                return 'exclude'
+            if row['stat'].isin(['pearson','rpearson']):
+                if row['stat'] == 'pearson':
+                    return 'Cook\'s D (p < 0.05)'
+                else:
+                    return 'Cook\'s D (p > 0.05)'
             else:
-                return 'Cook\'s D (p < 0.05)'
+                return 'exclude'
         else:
             if row['stat'][0] == 'r':
                 # return row['stat'][1:].capitalize() + ', CUTIE, p > 0.05'
-                if cookd:
+                if stat != 'False':
                     return 'CUTIE (p > 0.05)'
                 else:
-                    return 'p > 0.05'
+                    return stat + ' (p > 0.05)'
             else:
                 # return row['stat'].capitalize() + ', CUTIE, p < 0.05'
-                if cookd:
+                if stat != 'False':
                     return 'CUTIE (p < 0.05)'
                 else:
-                    return 'p < 0.05'
+                    return stat + ' (p < 0.05)'
 
 
     # grab statistics
@@ -264,7 +267,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df = df[df['cooksd'] == cc]
                                 df = df[df['class'] == c]
                                 df = df[df['sample_size'] == samp]
-                                df['Significance'] = df.apply(lambda row: new_label(row, False),axis=1)
+                                df['Significance'] = df.apply(lambda row: new_label(row, cc),axis=1)
                                 df = df.drop(['stat'], axis=1)
 
                                 # for the FP simulation class, switch all 0s and 1s in pearson,
@@ -316,62 +319,63 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
 
 
     # cook D comparison
-    if 'True' in corr_compare.split(','):
+    for cc in corr_compare.split(','):
         for p in param.split(','):
             for fv in fold_value.split(','):
                 for stat in [ ['pearson','rpearson'] ]:
                     for c in classes.split(','):
                         for samp in n_samp.split(','):
-                            try:
-                                # subset dataframe
-                                df = results_df[results_df['parameter'] == p]
-                                df = df[df['fold_value'] == fv]
-                                df = df[df['stat'].isin(stat)]
-                                df = df[df['class'] == c]
-                                df = df[df['sample_size'] == samp]
-                                df['Method'] = df.apply(lambda row: new_label(row, True),axis=1)
-                                df = df[df['Method'] != 'exclude']
-                                df = df.drop(['stat'], axis=1)
+                            if cc != 'False':
+                                try:
+                                    # subset dataframe
+                                    df = results_df[results_df['parameter'] == p]
+                                    df = df[df['fold_value'] == fv]
+                                    df = df[df['stat'].isin(stat)]
+                                    df = df[df['class'] == c]
+                                    df = df[df['sample_size'] == samp]
+                                    df['Method'] = df.apply(lambda row: new_label(row, cc),axis=1)
+                                    df = df[df['Method'] != 'exclude']
+                                    df = df.drop(['stat'], axis=1)
 
-                                # generate plot
-                                sns.set(font_scale=1.4)
-                                sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
+                                    # generate plot
+                                    sns.set(font_scale=1.4)
+                                    sns.set_style("ticks", {'font.family':'sans-serif','font.sans-serif':'Helvetica'})
 
 
-                                # green, blue, red
-                                colors = ['#9BBB59','#4F81BD','#C0504D']
-                                stats = ['Cook\'s D (p < 0.05)', 'CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
+                                    # green, blue, red
+                                    colors = ['#9BBB59','#9BBB59','#4F81BD','#C0504D']
+                                    stats = [cc + ' (p < 0.05)', cc + ' (p > 0.05)', 'CUTIE (p < 0.05)', 'CUTIE (p > 0.05)']
 
-                                if c == 'NP':
-                                    ctitle = 'TP and TN'
-                                else:
-                                    ctitle = c
+                                    if c == 'NP':
+                                        ctitle = 'TP and TN'
+                                    else:
+                                        ctitle = c
 
-                                title = 'Power Curves for simulations of ' + \
-                                        c + '\n scatterplots using ' + stat[0].capitalize()
+                                    title = 'Power Curves for simulations of ' + \
+                                            c + '\n scatterplots using ' + stat[0].capitalize()
 
-                                plt.figure(figsize=(6,6))
-                                ax = sns.pointplot(x="corr_strength", y="indicator", hue='Method',data=df, ci=95,
-                                    palette=sns.color_palette(colors), hue_order=stats)#, legend=False)
-                                ax.set_title(title, fontsize=15)
-                                plt.setp(ax.collections, alpha=.3) #for the markers
-                                plt.setp(ax.lines, alpha=.3)
-                                plt.ylim(-0.2,1.2)
+                                    plt.figure(figsize=(6,6))
+                                    ax = sns.pointplot(x="corr_strength", y="indicator", hue='Method',data=df, ci=95,
+                                        palette=sns.color_palette(colors), hue_order=stats)#, legend=False)
+                                    ax.set_title(title, fontsize=15)
+                                    plt.setp(ax.collections, alpha=.3) #for the markers
+                                    plt.setp(ax.lines, alpha=.3)
+                                    plt.ylim(-0.2,1.2)
 
-                                ax.set_xticklabels(corr_ticks, rotation=0)
-                                ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
-                                ax.set_ylabel('Proportion of Correlations classified as True')
-                                ax.set_xlabel('Correlation Strength')
+                                    ax.set_xticklabels(corr_ticks, rotation=0)
+                                    ax.set_yticklabels(['',0,0.2,0.4,0.6,0.8,1])
+                                    ax.set_ylabel('Proportion of Correlations classified as True')
+                                    ax.set_xlabel('Correlation Strength')
 
-                                plt.tick_params(axis='both', which='both', top=False, right=False)
-                                sns.despine()
-                                plt.tight_layout()
-                                df.to_csv(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.csv', index=False)
-                                plt.savefig(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.pdf')
-                                plt.close()
-                            except:
-                                print(stat)
-                                print('cookd')
+                                    plt.tick_params(axis='both', which='both', top=False, right=False)
+                                    sns.despine()
+                                    plt.tight_layout()
+                                    df.to_csv(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.csv', index=False)
+                                    plt.savefig(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.pdf')
+                                    plt.close()
+                                except:
+                                    print(stat)
+                                    print(cc)
 
 
     print(results_df.head())
