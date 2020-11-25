@@ -350,6 +350,7 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                 df = df[df['stat'].isin(stat)]
                                 df = df[df['class'] == c]
                                 df = df[df['sample_size'] == samp]
+                                df = df[df['infln'].isin(['False',cc])]
                                 df['Method'] = df.apply(lambda row: new_label(row, cc),axis=1)
                                 df = df[df['Method'] != 'exclude']
                                 df = df.drop(['stat'], axis=1)
