@@ -189,9 +189,11 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                                 cors.append(float(cor))
                                                 results.append(float(d[0]))
 
-        results_df = pd.DataFrame({'analysis_id': analysis_ids, 'parameter': ps, 'fold_value': fvs, 'stat': stats, 'cooksd': ccs,
+        results_df = pd.DataFrame({'analysis_id': analysis_ids, 'parameter': ps,
+                                   'fold_value': fvs, 'stat': stats, 'cooksd': ccs,
                                    'seed': seeds, 'class': class_labs,
-                                   'sample_size': nsamps, 'corr_strength': cors, 'indicator': results})
+                                   'sample_size': nsamps, 'corr_strength': cors,
+                                   'indicator': results})
 
         results_df.to_csv(output_dir + 'sim_results_df.txt', sep='\t')
         # diagnostics
@@ -370,8 +372,8 @@ def analyze_simulations(fold_value, statistic, param, corr_compare, classes,
                                     plt.tick_params(axis='both', which='both', top=False, right=False)
                                     sns.despine()
                                     plt.tight_layout()
-                                    df.to_csv(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.csv', index=False)
-                                    plt.savefig(output_dir + '_'.join([p, fv, stat[0], 'cookdcompare', c, samp]) + '.pdf')
+                                    df.to_csv(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.csv', index=False)
+                                    plt.savefig(output_dir + '_'.join([p, fv, stat[0], cc, c, samp]) + '.pdf')
                                     plt.close()
                                 except:
                                     print(stat)
