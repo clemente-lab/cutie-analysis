@@ -11,8 +11,8 @@ data/
     real_results_df.txt: analysis of real-world datasets across all parmameters tested
 plots/
 scripts/
-    gen_sim.R: generates simulated correlations of NP, FN, FP and CD classes
-    analyze_real.py: produces donut-plots of real datasets
+    gen_sim.R: generates simulated correlations of NP (TP and TN), FN, and FP classes
+    analyze_real.py: produces figures for real datasets
     analyze_simulations.py: generates power curves for simulated correlations
     gen_batch.py: generates batch jobs
     gen_commands_configs.py: generates configs for simulated data
