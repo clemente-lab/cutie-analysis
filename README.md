@@ -5,12 +5,7 @@ The repository 'cutie-analysis' contains all relevant scripts for simulating cor
 ## File structure ###
 
 ```
-data/
-    df_dictionary.docx: description of what column names mean in dataframe .txt files
-    sim_results_df.txt: analysis of simulated scatterplots across all parmameters tested
-    real_results_df.txt: analysis of real-world datasets across all parmameters tested
-    power_curves/
-        *.csv: raw data used to generate power curves for each simulation
+data/: raw data for each figure as well as spreadsheet summarizing all analyses
 scripts/
     gen_sim.R: generates simulated correlations of NP (TP and TN), FN, and FP classes
     analyze_real.py: produces figures for real datasets
