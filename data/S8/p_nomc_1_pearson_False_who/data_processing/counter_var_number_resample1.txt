@@ -1,0 +1,355 @@
+index	count	name
+0.0	13.0	Adolescent fertility rate (%)
+1.0	13.0	Adult literacy rate (%)
+2.0	22.0	Gross national income per capita (PPP international $)
+3.0	10.0	Net primary school enrolment ratio female (%)
+4.0	19.0	Net primary school enrolment ratio male (%)
+5.0	11.0	Population (in thousands) total
+6.0	27.0	Population annual growth rate (%)
+7.0	20.0	Population in urban areas (%)
+8.0	17.0	Population living below the poverty line (% living on &lt; US$1 per day)
+9.0	10.0	Population median age (years)
+10.0	14.0	Population proportion over 60 (%)
+11.0	10.0	Population proportion under 15 (%)
+12.0	11.0	Registration coverage of births (%)
+13.0	18.0	Total fertility rate (per woman)
+14.0	20.0	Antenatal care coverage - at least four visits (%)
+15.0	54.0	Antiretroviral therapy coverage among HIV-infected pregt women for PMTCT (%)
+16.0	24.0	Antiretroviral therapy coverage among people with advanced HIV infections (%)
+17.0	27.0	Births attended by skilled health personnel (%)
+18.0	21.0	Births by caesarean section (%)
+19.0	4.0	Children aged 6-59 months who received vitamin A supplementation (%)
+20.0	11.0	Children aged &lt;5 years sleeping under insecticide-treated nets (%)
+21.0	17.0	Children aged &lt;5 years who received any antimalarial treatment for fever (%)
+22.0	52.0	Children aged &lt;5 years with ARI symptoms taken to facility (%)
+23.0	38.0	Children aged &lt;5 years with diarrhoea receiving ORT (%)
+24.0	31.0	Contraceptive prevalence (%)
+25.0	15.0	Neonates protected at birth against neonatal tetanus (PAB) (%)
+26.0	21.0	One-year-olds immunized with MCV
+27.0	18.0	One-year-olds immunized with three doses of diphtheria tetanus toxoid and pertussis (DTP3) (%)
+28.0	27.0	One-year-olds immunized with three doses of Hepatitis B (HepB3) (%)
+29.0	36.0	One-year-olds immunized with three doses of Hib (Hib3) vaccine (%)
+30.0	21.0	Tuberculosis detection rate under DOTS (%)
+31.0	20.0	Tuberculosis treatment success under DOTS (%)
+32.0	20.0	Women who have had mammography (%)
+33.0	22.0	Women who have had PAP smear (%)
+34.0	22.0	Community and traditional health workers density (per 10 000 population)
+35.0	40.0	Dentistry personnel density (per 10 000 population)
+36.0	33.0	Environment and public health workers density (per 10 000 population)
+37.0	15.0	External resources for health as percentage of total expenditure on health
+38.0	18.0	General government expenditure on health as percentage of total expenditure on health
+39.0	23.0	General government expenditure on health as percentage of total government expenditure
+40.0	21.0	Hospital beds (per 10 000 population)
+41.0	52.0	Laboratory health workers density (per 10 000 population)
+42.0	25.0	Number of community and traditional health workers
+43.0	41.0	Number of dentistry personnel
+44.0	30.0	Number of environment and public health workers
+45.0	83.0	Number of laboratory health workers
+46.0	41.0	Number of nursing and midwifery personnel
+47.0	56.0	Number of other health service providers
+48.0	17.0	Number of pharmaceutical personnel
+49.0	26.0	Number of physicians
+50.0	13.0	Nursing and midwifery personnel density (per 10 000 population)
+51.0	54.0	Other health service providers density (per 10 000 population)
+52.0	48.0	Out-of-pocket expenditure as percentage of private expenditure on health
+53.0	22.0	Per capita government expenditure on health (PPP int. $)
+54.0	19.0	Per capita government expenditure on health at average exchange rate (US$)
+55.0	27.0	Per capita total expenditure on health (PPP int. $)
+56.0	29.0	Per capita total expenditure on health at average exchange rate (US$)
+57.0	23.0	Pharmaceutical personnel density (per 10 000 population)
+58.0	12.0	Physicians density (per 10 000 population)
+59.0	18.0	Private expenditure on health as percentage of total expenditure on health
+60.0	51.0	Private prepaid plans as percentage of private expenditure on health
+61.0	6.0	Ratio of health management and support workers to health service providers
+62.0	16.0	Ratio of nurses and midwives to physicians
+63.0	16.0	Social security expenditure on health as percentage of general government expenditure on health
+64.0	42.0	Total expenditure on health as percentage of gross domestic product
+65.0	44.0	Births attended by skilled health personnel (%) highest educational level of mother
+66.0	28.0	Births attended by skilled health personnel (%) highest wealth quintile
+67.0	25.0	Births attended by skilled health personnel (%) lowest educational level of mother
+68.0	27.0	Births attended by skilled health personnel (%) lowest wealth quintile
+69.0	16.0	Births attended by skilled health personnel (%) rural
+70.0	30.0	Births attended by skilled health personnel (%) urban
+71.0	29.0	Births attended by skilled health personnel difference highest lowest educational level of mother
+72.0	42.0	Births attended by skilled health personnel difference highest-lowest wealth quintile
+73.0	25.0	Births attended by skilled health personnel difference urban-rural
+74.0	21.0	Births attended by skilled health personnel ratio highest-lowest educational level of mother
+75.0	27.0	Births attended by skilled health personnel ratio highest-lowest wealth quintile
+76.0	33.0	Births attended by skilled health personnel ratio urban-rural
+77.0	35.0	Measles immunization coverage among one-year-olds (%) highest educational level of mother
+78.0	36.0	Measles immunization coverage among one-year-olds (%) highest wealth quintile
+79.0	34.0	Measles immunization coverage among one-year-olds (%) lowest educational level of mother
+80.0	17.0	Measles immunization coverage among one-year-olds (%) lowest wealth quintile
+81.0	21.0	Measles immunization coverage among one-year-olds (%) rural
+82.0	36.0	Measles immunization coverage among one-year-olds (%) urban
+83.0	39.0	Measles immunization coverage among one-year-olds difference highest-lowest educational level of mother
+84.0	30.0	Measles immunization coverage among one-year-olds difference highest-lowest wealth quintile
+85.0	30.0	Measles immunization coverage among one-year-olds difference urban-rural
+86.0	54.0	Measles immunization coverage among one-year-olds ratio highest-lowest educational level of mother
+87.0	34.0	Measles immunization coverage among one-year-olds ratio highest-lowest wealth quintile
+88.0	24.0	Measles immunization coverage among one-year-olds ratio urban-rural
+89.0	27.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) difference lowest-highest educational level of mother
+90.0	42.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) difference lowest-highest wealth quintile
+91.0	30.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) difference rural-urban
+92.0	23.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) highest educational level of mother
+93.0	29.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) highest wealth quintile
+94.0	19.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) lowest educational level of mother
+95.0	10.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) lowest wealth quintile
+96.0	33.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) ratio lowest-highest educational level of mother
+97.0	35.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) ratio lowest-highest wealth quintile
+98.0	42.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) ratio rural-urban
+99.0	11.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) rural
+100.0	19.0	Under-5 mortality rate (Probability of dying aged &lt; 5 years per 1 000 live births) urban
+101.0	14.0	Adult mortality rate (probability of dying between 15 to 60 years per 1000 population) both sexes
+102.0	13.0	Adult mortality rate (probability of dying between 15 to 60 years per 1000 population) female
+103.0	14.0	Adult mortality rate (probability of dying between 15 to 60 years per 1000 population) male
+104.0	25.0	Age-standardized mortality rate for cancer (per 100 000 population)
+105.0	27.0	Age-standardized mortality rate for cardiovascular diseases (per 100 000 population)
+106.0	14.0	Age-standardized mortality rate for injuries (per 100 000 population)
+107.0	11.0	Age-standardized mortality rate for non-communicable diseases (per 100 000 population)
+108.0	15.0	Deaths among children under five years of age due to diarrhoeal diseases (%)
+109.0	18.0	Deaths among children under five years of age due to HIV/AIDS (%)
+110.0	24.0	Deaths among children under five years of age due to injuries (%)
+111.0	22.0	Deaths among children under five years of age due to malaria (%)
+112.0	13.0	Deaths among children under five years of age due to measles (%)
+113.0	18.0	Deaths among children under five years of age due to neonatal causes (%)
+114.0	24.0	Deaths among children under five years of age due to other causes (%)
+115.0	18.0	Deaths among children under five years of age due to pneumonia (%)
+116.0	24.0	Deaths due to HIV/AIDS (per 100 000 population per year)
+117.0	16.0	Deaths due to tuberculosis among HIV-negative people (per 100 000 population)
+118.0	20.0	Deaths due to tuberculosis among HIV-positive people (per 100 000 population)
+119.0	18.0	Healthy life expectancy (HALE) at birth (years) both sexes
+120.0	15.0	Healthy life expectancy (HALE) at birth (years) female
+121.0	14.0	Healthy life expectancy (HALE) at birth (years) male
+122.0	13.0	Incidence of tuberculosis (per 100 000 population per year)
+123.0	12.0	Infant mortality rate (per 1 000 live births) both sexes
+124.0	15.0	Infant mortality rate (per 1 000 live births) female
+125.0	14.0	Infant mortality rate (per 1 000 live births) male
+126.0	20.0	Life expectancy at birth (years) both sexes
+127.0	16.0	Life expectancy at birth (years) female 
+128.0	13.0	Life expectancy at birth (years) male
+129.0	16.0	Maternal mortality ratio (per 100 000 live births)
+130.0	9.0	Neonatal mortality rate (per 1 000 live births)
+131.0	18.0	Number of confirmed poliomyelitis cases
+132.0	23.0	Prevalence of HIV among adults aged &gt;=15 years (per 100 000 population)
+133.0	14.0	Prevalence of tuberculosis (per 100 000 population)
+134.0	19.0	Under-5 mortality rate (probability of dying by age 5 per 1000 live births) both sexes
+135.0	19.0	Under-5 mortality rate (probability of dying by age 5 per 1000 live births) female
+136.0	16.0	Under-5 mortality rate (probability of dying by age 5 per 1000 live births) male
+137.0	13.0	Years of life lost to communicable diseases (%)
+138.0	31.0	Years of life lost to injuries (%)
+139.0	14.0	Years of life lost to non-communicable diseases (%)
+140.0	31.0	Children under five years of age overweight for age (%)
+141.0	18.0	Children under five years of age stunted for age (%)
+142.0	17.0	Children under five years of age underweight for age (%)
+143.0	21.0	Newborns with low birth weight (%)
+144.0	18.0	Per capita recorded alcohol consumption (litres of pure alcohol) among adults (&gt;=15 years)
+145.0	25.0	Population using solid fuels (%) rural
+146.0	29.0	Population using solid fuels (%) urban
+147.0	16.0	Population with sustainable access to improved drinking water sources (%) rural
+148.0	14.0	Population with sustainable access to improved drinking water sources (%) total
+149.0	25.0	Population with sustainable access to improved drinking water sources (%) urban
+150.0	18.0	Population with sustainable access to improved sanitation (%) rural
+151.0	17.0	Population with sustainable access to improved sanitation (%) total
+152.0	8.0	Population with sustainable access to improved sanitation (%) urban
+153.0	23.0	Prevalence of adults (&gt;=15 years) who are obese (%) female
+154.0	43.0	Prevalence of adults (&gt;=15 years) who are obese (%) male
+155.0	23.0	Prevalence of condom use by young people (15-24 years) at higher risk sex (%) female
+156.0	56.0	Prevalence of condom use by young people (15-24 years) at higher risk sex (%) male
+157.0	27.0	Prevalence of current tobacco use among adolescents (13-15 years) (%) both sexes
+158.0	26.0	Prevalence of current tobacco use among adolescents (13-15 years) (%) female
+159.0	19.0	Prevalence of current tobacco use among adolescents (13-15 years) (%) male
+160.0	19.0	Prevalence of current tobacco use among adults (&gt;=15 years) (%) both sexes
+161.0	14.0	Prevalence of current tobacco use among adults (&gt;=15 years) (%) female
+162.0	34.0	Prevalence of current tobacco use among adults (&gt;=15 years) (%) male
+163.0	17.0	Adolescent_fertility_rate
+164.0	30.0	Agricultural_land
+165.0	20.0	Agriculture_contribution_to_economy
+166.0	37.0	Aid_given
+167.0	6.0	Aid_received
+168.0	36.0	Aid_received_total
+169.0	18.0	All_forms_of_TB_new_cases_per_100_000_estimated
+170.0	17.0	All_forms_of_TB_new_cases_per_100_000_reported
+171.0	15.0	Annual_freshwater_withdrawals_total
+172.0	41.0	Arms_exports
+173.0	44.0	Arms_imports
+174.0	17.0	Bad_teeth_per_child
+175.0	20.0	Births_attended_by_skilled_health_staff
+176.0	12.0	Breast_cancer_deaths_per_100_000_women
+177.0	30.0	Breast_cancer_new_cases_per_100_000_women
+178.0	41.0	Breast_cancer_number_of_female_deaths
+179.0	43.0	Breast_cancer_number_of_new_female_cases
+180.0	46.0	Broadband_subscribers
+181.0	17.0	Broadband_subscribers_per_100_people
+182.0	27.0	CO2_emissions
+183.0	27.0	CO2_intensity_of_economic_output
+184.0	12.0	Capital_formation
+185.0	19.0	Cell_phones_per_100_people
+186.0	37.0	Cell_phones_total
+187.0	18.0	Central_bank_discount_rate
+188.0	13.0	Cervical_cancer_deaths_per_100_000_women
+189.0	19.0	Cervical_cancer_new_cases_per_100_000_women
+190.0	12.0	Cervical_cancer_number_of_female_deaths
+191.0	14.0	Cervical_cancer_number_of_new_female_cases
+192.0	29.0	Children_and_elderly
+193.0	46.0	Children_out_of_school_primary
+194.0	52.0	Children_out_of_school_primary_female
+195.0	45.0	Children_out_of_school_primary_male
+196.0	20.0	Children_per_woman
+197.0	23.0	Coal_consumption
+198.0	59.0	Coal_consumption_per_person
+199.0	23.0	Coal_production
+200.0	15.0	Coal_production_per_person
+201.0	14.0	Colon_and_Rectum_cancer_deaths_per_100_000_men
+202.0	23.0	Colon_and_Rectum_cancer_deaths_per_100_000_women
+203.0	22.0	Colon_and_Rectum_cancer_new_cases_per_100_000_men
+204.0	20.0	Colon_and_Rectum_cancer_new_cases_per_100_000_women
+205.0	33.0	Colon_and_Rectum_cancer_number_of_female_deaths
+206.0	39.0	Colon_and_Rectum_cancer_number_of_male_deaths
+207.0	31.0	Colon_and_Rectum_cancer_number_of_new_female_cases
+208.0	34.0	Colon_and_Rectum_cancer_number_of_new_male_cases
+209.0	32.0	Consumer_price_index
+210.0	23.0	Contraceptive_use
+211.0	13.0	Deaths_from_TB_per_100_000_estimated
+212.0	14.0	Debt_servicing_costs
+213.0	22.0	Democracy_score
+214.0	27.0	Electric_power_consumption
+215.0	25.0	Electricity_generation
+216.0	17.0	Electricity_generation_per_person
+217.0	24.0	Energy_use
+218.0	33.0	Expenditure_per_student_primary
+219.0	49.0	Expenditure_per_student_secondary
+220.0	14.0	Expenditure_per_student_tertiary
+221.0	30.0	Exports_of_goods_and_services
+222.0	55.0	Exports_unit_value
+223.0	38.0	External_debt_total_DOD_current_USdollars
+224.0	31.0	External_debt_total_pct_of_GNI
+225.0	20.0	Female_labour_force
+226.0	14.0	Fixed_line_and_mobile_phone_subscribers
+227.0	32.0	Foreign_direct_investment_net_inflows
+228.0	19.0	Foreign_direct_investment_net_outflows
+229.0	23.0	Forest_area
+230.0	42.0	Gross_capital_formation
+231.0	25.0	HIV_infected
+232.0	28.0	Health_expenditure_per_person
+233.0	48.0	Health_expenditure_private
+234.0	16.0	Health_expenditure_public_pct_of_GDP
+235.0	42.0	Health_expenditure_public_pct_of_government_expenditure
+236.0	20.0	Health_expenditure_public_pct_of_total_health_expenditure
+237.0	41.0	Health_expenditure_total
+238.0	39.0	High_technology_exports
+239.0	31.0	Hydroelectricity_consumption
+240.0	27.0	Hydroelectricity_consumption_per_person
+241.0	41.0	Imports_of_goods_and_services
+242.0	38.0	Imports_unit_value
+243.0	19.0	Improved_sanitation_facilities_urban
+244.0	20.0	Improved_water_source
+245.0	22.0	Income_growth
+246.0	17.0	Income_per_person
+247.0	13.0	Income_share_held_by_lowest_20pct
+248.0	13.0	Industry_contribution_to_economy
+249.0	16.0	Inequality_index
+250.0	15.0	Infant_mortality_rate
+251.0	18.0	Infectious_TB_new_cases_per_100_000_estimated
+252.0	15.0	Infectious_TB_new_cases_per_100_000_reported
+253.0	28.0	Infectious_TB_treatment_completeness
+254.0	42.0	Inflation_GDP_deflator
+255.0	20.0	Internet_users
+256.0	16.0	Life_expectancy_at_birth
+257.0	16.0	Literacy_rate_adult_female
+258.0	12.0	Literacy_rate_adult_male
+259.0	15.0	Literacy_rate_adult_total
+260.0	10.0	Literacy_rate_youth_female
+261.0	15.0	Literacy_rate_youth_male
+262.0	15.0	Literacy_rate_youth_total
+263.0	22.0	Liver_cancer_deaths_per_100_000_men
+264.0	14.0	Liver_cancer_deaths_per_100_000_women
+265.0	21.0	Liver_cancer_new_cases_per_100_000_men
+266.0	14.0	Liver_cancer_new_cases_per_100_000_women
+267.0	16.0	Liver_cancer_number_of_female_deaths
+268.0	14.0	Liver_cancer_number_of_male_deaths
+269.0	17.0	Liver_cancer_number_of_new_female_cases
+270.0	17.0	Liver_cancer_number_of_new_male_cases
+271.0	15.0	Lung_cancer_deaths_per_100_000_men
+272.0	30.0	Lung_cancer_deaths_per_100_000_women
+273.0	15.0	Lung_cancer_new_cases_per_100_000_men
+274.0	22.0	Lung_cancer_new_cases_per_100_000_women
+275.0	33.0	Lung_cancer_number_of_female_deaths
+276.0	31.0	Lung_cancer_number_of_male_deaths
+277.0	31.0	Lung_cancer_number_of_new_female_cases
+278.0	38.0	Lung_cancer_number_of_new_male_cases
+279.0	10.0	Malaria_prevention_insecticide_treated_bed_nets_usage
+280.0	31.0	Malaria_treatment
+281.0	8.0	Malnutrition_weight_for_age
+282.0	15.0	Market_value_of_listed_companies
+283.0	12.0	Maternal_mortality
+284.0	48.0	Math_achievement_4th_grade
+285.0	42.0	Math_achievement_8th_grade
+286.0	18.0	Measles_immunization
+287.0	18.0	Medical_Doctors
+288.0	54.0	Merchandise_trade
+289.0	19.0	Military_expenditure
+290.0	35.0	Natural_gas_consumption
+291.0	27.0	Natural_gas_consumption_per_person
+292.0	48.0	Natural_gas_production
+293.0	20.0	Natural_gas_production_per_person
+294.0	25.0	Natural_gas_proved_reserves
+295.0	13.0	Natural_gas_proven_reserves_per_person
+296.0	21.0	Net_barter_terms_of_trade
+297.0	44.0	Nuclear_consumption
+298.0	22.0	Nuclear_consumption_per_person
+299.0	49.0	Number_of_deaths_from_TB_estimated
+300.0	32.0	Number_of_existing_TB_cases_estimated
+301.0	29.0	Oil_consumption
+302.0	22.0	Oil_consumption_per_person
+303.0	40.0	Oil_production
+304.0	18.0	Oil_production_per_person
+305.0	16.0	Oil_proved_reserves
+306.0	29.0	Oil_proven_reserves_per_person
+307.0	23.0	Old_version_of_Income_per_person
+308.0	28.0	Patent_applications
+309.0	35.0	Patents_granted
+310.0	41.0	Patents_in_force
+311.0	42.0	People_living_with_HIV
+312.0	29.0	Personal_computers_per_100_people
+313.0	39.0	Personal_computers_total
+314.0	17.0	Population_growth
+315.0	35.0	Population_in_urban_agglomerations_more_than_1_million
+316.0	16.0	Population_total
+317.0	21.0	Poverty_headcount_ratio_at_national_poverty_line
+318.0	13.0	Primary_completion_rate_total
+319.0	23.0	Primary_energy_consumption
+320.0	22.0	Primary_energy_consumption_per_person
+321.0	22.0	Primary_school_completion_pct_of_boys
+322.0	22.0	Primary_school_completion_pct_of_girls
+323.0	18.0	Prostate_cancer_deaths_per_100_000_men
+324.0	39.0	Prostate_cancer_new_cases_per_100_000_men
+325.0	25.0	Prostate_cancer_number_of_male_deaths
+326.0	28.0	Prostate_cancer_number_of_new_male_cases
+327.0	19.0	Pump_price_for_gasoline
+328.0	11.0	Ratio_of_girls_to_boys_in_primary_and_secondary_education
+329.0	14.0	Ratio_of_young_literate_females_to_males
+330.0	22.0	Roads_paved
+331.0	28.0	SO2_emissions_per_person
+332.0	26.0	Services_contribution_to_economy
+333.0	33.0	Stomach_cancer_deaths_per_100_000_men
+334.0	21.0	Stomach_cancer_deaths_per_100_000_women
+335.0	37.0	Stomach_cancer_new_cases_per_100_000_men
+336.0	34.0	Stomach_cancer_new_cases_per_100_000_women
+337.0	13.0	Stomach_cancer_number_of_female_deaths
+338.0	13.0	Stomach_cancer_number_of_male_deaths
+339.0	12.0	Stomach_cancer_number_of_new_female_cases
+340.0	14.0	Stomach_cancer_number_of_new_male_cases
+341.0	32.0	Sugar_per_person
+342.0	22.0	Surface_area
+343.0	27.0	Tax_revenue
+344.0	42.0	Total_CO2_emissions
+345.0	47.0	Total_income
+346.0	25.0	Total_reserves
+347.0	23.0	Trade_balance_goods_and_services
+348.0	14.0	Under_five_mortality_from_CME
+349.0	21.0	Under_five_mortality_from_IHME
+350.0	14.0	Under_five_mortality_rate
+351.0	23.0	Urban_population
+352.0	31.0	Urban_population_growth
+353.0	21.0	Urban_population_pct_of_total

@@ -9,7 +9,8 @@ data/
     df_dictionary.docx: description of what column names mean in dataframe .txt files
     sim_results_df.txt: analysis of simulated scatterplots across all parmameters tested
     real_results_df.txt: analysis of real-world datasets across all parmameters tested
-plots/
+    power_curves/
+        *.csv: raw data used to generate power curves for each simulation
 scripts/
     gen_sim.R: generates simulated correlations of NP (TP and TN), FN, and FP classes
     analyze_real.py: produces figures for real datasets

@@ -1,0 +1,203 @@
+index	count	name
+0.0	130.0	Afghanistan
+1.0	50.0	Albania
+2.0	127.0	Algeria
+3.0	2.0	Andorra
+4.0	141.0	Angola
+5.0	33.0	Antigua and Barbuda
+6.0	130.0	Argentina
+7.0	278.0	Armenia
+8.0	161.0	Australia
+9.0	95.0	Austria
+10.0	114.0	Azerbaijan
+11.0	37.0	Bahamas
+12.0	82.0	Bahrain
+13.0	293.0	Bangladesh
+14.0	49.0	Barbados
+15.0	103.0	Belarus
+16.0	143.0	Belgium
+17.0	63.0	Belize
+18.0	230.0	Benin
+19.0	1.0	Bermuda
+20.0	86.0	Bhutan
+21.0	161.0	Bolivia
+22.0	75.0	Bosnia and Herzegovina
+23.0	190.0	Botswana
+24.0	401.0	Brazil
+25.0	56.0	Brunei Darussalam
+26.0	138.0	Bulgaria
+27.0	269.0	Burkina Faso
+28.0	226.0	Burundi
+29.0	167.0	Cambodia
+30.0	216.0	Cameroon
+31.0	235.0	Canada
+32.0	60.0	Cape Verde
+33.0	262.0	Central African Republic
+34.0	570.0	Chad
+35.0	132.0	Chile
+36.0	431.0	China
+37.0	326.0	Colombia
+38.0	147.0	Comoros
+39.0	181.0	"""Congo, Dem. Rep."""
+40.0	211.0	"""Congo, Rep."""
+41.0	12.0	Cook Islands
+42.0	87.0	Costa Rica
+43.0	199.0	Cote d'Ivoire
+44.0	93.0	Croatia
+45.0	68.0	Cuba
+46.0	66.0	Cyprus
+47.0	120.0	Czech Republic
+48.0	107.0	Denmark
+49.0	103.0	Djibouti
+50.0	20.0	Dominica
+51.0	235.0	Dominican Republic
+52.0	93.0	Ecuador
+53.0	276.0	Egypt
+54.0	60.0	El Salvador
+55.0	137.0	Equatorial Guinea
+56.0	222.0	Eritrea
+57.0	141.0	Estonia
+58.0	452.0	Ethiopia
+59.0	62.0	Fiji
+60.0	132.0	Finland
+61.0	242.0	France
+62.0	13.0	French Polynesia
+63.0	197.0	Gabon
+64.0	100.0	Gambia
+65.0	60.0	Georgia
+66.0	302.0	Germany
+67.0	231.0	Ghana
+68.0	106.0	Greece
+69.0	38.0	Grenada
+70.0	156.0	Guatemala
+71.0	272.0	Guinea
+72.0	149.0	Guinea-Bissau
+73.0	87.0	Guyana
+74.0	204.0	Haiti
+75.0	168.0	Honduras
+76.0	52.0	"""Hong Kong, China"""
+77.0	128.0	Hungary
+78.0	122.0	Iceland
+79.0	455.0	India
+80.0	301.0	Indonesia
+81.0	104.0	Iran (Islamic Republic of)
+82.0	87.0	Iraq
+83.0	95.0	Ireland
+84.0	68.0	Israel
+85.0	209.0	Italy
+86.0	65.0	Jamaica
+87.0	422.0	Japan
+88.0	298.0	Jordan
+89.0	342.0	Kazakhstan
+90.0	223.0	Kenya
+91.0	31.0	Kiribati
+92.0	48.0	"""Korea, Dem. Rep."""
+93.0	146.0	"""Korea, Rep."""
+94.0	120.0	Kuwait
+95.0	185.0	Kyrgyzstan
+96.0	126.0	Lao People's Democratic Republic
+97.0	115.0	Latvia
+98.0	84.0	Lebanon
+99.0	217.0	Lesotho
+100.0	99.0	Liberia
+101.0	66.0	Libyan Arab Jamahiriya
+102.0	121.0	Lithuania
+103.0	129.0	Luxembourg
+104.0	9.0	"""Macao, China"""
+105.0	60.0	Macedonia
+106.0	197.0	Madagascar
+107.0	216.0	Malawi
+108.0	102.0	Malaysia
+109.0	52.0	Maldives
+110.0	315.0	Mali
+111.0	84.0	Malta
+112.0	1.0	Marshall Islands
+113.0	208.0	Mauritania
+114.0	72.0	Mauritius
+115.0	160.0	Mexico
+116.0	7.0	Micronesia (Federated States of)
+117.0	368.0	Moldova
+118.0	2.0	Monaco
+119.0	94.0	Mongolia
+120.0	4.0	Montenegro
+121.0	248.0	Morocco
+122.0	334.0	Mozambique
+123.0	113.0	Myanmar
+124.0	223.0	Namibia
+125.0	10.0	Nauru
+126.0	206.0	Nepal
+127.0	144.0	Netherlands
+128.0	2.0	Netherlands Antilles
+129.0	5.0	New Caledonia
+130.0	103.0	New Zealand
+131.0	236.0	Nicaragua
+132.0	376.0	Niger
+133.0	517.0	Nigeria
+134.0	3.0	Niue
+135.0	143.0	Norway
+136.0	74.0	Oman
+137.0	287.0	Pakistan
+138.0	2.0	Palau
+139.0	74.0	Panama
+140.0	96.0	Papua New Guinea
+141.0	145.0	Paraguay
+142.0	261.0	Peru
+143.0	196.0	Philippines
+144.0	115.0	Poland
+145.0	94.0	Portugal
+146.0	5.0	Puerto Rico
+147.0	117.0	Qatar
+148.0	106.0	Romania
+149.0	308.0	Russia
+150.0	300.0	Rwanda
+151.0	38.0	Saint Kitts and Nevis
+152.0	28.0	Saint Lucia
+153.0	24.0	Saint Vincent and the Grenadines
+154.0	80.0	Samoa
+155.0	4.0	San Marino
+156.0	44.0	Sao Tome and Principe
+157.0	85.0	Saudi Arabia
+158.0	160.0	Senegal
+159.0	3.0	Serbia
+160.0	73.0	Seychelles
+161.0	161.0	Sierra Leone
+162.0	144.0	Singapore
+163.0	89.0	Slovakia
+164.0	110.0	Slovenia
+165.0	61.0	Solomon Islands
+166.0	146.0	Somalia
+167.0	271.0	South Africa
+168.0	150.0	Spain
+169.0	69.0	Sri Lanka
+170.0	176.0	Sudan
+171.0	39.0	Suriname
+172.0	211.0	Swaziland
+173.0	138.0	Sweden
+174.0	112.0	Switzerland
+175.0	60.0	Syria
+176.0	3.0	Taiwan
+177.0	76.0	Tajikistan
+178.0	206.0	Tanzania
+179.0	121.0	Thailand
+180.0	13.0	Timor-Leste
+181.0	283.0	Togo
+182.0	46.0	Tonga
+183.0	64.0	Trinidad and Tobago
+184.0	100.0	Tunisia
+185.0	197.0	Turkey
+186.0	238.0	Turkmenistan
+187.0	8.0	Tuvalu
+188.0	244.0	Uganda
+189.0	143.0	Ukraine
+190.0	154.0	United Arab Emirates
+191.0	277.0	United Kingdom
+192.0	962.0	United States of America
+193.0	100.0	Uruguay
+194.0	83.0	Uzbekistan
+195.0	62.0	Vanuatu
+196.0	81.0	Venezuela
+197.0	283.0	Vietnam
+198.0	9.0	West Bank and Gaza
+199.0	212.0	Yemen
+200.0	282.0	Zambia
+201.0	261.0	Zimbabwe

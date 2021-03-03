@@ -1,0 +1,11 @@
+Country name	Population 2019 [12] (millions)	Population density (persons per square km) [13]	Urban population (%) [13]	Median age of population [13] (years)	"Critical-care beds Per Capita(per 100,000 inhabitants of the country) [14]"	GDP expense on Health care [15](%)	Total cases due to COVID-19 [16]	Number of COVID-19 tests per million population [17]	Case fatality rate COVID-19 [17](%)
+USA	331	36	83	38	34.7	17.1	333811	"6,336"	2.86
+Germany	80.3	230.3	76	46	29.2	11.1	99225	"10,962"	1.62
+Italy	62.3	211.9	69	47	12.5	8.9	132547	"12,495"	12.46
+France	67.6	105.6	82	42	11.6	11.5	73488	"3,436"	12.1
+South Korea	51.6	532.8	82	44	10.6	5	10331	"9,310"	1.85
+Spain	49.7	99.6	80	45	9.7	9	135032	"7,593"	9.66
+Japan	125.9	345.3	92	48	7.3	10.9	3906	437	2.04
+United Kingdom	65.4	270.5	83	40	6.6	9.8	51612	"3,929"	10.41
+China	1400	149	61	38	3.6	9	83071	2831	4.02
+India	1300	441.1	35	28	2.3	3.7	4067	102	2.68

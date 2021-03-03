@@ -1,0 +1,24 @@
+,Dataset,Type,P
+0,Lung cancer,Micro,0.043102739
+6,WHO,Other,0.461211171
+9,Lung transcriptomics,Multi,0.05210371800000001
+12,Lung pneumotyping,Multi,0.060764798
+25,CRC (IJ),Multi,0.026425531
+27,Hippgut (stool),Multi,0.14516379499999998
+30,Hippgut (oral),Multi,0.129482999
+34,Nature Gut IBD,Multi,0.116654439
+37,Cell,Micro,0.073704057
+40,natcom / acetylation,Gene,0.2
+43,PLOS,Micro,0.038473039
+45,CA,Multi,0.032447735
+49,Statin,Micro,0.38224767400000004
+51,Liver M Full,Gene,0.445816277
+54,Liver F Full,Gene,0.49071347
+57,Covid full,Other,0.329807362
+60,Mennonites,Multi,0.07329650100000001
+63,Covid,Other,0.22222222200000002
+66,Airplane,Other,0.7500000000000001
+69,Spatial,Gene,0.156462585
+72,HDAC Full,Gene,0.510969203
+75,Micro full (reshef),Micro,0.033566616
+78,Baseball,Other,0.649548924

@@ -1,0 +1,23 @@
+Begin logging at 2020-03-27T10:26:02.582250
+The original command was -i /sc/hydra/projects/clemej05a/buk02/cutie/real_data_analysis_configs/p_nomc_1_pearson_False_who/config_p_nomc_1_pearson_False_who.txt
+The input_config_fp md5 was ce2e63597b444032ea293f0206bbbca1
+The length of variables for file 2 is 354
+The number of samples for file 2 is 202
+The md5 of samp_var2 was abea7675b2e9718c8fc7909053ec966e
+The length of variables for file 1 is 354
+The number of samples for file 1 is 202
+The md5 of samp_var1 was abea7675b2e9718c8fc7909053ec966e
+There are 202 samples
+The first 3 samples are ['Afghanistan', 'Albania', 'Algeria']
+The first 3 var1 are ['Adolescent fertility rate (%)', 'Adult literacy rate (%)', 'Gross national income per capita (PPP international $)']
+The first 3 var2 are ['Adolescent fertility rate (%)', 'Adult literacy rate (%)', 'Gross national income per capita (PPP international $)']
+The parameter chosen was p
+The type of mc correction used was nomc
+The threshold value was 0.05
+The length of initial_corr is 28834
+The number of false correlations for 1 is 4399
+The number of true correlations for 1 is 24435
+The number of reversed correlations for TP/FN1 is 37
+The number of reversed correlations for FP/TN1 is 197
+The runtime was 1036.194643368
+Ended logging at 2020-03-27T10:43:22.628838
